@@ -1,2 +1,2 @@
 # hotel_reservation
-Team B School project 
+## Team B School project 
