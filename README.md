@@ -8,6 +8,6 @@ This is a repository for a hotel reservation programm
 
 
 
-## :) :') :> 8) 
+
 
 ## TeamB = Beste 6er
