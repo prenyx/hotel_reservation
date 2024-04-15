@@ -21,14 +21,9 @@ A prepared template was used for coding, which was customized accordingly.
     - Roomtype, Price range, no. of persons
     - amenities
     - dates
-  - Login:
+  - Login (data View):
     - reservation history
     - upcoming reservation
     - 
 - Manager 
   - 
-
-
-
-
-## :) :') :> 8) 
