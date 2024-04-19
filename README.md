@@ -26,4 +26,6 @@ A prepared template was used for coding, which was customized accordingly.
     - upcoming reservation
     - 
 - Manager 
+  - get access to reservations for every hotel
+  - correct customers information manually if needed 
   - 
