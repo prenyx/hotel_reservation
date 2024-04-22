@@ -27,3 +27,4 @@ class HotelSearchCriteria:
         # This new dictionary only includes the key-value pairs from the criteria dictionary where the value is not None.
 
 # criteria = HotelSearchCriteria.setup(location="Paris", rating=4, price_range=(100, 200))
+
