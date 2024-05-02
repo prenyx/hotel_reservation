@@ -1,52 +1,35 @@
-class HotelCollection:
-    """A collection of hotels"""
-
-    def __init__(self):
-        self.hotels = dict()
-
-    def add_hotel(self, name, location, hotel):
-        # Here use hotel name and location as unique identifier for each hotel object
-        self.hotels[f"{name}@{location}"] = hotel
+import dataclasses
+from typing import List
+from Room import Room
 
 
-# Create a global Hotel Collection instance.
-hotel_collection = HotelCollection()
+@dataclasses.dataclass
+class Address:
+    id: int
+    street: str
+    zip_code: int
+    city: str
+    country: str
 
 
+@dataclasses.dataclass
 class Hotel:
-    """A hotel class represents a single hotel"""
+    """A class representing a hotel."""
+    hotel_id: int
+    name: str
+    address: Address
+    rating: float
+    rooms: List['Room'] = dataclasses.field(default_factory=list)
 
-    def __new__(cls, *args, **kwargs):
-        # Create the object (calls object.__new__ method)
-        new_obj = super().__new__(cls)
-        # Add this object to the hotel collection
-        hotel_collection.add_hotel(args[0], args[1], new_obj)
-        return new_obj
-
-    def __init__(self, name, location, rating, rooms):
-        self.__name = name
-        self._location = location
-        self._rating = rating
-        self.__rooms = rooms
-
-    @property
-    def name(self):
-        return self.__name
-
-    @property
-    def location(self):
-        return self._location
-
-    @property
-    def rating(self):
-        return self._rating
-
-    @property
-    def rooms(self):
-        return self.__rooms
+    def add_room(self, room: 'Room'):
+        """Add a room to the hotel"""
+        self.rooms.append(room)
 
 
-if __name__ == "__main__":
-    hotel1 = Hotel('Aria', 'London', 4, 450)
-    hotel2 = Hotel('Aria', 'Paris', 5, 550)
-    print(hotel_collection.hotels)
+if __name__ == '__main__':
+    address1 = Address(1, 'rue example 1', 54632, 'Paris', 'France')
+    address2 = Address(2, 'example street', 5316, 'New York', 'USA')
+    hotel1 = Hotel(1, 'Aria', address1, 5)
+    hotel2 = Hotel(2, 'Aria', address2, 4)
+    hotels = [hotel1, hotel2]
+    print(hotels)
