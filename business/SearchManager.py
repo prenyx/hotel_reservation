@@ -29,13 +29,13 @@ class HotelSearchCriteria:
 
 if __name__ == "__main__":
     search_criteria1 = HotelSearchCriteria(hotel_name="Paradise Inn",
-                                          hotel_location="New York",
-                                          hotel_rating=4,
-                                          price_range="$100-$200",
-                                          amenities="Free WiFi",
-                                          dates="2023-01-01 to 2023-01-31",
-                                          room_types=["Deluxe", "Suite", "Standard"],
-                                          star_category=5)
+                                           hotel_location="New York",
+                                           hotel_rating=4,
+                                           price_range="$100-$200",
+                                           amenities="Free WiFi",
+                                           dates="2023-01-01 to 2023-01-31",
+                                           room_types=["Deluxe", "Suite", "Standard"],
+                                           star_category=5)
 
     print(search_criteria1.get_criteria())
 
