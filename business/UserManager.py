@@ -46,45 +46,40 @@ class UserManager(object):
         session.commit()
         return True, "User registerd successfully."
 
-    # def register_user(self, email: str, password: str):
-    #     new_user = Login(email=email, password=password)
-    #     self.__session.add(new_user)
-    #     self.__session.commit()
-    #     return new_user
-
-    def login(self, username: str, password: str):
-        # password hashing would be strongly advised - as discussed with lecturers and for simplicitys sake, we will refrain from implementing this unless we have enough time to do so.
-        # user = self.__session.execute(
-        #     select(Login).where(and_(Guest.email == email, Login.password == password))
-        # ).scalars().first()
-        # return user
-        user = self.__session.query(RegisteredGuest).join(Login).filter(Login.username == username,
-                                                                        Login.password == password).first()
-        if user:
-            role_info = f' Role: {user.login.role.name}, Access Level: {user.login.role.access_level}'
-            return f"User {username} logged in successfully.{role_info}"
-        return "Invalid username or password."
-
-    def check_reg_user(self, username, password):
-        query = select(RegisteredGuest).join(Login).where(Login.username == username)
-        result = self.__session.execute(query).scalars().one_or_none()
-        print(result)
+    def authenticate_user(self, username, password):
+        """Authenticate a user based on username and password."""
+        # password hashing would be strongly advised - as discussed with lecturers and for simplicity's sake,
+        # we will refrain from implementing this unless we have enough time to do so.
+        # print("Authenticating user:", username, "with password:", password)  # debug what is getting passed into query
+        query = select(Login).where(Login.username == username, Login.password == password)
+        result = self.__session.execute(query).scalars().first()
+        #print(query) debug what the query is
         if result:
-            print("Registered User")
-            if result.login.password == password:
-                print("Login Successfull")
-            else:
-                print("Password or Username wrong")
+            print(f"Login successful for {result.username}")
         else:
-            query_for_login = select(Login).where(Login.username == username)
-            result = self.__session.execute(query_for_login).scalars().one_or_none()
-            if result:
-                print("None Guest Login")
-                if result.password == password:
-                    print("Login Successfull")
-                    print(result.role.name)
-                else:
-                    print("Password or Username wrong")
+            print("Password or Username wrong")
+
+    # def check_reg_user(self, username, password): ### first iteration of login,
+    # temporarily leaving this here incase i want to add more functionality
+    #     query = select(RegisteredGuest).join(Login).where(Login.username == username)
+    #     result = self.__session.execute(query).scalars().one_or_none()
+    #     print(result)
+    #     if result:
+    #         print("Registered User")
+    #         if result.login.password == password:
+    #             print("Login Successfull")
+    #         else:
+    #             print("Password or Username wrong")
+    #     else:
+    #         query_for_login = select(Login).where(Login.username == username)
+    #         result = self.__session.execute(query_for_login).scalars().one_or_none()
+    #         if result:
+    #             print("None Guest Login")
+    #             if result.password == password:
+    #                 print("Login Successfull")
+    #                 print(result.role.name)
+    #             else:
+    #                 print("Password or Username wrong")
 
     def close_session(self):
         self.__session.remove()
@@ -94,9 +89,10 @@ if __name__ == "__main__":
     filepath = Path("../data/my_db.db")
 
     um = UserManager(filepath)
-    um.check_reg_user("sabrina.schmidt@bluemail.ch", "SuperSecret")
+    # um.check_reg_user("sabrina.schmidt@bluemail.ch", "SuperSecret")
 
-    um.login("sabrina.schmidt@bluemail", "SuperSecret")
+    # Example login test
+    um.authenticate_user("sabrina.schmidt@bluemail.ch", "SuperSecret")
 
     # print(um.register("admin", "hallo123", "admin"))
     # print(um.login("admin", "hallo123"))
