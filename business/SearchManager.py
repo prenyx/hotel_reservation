@@ -2,8 +2,8 @@ import os
 from pathlib import Path
 
 from data_access.data_base import init_db
-from sqlalchemy import select, func, create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy import select, func, create_engine, and_, not_, exists, or_
+from sqlalchemy.orm import scoped_session, sessionmaker, Session
 
 from data_models.models import *
 
@@ -50,6 +50,68 @@ class SearchManager(object):
         print(query)
         return self._session.execute(query).scalars().all()
 
+    def get_rooms_by_hotel(self, hotel_id: int):
+        query = select(Room).where(Room.hotel_id == hotel_id)
+        print(query)
+        return self._session.execute(query).scalars().all()
+
+    def get_hotels_by_criteria(self, city: str = "", stars: int = None, guest_count: int = None):
+        """Method to get hotels by provided/partial criteria/s"""
+        query = select(Hotel)
+        if city:
+            query = query.join(Address).where(Address.city.like(f"%{city}%"))
+        if stars is not None:
+            query = query.where(Hotel.stars >= stars)
+        if guest_count is not None:
+            query = query.join(Room).where(Room.max_guests >= guest_count).distinct()
+        print(query)
+        return self._session.execute(query).scalars().all()
+
+    # def get_available_rooms(self, hotel_id: int, start_date, end_date, guest_count: int):
+    #     query = select(Room).where(
+    #         and_(
+    #             Room.hotel_id == hotel_id,
+    #             Room.max_guests >= guest_count,
+    #             not_(exists(
+    #                 select(Booking).where(
+    #                     and_(
+    #                         Booking.room_id == Room.id,
+    #                         or_(and_(Booking.start_date <= start_date, Booking.end_date >= start_date),
+    #                             and_(Booking.start_date <= end_date, Booking.end_date >= end_date))
+    #                     )
+    #                 )
+    #             ))
+    #         )
+    #     )
+    #     print(query)
+    #     return self._session.execute(query).scalars().all()
+
+    def check_room_availability(self, start_date, end_date, number_of_guests):
+        """return available rooms that can accommodate a given number of guests and are not booked within the
+        specified date range."""
+        # with Session() as session:  # shall we even use this functionality?
+            # Subquery to find rooms that are booked in the given date range
+        subquery = select(Booking.room_number).where(
+            and_(
+                Booking.start_date < end_date,
+                Booking.end_date > start_date
+            )
+        ).distinct()
+
+        # Main query to find available rooms
+        chk_available_rooms = select(Room).where(
+            and_(
+                Room.max_guests >= number_of_guests,
+                not_(Room.number.in_(subquery))
+            )
+        )
+
+        result = self._session.execute(chk_available_rooms).scalars().all()
+        if result:
+            return result
+        else:
+            return "No rooms found in that timeframe."
+
 
 def show(hotels):
     for hotel in hotels:
@@ -85,3 +147,12 @@ if __name__ == '__main__':
     found_hotels = search_manager.get_hotels(name_in, city_in)
     show(found_hotels)
     input("Press Enter to continue...")
+
+    # Example dates and guest number
+    start = date(2024, 5, 20)
+    end = date(2024, 5, 25)
+    guests = 2
+
+    available_rooms = search_manager.check_room_availability(start, end, guests)
+    for room in available_rooms:
+        print(room)
