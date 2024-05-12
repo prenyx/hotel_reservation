@@ -4,6 +4,8 @@ from pathlib import Path
 from data_access.data_base import init_db
 from sqlalchemy import select, func, create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy import \
+    and_  # commonly used in query filters to allow multiple filter conditions, equivalent to the logical operator AND in SQL
 
 from data_models.models import *
 
@@ -26,34 +28,35 @@ class SearchManager(object):
         self._engine = create_engine(f'sqlite:///{self.__db_filepath}')
         self._session = scoped_session(sessionmaker(bind=self._engine))
 
-    def get_hotels(self, name: str = "", city: str = ""):
+    def get_hotels(self, filters):
         query = select(Hotel)
-        if name != "":
-            query = query.where(Hotel.name.like(f'%{name}%'))
-        if city != "":
-            query = query.join(Address).where(Address.city.like(f"%{city}%"))
+        for attr, value in filters.items():
+            if value:
+                query = self.add_filter(query, attr, value)
 
-        print(query)
+        room_type = filters.get('room_type')
+        if room_type:
+            query = query.join(Hotel.rooms).filter(Room.type.like(f'%{room_type}%'))
         return self._session.execute(query).scalars().all()
 
-    def get_hotels_by_name(self, name: str = ""):
-        query = select(Hotel)
-        if name != "":
-            query = query.where(Hotel.name.like(f'%{name}'))
-        print(query)
-        return self._session.execute(query).scalars().all()
-
-    def get_hotels_by_city(self, city: str = ""):
-        query = select(Hotel)
-        if city != "":
-            query = query.join(Address).where(Address.city.like(f"%{city}%"))
-        print(query)
-        return self._session.execute(query).scalars().all()
+    def add_filter(self, query, attr, value):
+        """docstring for add_filter"""
+        field = getattr(Hotel, attr, None)
+        if field:
+            if attr == 'price':
+                return query.where(and_(field >= value['min'], field <= value['max']))
+            elif attr == 'rating':
+                return query.where(field == float(value))
+            elif attr == 'availability':
+                return query.where(field == value)
+            elif attr in ['name', 'city', 'amenities']:
+                return query.where(field.like(f'%{value}%'))
+        return query
 
 
 def show(hotels):
     for hotel in hotels:
-        print(hotel)
+        print(f"Hotel Name: {hotel.name}, City: {hotel.city}, Rating: {hotel.rating}")
 
 
 if __name__ == '__main__':
