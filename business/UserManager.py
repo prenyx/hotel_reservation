@@ -96,3 +96,6 @@ if __name__ == "__main__":
 
     # print(um.register("admin", "hallo123", "admin"))
     # print(um.login("admin", "hallo123"))
+
+    um.register("manuel.pasamontes@bluewin.ch", "Secret",2)
+    for print()
