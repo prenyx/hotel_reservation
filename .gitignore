@@ -6,3 +6,8 @@
 *.iml
 out
 gen
+
+# Manuels ignore list :>
+SearchManager_Gachnang.py
+UserManager_hashing_temp.py
+Our_models.py
