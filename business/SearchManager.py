@@ -23,7 +23,7 @@ class SearchManager:
             results = session.query(Hotel).join(Address).filter(Address.city == city_name).all()
             return results
         except Exception as e:
-            print(f"Error searching hotels by city: {city_name}")
+            print(f'Error searching hotels by city: {e}')
             return None
         finally:
             session.close()
@@ -34,7 +34,7 @@ class SearchManager:
             results = session.query(Hotel).join(Address).filter(and_(Address.city == city_name, Hotel.stars == stars)).all()
             return results
         except Exception as e:
-            print(f"Error searching hotels by stars: {Hotel.stars}")
+            print(f'Error searching hotels by stars: {e}')
             return None
         finally:
             session.close()
@@ -46,7 +46,7 @@ class SearchManager:
                 and_(Address.city == city_name, Room.max_guests >= guest_count)).all()
             return results
         except Exception as e:
-            print(f'Error searching hotels by guest count: {guest_count}')
+            print(f'Error searching hotels by guest count: {e}')
             return None
         finally:
             session.close()
@@ -69,7 +69,7 @@ class SearchManager:
             ).all()
             return results
         except Exception as e:
-            print(f'Error searching hotels by date and guest count')
+            print(f'Error searching hotels by date and guest count {e}')
             return None
         finally:
             session.close()
@@ -80,13 +80,13 @@ class SearchManager:
             hotel = session.query(Hotel).filter(Hotel.id == hotel_id).first()
             if hotel:
                 return {
-                    "name": hotel.name,
-                    "address": hotel.address,
-                    "stars": hotel.stars
+                    'name': hotel.name,
+                    'address': hotel.address,
+                    'stars': hotel.stars
                 }
             return None
         except Exception as e:
-            print(f"Error getting hotel details: {hotel_id}")
+            print(f'Error getting hotel details: {e}')
             return None
         finally:
             session.close()
@@ -107,10 +107,10 @@ class SearchManager:
                 for room in rooms
             ]
         except Exception as e:
-            print(f"Error getting room details: {e}")
+            print(f'Error getting room details: {e}')
             return None
         finally:
             session.close()
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
