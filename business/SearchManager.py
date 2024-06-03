@@ -2,89 +2,115 @@ import os
 from pathlib import Path
 
 from data_access.data_base import init_db
-from sqlalchemy import select, func, create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlalchemy import \
-    and_  # commonly used in query filters to allow multiple filter conditions, equivalent to the logical operator AND in SQL
-
+from sqlalchemy import create_engine,  and_, or_
 from data_models.models import *
 
 
-class SearchManager(object):
-    def __init__(self) -> None:
-        self.__load_db()
+class SearchManager:
+    def __init__(self, database_path: Path):
+        if not database_path.is_file():
+            init_db(str(database_path), generate_example_data=True)
+        self.__engine = create_engine(f'sqlite:///{database_path}', echo=False)
+        self.__session = scoped_session(sessionmaker(bind=self.__engine))
 
-    def __load_db(self):
-        # Ensure the environment Variable is set
-        if not os.environ.get("DB_FILE"):
-            raise ValueError("You have to define the environment variable 'DB_FILE'")
-        self.__db_filepath = Path(os.environ.get("DB_FILE"))
+    def get_session(self):
+        return self.__session()
 
-        # Ensure the db file exists, if not initialize a new db with or without example data
-        # You have to delete the db file, if you need a new fresh db.
-        if not self.__db_filepath.is_file():
-            init_db(str(self.__db_filepath), generate_example_data=True)
+    def search_hotels_by_city(self, city_name):
+        session = self.get_session()
+        try:
+            results = session.query(Hotel).join(Address).filter(Address.city == city_name).all()
+            return results
+        except Exception as e:
+            print(f"Error searching hotels by city: {city_name}")
+            return None
+        finally:
+            session.close()
 
-        self._engine = create_engine(f'sqlite:///{self.__db_filepath}')
-        self._session = scoped_session(sessionmaker(bind=self._engine))
+    def search_hotels_by_stars(self, city_name, stars):
+        session = self.get_session()
+        try:
+            results = session.query(Hotel).join(Address).filter(and_(Address.city == city_name, Hotel.stars == stars)).all()
+            return results
+        except Exception as e:
+            print(f"Error searching hotels by stars: {Hotel.stars}")
+            return None
+        finally:
+            session.close()
 
-    def get_hotels(self, filters):
-        query = select(Hotel)
-        for attr, value in filters.items():
-            if value:
-                query = self.add_filter(query, attr, value)
+    def search_hotels_by_guest_count(self, city_name, guest_count=int):
+        session = self.get_session()
+        try:
+            results = session.query(Hotel).join(Address).join(Room).filter(
+                and_(Address.city == city_name, Room.max_guests >= guest_count)).all()
+            return results
+        except Exception as e:
+            print(f'Error searching hotels by guest count: {guest_count}')
+            return None
+        finally:
+            session.close()
 
-        room_type = filters.get('room_type')
-        if room_type:
-            query = query.join(Hotel.rooms).filter(Room.type.like(f'%{room_type}%'))
-        return self._session.execute(query).scalars().all()
+    def search_hotels_by_date_and_guest_count(self, city_name, guest_count, start_date, end_date):
+        session = self.get_session()
+        try:
+            subquery = session.query(Room.id).join(Booking).filter(
+                and_(
+                    Booking.start_date <= end_date,
+                    Booking.end_date >= start_date,
+                    Booking.number_of_guests >= guest_count
+                )
+            ).subquery()
+            results = session.query(Hotel).join(Address).join(Room).filter(
+                and_(
+                    Address.city == city_name,
+                    Room.id.notin_(subquery)
+                )
+            ).all()
+            return results
+        except Exception as e:
+            print(f'Error searching hotels by date and guest count')
+            return None
+        finally:
+            session.close()
 
-    def add_filter(self, query, attr, value):
-        """docstring for add_filter"""
-        field = getattr(Hotel, attr, None)
-        if field:
-            if attr == 'price':
-                return query.where(and_(field >= value['min'], field <= value['max']))
-            elif attr == 'rating':
-                return query.where(field == float(value))
-            elif attr == 'availability':
-                return query.where(field == value)
-            elif attr in ['name', 'city', 'amenities']:
-                return query.where(field.like(f'%{value}%'))
-        return query
+    def get_hotel_details(self, hotel_id):
+        session = self.get_session()
+        try:
+            hotel = session.query(Hotel).filter(Hotel.id == hotel_id).first()
+            if hotel:
+                return {
+                    "name": hotel.name,
+                    "address": hotel.address,
+                    "stars": hotel.stars
+                }
+            return None
+        except Exception as e:
+            print(f"Error getting hotel details: {hotel_id}")
+            return None
+        finally:
+            session.close()
 
-
-def show(hotels):
-    for hotel in hotels:
-        print(f"Hotel Name: {hotel.name}, City: {hotel.city}, Rating: {hotel.rating}")
+    def get_room_details(self, hotel_id):
+        session = self.get_session()
+        try:
+            rooms = session.query(Room).filter(Room.hotel_id == hotel_id).all()
+            return [
+                {
+                    "number": room.number,
+                    "type": room.type,
+                    "max_guests": room.max_guests,
+                    "description": room.description,
+                    "amenities": room.amenities,
+                    "price": room.price
+                }
+                for room in rooms
+            ]
+        except Exception as e:
+            print(f"Error getting room details: {e}")
+            return None
+        finally:
+            session.close()
 
 
 if __name__ == '__main__':
-    # This is only for testing without Application
-
-    # You should set the environment variable in the run configuration.
-    # However, we can set it here in python as well.
-    # Because we are executing this file in the folder ./business/
-    # we need to relatively navigate first one folder up and therefore,
-    # use ../data in the path instead of ./data
-    # if the environment variable is not set, set it to a default
-    if not os.environ.get("DB_FILE"):
-        os.environ["DB_FILE"] = input("Enter relative Path to db file: ")
-        while not Path(os.environ.get("DB_FILE")).parent.is_dir():
-            os.environ["DB_FILE"] = input("Enter relative Path to db file: ")
-    search_manager = SearchManager()
-    all_hotels = search_manager.get_hotels()
-    show(all_hotels)
-    all_hotels = search_manager.get_hotels()
-    input("Press Enter to continue...")
-
-    city_in = input('City: ')
-    hotels_by_city = search_manager.get_hotels_by_city(city_in)
-    show(hotels_by_city)
-    input("Press Enter to continue...")
-
-    name_in = input('Name: ')
-    city_in = input('City: ')
-    found_hotels = search_manager.get_hotels(name_in, city_in)
-    show(found_hotels)
-    input("Press Enter to continue...")
