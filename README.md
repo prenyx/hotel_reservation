@@ -114,5 +114,7 @@ haben wir letztendlich beschlossen, das vorgegebene Modell unverändert zu lasse
 - Zusammenfassung der in den Interviews besprochenen Punkte
 - Reflexionen der Teammitglieder über das Projekt und die gelernten Konzepte
 
+- Während der Implementierung von UserManager.py fiel auf, dass die User Stories für Gastnutzer und registrierte Benutzer unklar formuliert waren. Um diese Unklarheiten zu beheben, entschieden wir uns, im User-Manager zwei grundlegende Methoden zu verwenden: “create_new_login” für die Erstellung neuer Logins und “register_existing_user” zum Hinzufügen von Benutzerdetails zu einem bestehenden Login.
+Nach Rücksprache mit den Coaches stellte sich heraus, dass die User Stories und das Datenbankmodell zu einer grösseren Interpretationsspielraum hatten als bisher angedacht und wir eine alternative Herangehensweise gewählt hatten. Wir behielten den User-Manager mit der erweiterten Funktionalität bei, setzten jedoch die Arbeit am Reservationsmanager gemäss der Vision der Coaches fort.
 
 
