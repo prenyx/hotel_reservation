@@ -4,7 +4,7 @@ from pathlib import Path
 
 from sqlalchemy import create_engine, select, and_
 from sqlalchemy.orm import scoped_session, sessionmaker
-from data_models.models import *
+from data_models.modelsOld import *
 
 from data_access.data_base import init_db
 

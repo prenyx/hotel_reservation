@@ -56,7 +56,6 @@ class Login(Base):
     def __repr__(self):
         return f"Login(id={self.id!r}, username={self.username!r}, password={self.password!r}, role={self.role!r})"
 
-
 class Guest(Base):
     '''
     Gast Entitätstyp.
@@ -82,8 +81,10 @@ class Guest(Base):
 
 
 class RegisteredGuest(Guest):
-    """Registered guest model"""
-    __tablename__ = "registred_guest"
+    '''
+    Registrier Gast Entitätstyp.
+    '''
+    __tablename__ = "registered_guest"
 
     id: Mapped[int] = mapped_column("id", ForeignKey("guest.id"), primary_key=True)
     login_id: Mapped[int] = mapped_column("login_id", ForeignKey("login.id"))
@@ -98,7 +99,9 @@ class RegisteredGuest(Guest):
 
 
 class Hotel(Base):
-    """Hotel model"""
+    '''
+    Hotel Entitätstyp.
+    '''
     __tablename__ = "hotel"
 
     id: Mapped[int] = mapped_column("id", primary_key=True)
@@ -113,28 +116,28 @@ class Hotel(Base):
 
 
 class Room(Base):
-    """Room model."""
+    '''
+    Raum Entitätstyp.
+    '''
     __tablename__ = "room"
 
     hotel_id: Mapped[int] = mapped_column("hotel_id", ForeignKey("hotel.id"), primary_key=True)
     hotel: Mapped["Hotel"] = relationship(back_populates="rooms")
     number: Mapped[str] = mapped_column("number", primary_key=True)
-    type: Mapped[str] = mapped_column("type", nullable=True)  # e.g. "family room", "single room", etc.
-    bed_count: Mapped[int] = mapped_column("bed_count")
-    room_size: Mapped[float] = mapped_column("room_size")
+    type: Mapped[str] = mapped_column("type", nullable=True) # e.g. "family room", "single room", etc.
     max_guests: Mapped[int] = mapped_column("max_guests")
-    description: Mapped[str] = mapped_column("description", nullable=True)  # e.g. "Room with sea view"
+    description: Mapped[str] = mapped_column("description", nullable=True) # e.g. "Room with sea view"
     amenities: Mapped[str] = mapped_column("amenities", nullable=True)
     price: Mapped[float] = mapped_column("price")
-    available: Mapped[bool] = mapped_column("availability", default=True)
 
     def __repr__(self) -> str:
-        return f"Room(hotel={self.hotel!r}, room_number={self.number!r}, type={self.type!r}, bed_count={self.bed_count}, room_size={self.room_size}, description={self.description!r}, amenities={self.amenities!r}, price={self.price!r}, available={self.available})"
+        return f"Room(hotel={self.hotel!r}, room_number={self.number!r}, type={self.type!r}, description={self.description!r}, amenities={self.amenities!r}, price={self.price!r})"
 
 
 class Booking(Base):
-    """Booking model"""
-
+    '''
+    Buchungs Entitätstyp.
+    '''
     __tablename__ = "booking"
 
     id: Mapped[int] = mapped_column("id", primary_key=True)

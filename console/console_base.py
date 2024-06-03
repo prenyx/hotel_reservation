@@ -144,6 +144,29 @@ class UserRegistrationConsole(Console):
         menu.add_option(MenuOption("Register Existing User"))
         return menu
 
+class HotelManagement(Console):
+    def run(self):
+        menu = Menu("Hotel Reservation System: Hotelmanagement", self._database_path)
+        menu.add_option(MenuOption("Add Hotel"))
+        menu.add_option(MenuOption("Remove Hotel"))
+        menu.add_option(MenuOption("Update Hotel Info"))
+        menu.add_option(MenuOption("View All Bookings"))
+        menu.add_option(MenuOption("Manage Room Availability"))
+        menu.add_option(MenuOption("Manage Room Price"))
+        return menu
+
+    def __init__(self, database_path: Path):
+        super().__init__(database_path)
+        self._user_manager = UserManager(database_path)
+
+    def _navigate(self, choice: int) -> Optional[Console]:
+        if choice == 1:
+            self.add_hotel()
+        elif choice == 2:
+            self.register_existing_user()
+        else:
+            return None
+        return self
 
 if __name__ == "__main__":
     database_path = Path("../data/my_db.db")
@@ -154,3 +177,6 @@ if __name__ == "__main__":
     next_console = app.run()
     while next_console:
         next_console = next_console.run()
+
+    #case_: could use this to catchall in the
+
