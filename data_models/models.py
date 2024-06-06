@@ -124,9 +124,9 @@ class Room(Base):
     hotel_id: Mapped[int] = mapped_column("hotel_id", ForeignKey("hotel.id"), primary_key=True)
     hotel: Mapped["Hotel"] = relationship(back_populates="rooms")
     number: Mapped[str] = mapped_column("number", primary_key=True)
-    type: Mapped[str] = mapped_column("type", nullable=True) # e.g. "family room", "single room", etc.
+    type: Mapped[str] = mapped_column("type", nullable=True)  # e.g. "family room", "single room", etc.
     max_guests: Mapped[int] = mapped_column("max_guests")
-    description: Mapped[str] = mapped_column("description", nullable=True) # e.g. "Room with sea view"
+    description: Mapped[str] = mapped_column("description", nullable=True)  # e.g. "Room with sea view"
     amenities: Mapped[str] = mapped_column("amenities", nullable=True)
     price: Mapped[float] = mapped_column("price")
 
