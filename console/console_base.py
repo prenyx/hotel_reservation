@@ -4,6 +4,7 @@ from typing import Optional
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from business.UserManager import UserManager
+from business.HotelManager import HotelManager
 from data_access.data_base import init_db
 from data_models import models
 from data_models.models import Base, Guest, Login
@@ -93,23 +94,32 @@ class Menu(Console):
         return int(choice)
 
     def _navigate(self, choice: int) -> Optional[Console]:
-        if choice == 1:
-            console = UserRegistrationConsole(self._database_path)
-            console.create_new_login()
-            return console
+        if choice == len(self._options):  # Back or exit
+            return StartConsole(self._database_path)
+        elif choice == 1:
+            return UserRegistrationConsole(self._database_path)
         elif choice == 2:
-            console = UserRegistrationConsole(self._database_path)
-            console.register_existing_user()
-            return console
-        else:
-            return self
+            return HotelManagementConsole(self._database_path)
+        return self
 
     def run(self) -> Console:
         self.clear()
         self._show()
         return self._navigate(self._make_choice())
 
+class StartConsole(Menu):
+    def __init__(self, database_path: Path):
+        super().__init__("Main Menu", database_path)
+        self.add_option(MenuOption("User Registration"))
+        self.add_option(MenuOption("Hotel Management"))
+        self.add_option(MenuOption("Exit"))
 
+    def _navigate(self, choice: int) -> Optional[Console]:
+        if choice == 1:
+            return UserRegistrationConsole(self._database_path)
+        elif choice == 2:
+            return HotelManagementConsole(self._database_path)
+        return None  # Exit
 class UserRegistrationConsole(Console):
     def __init__(self, database_path: Path):
         super().__init__(database_path)
@@ -118,11 +128,11 @@ class UserRegistrationConsole(Console):
     def _navigate(self, choice: int) -> Optional[Console]:
         if choice == 1:
             self.create_new_login()
+            return self
         elif choice == 2:
             self.register_existing_user()
-        else:
-            return None
-        return self
+            return self
+        return StartConsole(self._database_path)  # Back to main menu
 
     def create_new_login(self):
         email = input("Enter email: ")
@@ -142,9 +152,54 @@ class UserRegistrationConsole(Console):
         menu = Menu("Hotel Reservation System", self._database_path)
         menu.add_option(MenuOption("Create New Login"))
         menu.add_option(MenuOption("Register Existing User"))
+        menu.add_option(MenuOption("Back to Main Menu"))
         return menu
 
-class HotelManagement(Console):
+class HotelManagementConsole(Console):
+
+
+    def __init__(self, database_path: Path):
+        super().__init__(database_path)
+        self._hotel_manager = HotelManager(database_path)
+
+    def _navigate(self, choice: int) -> Optional[Console]:
+        if choice == 1:
+            name = input("Enter hotel name: ")
+            address = input("Enter hotel address: ")
+            stars = input("Enter hotel stars: ")
+            HotelManager.add_hotel(name, address, stars)
+        elif choice == 2:
+            hotel_id = input("Enter hotel ID to remove: ")
+            HotelManager.remove_hotel(hotel_id)
+        elif choice == 3:
+            hotel_id = input("Enter hotel ID to update: ")
+            name = input("Enter new hotel name (or press Enter to skip): ")
+            address = input("Enter new hotel address (or press Enter to skip): ")
+            stars = input("Enter new hotel stars (or press Enter to skip): ")
+            HotelManager.update_hotel_info(hotel_id, name if name else None, address if address else None,
+                                           stars if stars else None)
+        elif choice == 4:
+            HotelManager.view_all_bookings()
+        elif choice == 5:
+            booking_id = input("Enter booking ID to update: ")
+            phone_number = input("Enter new phone number (or press Enter to skip): ")
+            HotelManager.edit_booking(booking_id, phone_number if phone_number else None)
+        elif choice == 6:
+            hotel_id = input("Enter hotel ID: ")
+            room_number = input("Enter room number: ")
+            available = input("Is the room available? (yes/no): ").lower() == 'yes'
+            HotelManager.manage_room_availability(hotel_id, room_number, available)
+        elif choice == 7:
+            hotel_id = input("Enter hotel ID: ")
+            room_number = input("Enter room number: ")
+            price = input("Enter new price: ")
+            HotelManager.update_room_price(hotel_id, room_number, price)
+        elif choice == 8:
+            return StartConsole(self._database_path)
+        else:
+            return Menu("Invalid Option Handled", self._database_path)
+        return self
+
     def run(self):
         menu = Menu("Hotel Reservation System: Hotelmanagement", self._database_path)
         menu.add_option(MenuOption("Add Hotel"))
@@ -153,30 +208,16 @@ class HotelManagement(Console):
         menu.add_option(MenuOption("View All Bookings"))
         menu.add_option(MenuOption("Manage Room Availability"))
         menu.add_option(MenuOption("Manage Room Price"))
+        menu.add_option(MenuOption("Back to Main Menu"))
         return menu
-
-    def __init__(self, database_path: Path):
-        super().__init__(database_path)
-        self._user_manager = UserManager(database_path)
-
-    def _navigate(self, choice: int) -> Optional[Console]:
-        if choice == 1:
-            self.add_hotel()
-        elif choice == 2:
-            self.register_existing_user()
-        else:
-            return None
-        return self
-
 if __name__ == "__main__":
     database_path = Path("../data/my_db.db")
-    app = UserRegistrationConsole(database_path)
+    app = Application(StartConsole(database_path))
     # new_menu = app.run()
     # new_menu.run()
-    # app.run()
-    next_console = app.run()
-    while next_console:
-        next_console = next_console.run()
+    app.run()
+    # next_console = app.run()
+    # while next_console:
+    #     next_console = next_console.run()
 
-    #case_: could use this to catchall in the
 

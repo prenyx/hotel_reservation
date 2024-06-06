@@ -32,7 +32,7 @@ class HotelManager(object):
         return self.__session
 
     # 3.1.1. Add new hotels to the system
-    def add_hotel(self):
+    def add_hotel(self, name, stars, street, zip_code, city):
         session = self.get_session()
 
         name = input("Hotel Name: ")
@@ -46,8 +46,8 @@ class HotelManager(object):
         session.add(address)
         session.commit()
 
-        new_hotel = Hotel(name=name, stars=stars, address_=address.id)
-        session.add(hotel)
+        new_hotel = Hotel(name=name, stars=stars, address_id=address.id)
+        session.add(new_hotel)
         session.commit()
         return new_hotel
 
@@ -113,55 +113,3 @@ if __name__ == "__main__":
     # Set up in-memory SQLite database for testing
     database_path = Path("../data/my_db.db")
     manager = HotelManager(database_path)
-
-    # 3.1.1. Test add new hotel
-    hotel = manager.add_hotel("Test Hotel", 5, "123 Test St", "1234567890")
-    assert hotel.id is not None, "Hotel should be added with an ID"
-    print("Test 3.1.1 passed: Add new hotel")
-
-    # 3.1.2. Test remove hotel
-    result = manager.remove_hotel(hotel.id)
-    assert result is True, "Hotel should be removed"
-    result = manager.remove_hotel(hotel.id)
-    assert result is False, "Removing non-existent hotel should return False"
-    print("Test 3.1.2 passed: Remove hotel")
-
-    # Add a hotel again for further tests
-    hotel = manager.add_hotel("Test Hotel", 5, "123 Test St", "1234567890")
-
-    # 3.1.3. Test update hotel information
-    updated_hotel = manager.update_hotel(hotel.id, name="Updated Test Hotel", stars=4)
-    assert updated_hotel.name == "Updated Test Hotel", "Hotel name should be updated"
-    assert updated_hotel.stars == 4, "Hotel stars should be updated"
-    print("Test 3.1.3 passed: Update hotel information")
-
-    # 3.2. Test view all bookings
-    booking1 = Booking(hotel_id=hotel.id, guest_name="John Doe", room_number=101, check_in="2024-05-20", check_out="2024-05-25")
-    booking2 = Booking(hotel_id=hotel.id, guest_name="Jane Doe", room_number=102, check_in="2024-06-01", check_out="2024-06-05")
-    session.add_all([booking1, booking2])
-    session.commit()
-    bookings = manager.view_all_bookings()
-    assert len(bookings) == 2, "There should be 2 bookings"
-    print("Test 3.2 passed: View all bookings")
-
-    # 3.3. Test edit booking [Optional]
-    edited_booking = manager.edit_booking(booking1.id, guest_name="John Smith")
-    assert edited_booking.guest_name == "John Smith", "Booking guest name should be updated"
-    print("Test 3.3 passed: Edit booking")
-
-    # Add a room for further tests
-    room = Room(hotel_id=hotel.id, room_number=101, available=True, price=100.0)
-    session.add(room)
-    session.commit()
-
-    # 3.4. Test update room availability [Optional]
-    updated_room = manager.update_room_availability(room.id, False)
-    assert updated_room.available is False, "Room availability should be updated"
-    print("Test 3.4 passed: Update room availability")
-
-    # 3.4. Test update room price [Optional]
-    updated_room = manager.update_room_price(room.id, 150.0)
-    assert updated_room.price == 150.0, "Room price should be updated"
-    print("Test 3.4 passed: Update room price")
-
-    print("All tests passed!")
