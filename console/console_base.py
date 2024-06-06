@@ -21,6 +21,7 @@ class Console(object):
         self._database_path = database_path  # store the database_path as an instance variable
 
     def run(self):
+        # Implementation für main file
         raise NotImplementedError("Implement this method")
 
     @staticmethod
@@ -107,6 +108,7 @@ class Menu(Console):
         self._show()
         return self._navigate(self._make_choice())
 
+
 class StartConsole(Menu):
     def __init__(self, database_path: Path):
         super().__init__("Main Menu", database_path)
@@ -120,6 +122,8 @@ class StartConsole(Menu):
         elif choice == 2:
             return HotelManagementConsole(self._database_path)
         return None  # Exit
+
+
 class UserRegistrationConsole(Console):
     def __init__(self, database_path: Path):
         super().__init__(database_path)
@@ -155,9 +159,8 @@ class UserRegistrationConsole(Console):
         menu.add_option(MenuOption("Back to Main Menu"))
         return menu
 
+
 class HotelManagementConsole(Console):
-
-
     def __init__(self, database_path: Path):
         super().__init__(database_path)
         self._hotel_manager = HotelManager(database_path)
@@ -210,6 +213,8 @@ class HotelManagementConsole(Console):
         menu.add_option(MenuOption("Manage Room Price"))
         menu.add_option(MenuOption("Back to Main Menu"))
         return menu
+
+
 if __name__ == "__main__":
     database_path = Path("../data/my_db.db")
     app = Application(StartConsole(database_path))
@@ -219,5 +224,3 @@ if __name__ == "__main__":
     # next_console = app.run()
     # while next_console:
     #     next_console = next_console.run()
-
-

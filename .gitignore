@@ -1,6 +1,3 @@
-### Example user template template
-### Example user template
-
 # IntelliJ project files
 .idea
 *.iml
@@ -12,3 +9,7 @@ SearchManager_Gachnang.py
 UserManager_hashing_temp.py
 Our_models.py
 hotel_management.db
+
+UnitTest/
+data/my_db.db
+business/BaseManager.py

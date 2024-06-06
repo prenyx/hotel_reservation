@@ -3,13 +3,14 @@ from pathlib import Path
 
 from data_access.data_base import init_db
 from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlalchemy import create_engine,  and_, or_
+from sqlalchemy import create_engine, and_, or_
 from data_models.models import *
 
 
 class SearchManager:
     def __init__(self, database_path: Path):
-        if not database_path.is_file():
+        """Initialize the SearchManager class"""
+        if not database_path.is_file():  # Checks if a DB file already exists
             init_db(str(database_path), generate_example_data=True)
         self.__engine = create_engine(f'sqlite:///{database_path}', echo=False)
         self.__session = scoped_session(sessionmaker(bind=self.__engine))
@@ -18,6 +19,7 @@ class SearchManager:
         return self.__session()
 
     def search_hotels_by_city(self, city_name):
+        """Get all hotels searched by city name"""
         session = self.get_session()
         try:
             results = session.query(Hotel).join(Address).filter(Address.city == city_name).all()
@@ -31,7 +33,8 @@ class SearchManager:
     def search_hotels_by_stars(self, city_name, stars):
         session = self.get_session()
         try:
-            results = session.query(Hotel).join(Address).filter(and_(Address.city == city_name, Hotel.stars == stars)).all()
+            results = session.query(Hotel).join(Address).filter(
+                and_(Address.city == city_name, Hotel.stars == stars)).all()
             return results
         except Exception as e:
             print(f'Error searching hotels by stars: {e}')
@@ -54,7 +57,7 @@ class SearchManager:
     def search_hotels_by_date_and_guest_count(self, city_name, guest_count, start_date, end_date):
         session = self.get_session()
         try:
-            subquery = session.query(Room.id).join(Booking).filter(
+            subquery = session.query(Room.hotel_id).join(Booking).filter(
                 and_(
                     Booking.start_date <= end_date,
                     Booking.end_date >= start_date,
@@ -64,7 +67,7 @@ class SearchManager:
             results = session.query(Hotel).join(Address).join(Room).filter(
                 and_(
                     Address.city == city_name,
-                    Room.id.notin_(subquery)
+                    Room.hotel_id.notin_(subquery)
                 )
             ).all()
             return results
@@ -111,6 +114,3 @@ class SearchManager:
             return None
         finally:
             session.close()
-
-
-# if __name__ == '__main__':

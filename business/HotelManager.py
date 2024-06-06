@@ -18,7 +18,7 @@ from pathlib import Path
 from sqlalchemy import create_engine
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.orm import scoped_session, sessionmaker
-from data_models.modelsOld import *
+from data_models.models import *
 
 from data_access.data_base import init_db
 class HotelManager(object):
@@ -50,7 +50,6 @@ class HotelManager(object):
         session.add(new_hotel)
         session.commit()
         return new_hotel
-
 
     # 3.1.2. Remove hotels from the system
     def remove_hotel(self, hotel_id: int):
