@@ -35,12 +35,6 @@ class HotelManager(object):
     def add_hotel(self, name, stars, street, zip_code, city):
         session = self.get_session()
 
-        name = input("Hotel Name: ")
-        stars = input("Hotel Stars: ")
-        street = input("Enter street: ")
-        zip_code = input("Enter zip code: ")
-        city = input("Enter city: ")
-
         print(f"Debug:" + street, zip_code, city)
         address = Address(street=street, zip=zip_code, city=city)
         session.add(address)
@@ -53,22 +47,36 @@ class HotelManager(object):
 
     # 3.1.2. Remove hotels from the system
     def remove_hotel(self, hotel_id: int):
+        session = self.get_session()
+
         try:
-            hotel = self.session.query(Hotel).filter(Hotel.id == hotel_id).one()
-            self.session.delete(hotel)
-            self.session.commit()
+            hotel = session.query(Hotel).filter(Hotel.id == hotel_id).one()
+            session.delete(hotel)
+            session.commit()
             return True
         except NoResultFound:
             return False
 
     # 3.1.3. Update hotel information
-    def update_hotel(self, hotel_id: int, **kwargs):
+    # 3.1.3. Update hotel information
+    def update_hotel(self, hotel_id: int, street=None, zip_code=None, city=None, **kwargs):
+        session = self.get_session()
         try:
-            hotel = self.session.query(Hotel).filter(Hotel.id == hotel_id).one()
+            hotel = session.query(Hotel).filter(Hotel.id == hotel_id).one()
+            # Update hotel basic information
             for key, value in kwargs.items():
                 if hasattr(hotel, key):
                     setattr(hotel, key, value)
-            self.session.commit()
+            # Update hotel address if provided
+            if street or zip_code or city:
+                address = session.query(Address).filter(Address.id == hotel.address_id).one()
+                if street:
+                    address.street = street
+                if zip_code:
+                    address.zip = zip_code
+                if city:
+                    address.city = city
+            session.commit()
             return hotel
         except NoResultFound:
             return None

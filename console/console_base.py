@@ -1,18 +1,15 @@
 import os
 from typing import Optional
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from business.UserManager import UserManager
 from business.HotelManager import HotelManager
 from data_access.data_base import init_db
-from data_models import models
 from data_models.models import Base, Guest, Login
 from pathlib import Path
 
 
 class Console(object):
-
     def __init__(self, database_path: Path):
         if not database_path.is_file():
             init_db(str(database_path), generate_example_data=True)
@@ -20,7 +17,7 @@ class Console(object):
         self.__session = scoped_session(sessionmaker(bind=self.__engine))
         self._database_path = database_path  # store the database_path as an instance variable
 
-    def run(self):
+    def run(self) -> Optional['Console']:
         # Implementation für main file
         raise NotImplementedError("Implement this method")
 
@@ -30,7 +27,6 @@ class Console(object):
 
 
 class Application(object):
-
     def __init__(self, start: Console):
         self._current: Console = start
 
@@ -79,34 +75,28 @@ class Menu(Console):
         space = " " * (self._width - len(left) - len(self._title) - len(right))
         print(f"{left}{self._title}{space}{right}")
         print("#" * self._width)
-        for i, option in enumerate(self, 1):
+        for i, option in enumerate(self._options, 1):
             index = f"{i}: "
             space = " " * (self._width - len(left) - len(index) - len(option) - len(right))
             print(f"{left}{index}{option}{space}{right}")
         print("#" * self._width)
 
     def _make_choice(self) -> int:
+        self._show()
         choice = input("Enter Option: ")
         options = [f"{i}" for i, option in enumerate(self._options, 1)]
         while choice not in options:
-            self._show()
             print("Invalid Option")
             choice = input("Enter Option: ")
         return int(choice)
 
     def _navigate(self, choice: int) -> Optional[Console]:
-        if choice == len(self._options):  # Back or exit
-            return StartConsole(self._database_path)
-        elif choice == 1:
-            return UserRegistrationConsole(self._database_path)
-        elif choice == 2:
-            return HotelManagementConsole(self._database_path)
-        return self
+        raise NotImplementedError("Implement this method in subclasses")
 
     def run(self) -> Console:
         self.clear()
-        self._show()
-        return self._navigate(self._make_choice())
+        choice = self._make_choice()
+        return self._navigate(choice)
 
 
 class StartConsole(Menu):
@@ -121,13 +111,17 @@ class StartConsole(Menu):
             return UserRegistrationConsole(self._database_path)
         elif choice == 2:
             return HotelManagementConsole(self._database_path)
-        return None  # Exit
+        elif choice == 3:
+            return None  # Exit
 
 
-class UserRegistrationConsole(Console):
+class UserRegistrationConsole(Menu):
     def __init__(self, database_path: Path):
-        super().__init__(database_path)
+        super().__init__("User Registration", database_path)
         self._user_manager = UserManager(database_path)
+        self.add_option(MenuOption("Create New Login"))
+        self.add_option(MenuOption("Register Existing User"))
+        self.add_option(MenuOption("Back to Main Menu"))
 
     def _navigate(self, choice: int) -> Optional[Console]:
         if choice == 1:
@@ -136,7 +130,8 @@ class UserRegistrationConsole(Console):
         elif choice == 2:
             self.register_existing_user()
             return self
-        return StartConsole(self._database_path)  # Back to main menu
+        elif choice == 3:
+            return StartConsole(self._database_path)
 
     def create_new_login(self):
         email = input("Enter email: ")
@@ -152,75 +147,80 @@ class UserRegistrationConsole(Console):
         password = input("Enter password: ")
         self._user_manager.register_existing_user(email, password)
 
-    def run(self):
-        menu = Menu("Hotel Reservation System", self._database_path)
-        menu.add_option(MenuOption("Create New Login"))
-        menu.add_option(MenuOption("Register Existing User"))
-        menu.add_option(MenuOption("Back to Main Menu"))
-        return menu
 
-
-class HotelManagementConsole(Console):
+class HotelManagementConsole(Menu):
     def __init__(self, database_path: Path):
-        super().__init__(database_path)
+        super().__init__("Hotel Management", database_path)
         self._hotel_manager = HotelManager(database_path)
+        self.add_option(MenuOption("Add Hotel"))
+        self.add_option(MenuOption("Remove Hotel"))
+        self.add_option(MenuOption("Update Hotel Info"))
+        self.add_option(MenuOption("View All Bookings"))
+        self.add_option(MenuOption("Edit Booking"))
+        self.add_option(MenuOption("Manage Room Availability"))
+        self.add_option(MenuOption("Update Room Price"))
+        self.add_option(MenuOption("Back to Main Menu"))
 
     def _navigate(self, choice: int) -> Optional[Console]:
         if choice == 1:
             name = input("Enter hotel name: ")
-            address = input("Enter hotel address: ")
             stars = input("Enter hotel stars: ")
-            HotelManager.add_hotel(name, address, stars)
+            street = input("Enter hotel street: ")
+            zip_code = input("Enter hotel zip code: ")
+            city = input("Enter hotel city: ")
+
+            self._hotel_manager.add_hotel(name, stars, street, zip_code, city)
         elif choice == 2:
             hotel_id = input("Enter hotel ID to remove: ")
-            HotelManager.remove_hotel(hotel_id)
+            self._hotel_manager.remove_hotel(hotel_id)
         elif choice == 3:
-            hotel_id = input("Enter hotel ID to update: ")
-            name = input("Enter new hotel name (or press Enter to skip): ")
-            address = input("Enter new hotel address (or press Enter to skip): ")
-            stars = input("Enter new hotel stars (or press Enter to skip): ")
-            HotelManager.update_hotel_info(hotel_id, name if name else None, address if address else None,
-                                           stars if stars else None)
+            hotel_id = int(input("Enter hotel ID to update: "))
+            print("Enter the new values (leave blank to keep current value):")
+            name = input("Enter new hotel name: ")
+            stars = input("Enter new hotel stars: ")
+            street = input("Enter new streetname: ")
+            city = input("Enter new city: ")
+            zip = input("Enter new zip code: ")
+
+            updates = {}
+            if name:
+                updates['name'] = name
+            if stars:
+                updates['stars'] = int(stars)
+            if street:
+                updates['street'] = street
+            if city:
+                updates['city'] = city
+            if zip:
+                updates['zip_code'] = zip
+
+            hotel = self._hotel_manager.update_hotel(hotel_id, **updates)
+            if hotel:
+                print(f"Hotel updated: {hotel}")
+            else:
+                print("Hotel not found.")
         elif choice == 4:
-            HotelManager.view_all_bookings()
+            self._hotel_manager.view_all_bookings()
         elif choice == 5:
             booking_id = input("Enter booking ID to update: ")
             phone_number = input("Enter new phone number (or press Enter to skip): ")
-            HotelManager.edit_booking(booking_id, phone_number if phone_number else None)
+            self._hotel_manager.edit_booking(booking_id, phone_number if phone_number else None)
         elif choice == 6:
             hotel_id = input("Enter hotel ID: ")
             room_number = input("Enter room number: ")
             available = input("Is the room available? (yes/no): ").lower() == 'yes'
-            HotelManager.manage_room_availability(hotel_id, room_number, available)
+            self._hotel_manager.manage_room_availability(hotel_id, room_number, available)
         elif choice == 7:
             hotel_id = input("Enter hotel ID: ")
             room_number = input("Enter room number: ")
             price = input("Enter new price: ")
-            HotelManager.update_room_price(hotel_id, room_number, price)
+            self._hotel_manager.update_room_price(hotel_id, room_number, price)
         elif choice == 8:
             return StartConsole(self._database_path)
-        else:
-            return Menu("Invalid Option Handled", self._database_path)
         return self
-
-    def run(self):
-        menu = Menu("Hotel Reservation System: Hotelmanagement", self._database_path)
-        menu.add_option(MenuOption("Add Hotel"))
-        menu.add_option(MenuOption("Remove Hotel"))
-        menu.add_option(MenuOption("Update Hotel Info"))
-        menu.add_option(MenuOption("View All Bookings"))
-        menu.add_option(MenuOption("Manage Room Availability"))
-        menu.add_option(MenuOption("Manage Room Price"))
-        menu.add_option(MenuOption("Back to Main Menu"))
-        return menu
 
 
 if __name__ == "__main__":
     database_path = Path("../data/my_db.db")
     app = Application(StartConsole(database_path))
-    # new_menu = app.run()
-    # new_menu.run()
     app.run()
-    # next_console = app.run()
-    # while next_console:
-    #     next_console = next_console.run()
