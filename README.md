@@ -126,8 +126,16 @@ Diese Datumdefinitionen legen dann fest ab wann neue Buchungen entgegengenommen 
 Wichtig anzumerken ist, da diese User Story viele veränderungen mit sich brachte und daher z.B. in dem Reservationsmanager neuen spalten ...start und ...end nicht für die erstellung neuer Buchungen berücksichtigt wurde.
 Dies da jeder der Manager von jemand anderem realisiert wurde. Diese implementation zeigt nur wie diese UserStory realisiert werden kann.
 
+main.py: Supavadee
+UI - MainMenu.py, SearchMenu.py separierung: Supavadee
 SearchManager.py: Supavadee
 ReservationManager.py: Supavadee, Manuel
 console_base.py, HotelManager.py, UserManager.py: Manuel
+README.md: Supavadee, Manuel
 models.py, data_generator.py: Manuel
 Testing Console: Damian
+
+User Stories erarbeitet:
+1.-1.5: Supavadee
+2.-2.1.1: Supavadee
+1.6 + 3.-3.4: Manuel
