@@ -46,7 +46,7 @@ class SearchMenu(Menu):
                 print('Invalid input. Please enter an integer.')
 
     @staticmethod  # Static method because we are not calling or modifying any instance variables within this method
-    def wait_for_user_input():  # option 1
+    def wait_for_user_input():
         """A helper method that waits for user input before returning."""
         input('Press Enter to continue...')
 
@@ -78,7 +78,7 @@ class SearchMenu(Menu):
             print(f'No hotels found in {city} with {stars} stars.')
         else:
             for hotel in hotels_in_city:
-                print(hotel)
+                print(hotel, end=' ')
         self.wait_for_user_input()
 
     def __search_by_guest_count(self):
@@ -92,7 +92,7 @@ class SearchMenu(Menu):
             print(f'No hotels found in {city} with {guest_count} guests.')
         else:
             for hotel in hotels_in_city:
-                print(hotel)
+                print(hotel, end=' ')
         self.wait_for_user_input()
 
     def __search_by_date_guest_count(self):
