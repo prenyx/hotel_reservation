@@ -94,10 +94,28 @@ class SearchManager:
         finally:
             session.close()
 
-    def get_room_details(self, hotel_id):
+    def get_all_hotel_details(self):
         session = self.get_session()
         try:
-            rooms = session.query(Room).filter(Room.hotel_id == hotel_id).all()
+            hotels = session.query(Hotel).all()
+            return [{'name': hotel.name, 'address': hotel.address, 'stars': hotel.stars} for hotel in hotels]
+        except Exception as e:
+            print(f'Error getting hotel details: {e}')
+            return []
+        finally:
+            session.close()
+
+    def get_room_details(self, hotel_id, room_type=None):
+        session = self.get_session()
+        try:
+            query = session.query(Room).filter(Room.hotel_id == hotel_id)
+
+            # Add room_type to the query if provided
+            if room_type is not None:
+                query = query.filter(Room.type == room_type)
+
+            rooms = query.all()
+
             return [
                 {
                     "number": room.number,
@@ -114,3 +132,30 @@ class SearchManager:
             return None
         finally:
             session.close()
+
+    def get_rooms_by_type_and_city(self, room_type, city):
+        session = self.get_session()
+        try:
+            query = (session.query(Room)
+                     .join(Hotel)
+                     .filter(Room.type == room_type, Hotel.address_id == city))  # Use `address_id` as city
+
+            rooms = query.all()
+
+            return [
+                {
+                    "number": room.number,
+                    "type": room.type,
+                    "max_guests": room.max_guests,
+                    "description": room.description,
+                    "amenities": room.amenities,
+                    "price": room.price
+                }
+                for room in rooms
+            ]
+        except Exception as e:
+            print(f'Error getting room details: {e}')
+            return None
+        finally:
+            session.close()
+
