@@ -129,9 +129,11 @@ class Room(Base):
     description: Mapped[str] = mapped_column("description", nullable=True)  # e.g. "Room with sea view"
     amenities: Mapped[str] = mapped_column("amenities", nullable=True)
     price: Mapped[float] = mapped_column("price")
+    unavailability_start: Mapped[date] = mapped_column("unavailability_start", default=None, nullable=True)
+    unavailability_end: Mapped[date] = mapped_column("unavailability_end", default=None, nullable=True)
 
     def __repr__(self) -> str:
-        return f"Room(hotel={self.hotel!r}, room_number={self.number!r}, type={self.type!r}, description={self.description!r}, amenities={self.amenities!r}, price={self.price!r})"
+        return f"Room(hotel={self.hotel!r}, room_number={self.number!r}, type={self.type!r}, description={self.description!r}, amenities={self.amenities!r}, price={self.price!r}), unavailability_start={self.unavailability_start!r}, unavailability_end={self.unavailability_end!r}"
 
 
 class Booking(Base):

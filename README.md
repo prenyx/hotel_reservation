@@ -118,3 +118,24 @@ haben wir letztendlich beschlossen, das vorgegebene Modell unverändert zu lasse
 Nach Rücksprache mit den Coaches stellte sich heraus, dass die User Stories und das Datenbankmodell zu einer grösseren Interpretationsspielraum hatten als bisher angedacht und wir eine alternative Herangehensweise gewählt hatten. Wir behielten den User-Manager mit der erweiterten Funktionalität bei, setzten jedoch die Arbeit am Reservationsmanager gemäss der Vision der Coaches fort.
 
 
+# User Story 3.4: Wir haben uns dafür entschieden eine "availability"-column im model des Rooms hinzuzufügen um die User Story realisieren zu können.
+Nun kann ein Hotel-Manager ein Datum ab wann ein Zimmer "unavailable" ist, gleichzeitig löscht das System alle offenen Buchungen (zuerst werden aktive Buchungen in dem Zeitraum noch dem Benutzer angezeigt, bevor man diese Bestätigt zu löschen)
+Zudem wird in der Datenbank die Spalte "unavailability_start" und "unavailability_end" gesetzt, denkbar ist dies wenn ein Zimmer ab einem bestimmten Zeitraum für Renovationen nicht mehr verfügbar stehen kann, oder wenn Aufgrund von Schaden od. anderen Gründen das Zimmer nicht zur Verfügung steht.
+Diese Datumdefinitionen legen dann fest ab wann neue Buchungen entgegengenommen werden können.
+
+Wichtig anzumerken ist, da diese User Story viele veränderungen mit sich brachte und daher z.B. in dem Reservationsmanager neuen spalten ...start und ...end nicht für die erstellung neuer Buchungen berücksichtigt wurde.
+Dies da jeder der Manager von jemand anderem realisiert wurde. Diese implementation zeigt nur wie diese UserStory realisiert werden kann.
+
+main.py: Supavadee
+UI - MainMenu.py, SearchMenu.py separierung: Supavadee
+SearchManager.py: Supavadee
+ReservationManager.py: Supavadee, Manuel
+console_base.py, HotelManager.py, UserManager.py: Manuel
+README.md: Supavadee, Manuel
+models.py, data_generator.py: Manuel
+Testing Console: Damian
+
+User Stories erarbeitet:
+1.-1.5: Supavadee
+2.-2.1.1: Supavadee
+1.6 + 3.-3.4: Manuel
