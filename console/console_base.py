@@ -71,17 +71,17 @@ class Menu(Console):
         self._options.remove(option)
 
     def _show(self):
-        print("#" * self._width)
-        left = "# "
-        right = "#"
+        print("*" * self._width)
+        left = "* "
+        right = "*"
         space = " " * (self._width - len(left) - len(self._title) - len(right))
         print(f"{left}{self._title}{space}{right}")
-        print("#" * self._width)
+        print("*" * self._width)
         for i, option in enumerate(self._options, 1):
             index = f"{i}: "
             space = " " * (self._width - len(left) - len(index) - len(option) - len(right))
             print(f"{left}{index}{option}{space}{right}")
-        print("#" * self._width)
+        print("*" * self._width)
 
     def _make_choice(self) -> int:
         self._show()

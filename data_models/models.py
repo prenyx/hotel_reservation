@@ -56,6 +56,7 @@ class Login(Base):
     def __repr__(self):
         return f"Login(id={self.id!r}, username={self.username!r}, password={self.password!r}, role={self.role!r})"
 
+
 class Guest(Base):
     '''
     Gast Entitätstyp.

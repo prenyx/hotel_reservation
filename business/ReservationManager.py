@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 import datetime
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -46,17 +47,21 @@ class ReservationManager:
         session = self.get_session()
         try:
             reservation = session.query(Booking).filter(Booking.id == reservation_id).first()
+
+            # If no reservation is found, return a meaningful message
             if not reservation:
-                return None
+                return 'No reservation found with the provided id'
+
+            # Loop over the kwargs and update properties
             for key, value in kwargs.items():
                 if hasattr(reservation, key):
                     setattr(reservation, key, value)
             session.commit()
-            return reservation
+            return 'Reservation successfully updated', reservation
         except Exception as e:
             session.rollback()
-            print(f'Error updating reservation: {e}')
-            return None
+            logging.error(f'Error updating reservation: {e}')
+            return f'Error occurred while updating reservation: {str(e)}'
         finally:
             session.close()
 

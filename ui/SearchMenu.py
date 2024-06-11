@@ -71,8 +71,7 @@ class SearchMenu(Menu):
         self.clear()  # clear the console
         city = input('City: ').strip()
         stars = input('Stars: ').strip()
-        hotels_in_city = self.__search_manager.search_hotels_by_stars(city,
-                                                                      stars)  # search by city and stars with search manager
+        hotels_in_city = self.__search_manager.search_hotels_by_stars(city, stars)  # search by city and stars with search manager
 
         if not hotels_in_city:
             print(f'No hotels found in {city} with {stars} stars.')
@@ -136,8 +135,7 @@ class SearchMenu(Menu):
 
                 # Display room's availability status.
                 if room.unavailability_start is not None and room.unavailability_end is not None:
-                    print(
-                        f'Room Availability: Unavailable from {room.unavailability_start} to {room.unavailability_end}')
+                    print(f'Room Availability: Unavailable from {room.unavailability_start} to {room.unavailability_end}')
                 else:
                     print('Room Availability: Available')
         print('--------------------')
@@ -159,8 +157,7 @@ class SearchMenu(Menu):
         for room in rooms:
             print(f'Hotel Name: {room.name}, Room Nr. {room.number}\nRoom Type: {room.type}')
             print(f'Max Guests: {room.max_guests}\nDescription: {room.description}\nprice: {room.price}')
-            print(
-                f'Availability: {'Unavailable' if room.unavailability_start and room.unavailability_end else 'Available'}')
+            print(f'Availability: {'Unavailable' if room.unavailability_start and room.unavailability_end else 'Available'}')
             print('--------------------')
 
     def navigate_city_search(self):

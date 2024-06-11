@@ -91,3 +91,24 @@ class UserManager(object):
         if not user:
             print("Invalid email or password.")
             session.close()
+
+    def create_guest(self, firstname, lastname, email, street, zip_code, city):
+        """Create a new guest without login."""
+        session = self.get_session()
+
+        # Check if guest already exists
+        existing_guest = session.query(Guest).filter_by(firstname=firstname, lastname=lastname, email=email).first()
+        if existing_guest:
+            print('Guest user already exists. Please try with a different name or email')
+            session.close()
+            return False
+
+        address = Address(street=street, zip=zip_code, city=city)
+        session.add(address)
+        session.commit()
+
+        new_guest = Guest(firstname=firstname, lastname=lastname, address=address, type='Unregistered')
+        session.add(new_guest)
+        session.commit()
+        session.close()
+        print('New guest created successfully.')

@@ -77,14 +77,16 @@ class SearchManager:
         finally:
             session.close()
 
-    def get_hotel_details(self, hotel_id):
+    def get_hotel_details(self, hotel_id, city):
         session = self.get_session()
         try:
             hotel = session.query(Hotel).filter(Hotel.id == hotel_id).first()
+            city = session.query(Address).filter(Address.city == city).all()
             if hotel:
                 return {
                     'name': hotel.name,
                     'address': hotel.address,
+                    'city': city,
                     'stars': hotel.stars
                 }
             return None
@@ -137,8 +139,8 @@ class SearchManager:
         session = self.get_session()
         try:
             query = (session.query(Room)
-                     .join(Hotel)
-                     .filter(Room.type == room_type, Hotel.address_id == city))  # Use `address_id` as city
+                     .join(Address)
+                     .filter(Room.type == room_type, Address.city == city))
 
             rooms = query.all()
 
