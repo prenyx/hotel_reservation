@@ -262,7 +262,7 @@ class HotelManagementConsole(Menu):
                 print("Booking not found.")
         elif choice == 8:
             hotel_id = int(input("Enter hotel ID in which to Update availability of a room: "))
-            room_number = int(input("Enter room which room number to change availability"))
+            room_number = str(input("Enter room which room number to change availability (format two-digit: ##): "))
             #new_availability_input = input("Enter new availability (True/False): ").lower()
             unavailability_start = input("Enter a date, from when the room is unavailable (yyyy-mm-dd): ")
             unavailability_end = input("Enter a date, from when the room is available again (yyyy-mm-dd): ")

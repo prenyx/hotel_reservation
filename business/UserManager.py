@@ -20,6 +20,7 @@ class UserManager(object):
         return self.__session
 
     def create_new_login(self, email, password):
+        """Creates a new login with provided email and password and sets role_id=2 auto"""
         session = self.get_session()
         existing_user = session.query(Login).filter_by(username=email).first()
         if existing_user:
@@ -35,6 +36,7 @@ class UserManager(object):
         return True
 
     def register_existing_user(self, email, password):
+        """adds additional guest details to an existing login"""
         session = self.get_session()
         user = session.query(Login).filter_by(username=email, password=password).first()
         if not user:
@@ -48,7 +50,7 @@ class UserManager(object):
         zip_code = input("Enter zip code: ")
         city = input("Enter city: ")
 
-        print(f"Debug:" + street, zip_code, city)
+        #print(f"Debug:" + street, zip_code, city)
         address = Address(street=street, zip=zip_code, city=city)
         session.add(address)
         session.commit()
