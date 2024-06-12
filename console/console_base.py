@@ -38,11 +38,15 @@ class Application(object):
 
 
 class MenuOption(object):
-    def __init__(self, title):
+    def __init__(self, title, action=None):
         self._title = title
+        self._action = action
 
     def get_title(self) -> str:
         return self._title
+
+    def get_action(self) -> str:
+        return self._action
 
     def __str__(self):
         return self._title
@@ -93,7 +97,11 @@ class Menu(Console):
         return int(choice)
 
     def _navigate(self, choice: int) -> Optional[Console]:
-        raise NotImplementedError("Implement this method in subclasses")
+        action = self._options[choice - 1].get_action()
+        if callable(action):  # if action is a function, call it
+            return action()
+        else:  # if action is a (sub)menu object, return it directly
+            return action
 
     def run(self) -> Console:
         self.clear()

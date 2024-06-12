@@ -5,6 +5,7 @@ from pathlib import Path
 from sqlalchemy import create_engine, select, and_
 from sqlalchemy.orm import scoped_session, sessionmaker
 from data_models.models import *
+from console.console_base import *
 
 from data_access.data_base import init_db
 
@@ -114,3 +115,17 @@ class UserManager(object):
         session.commit()
         session.close()
         print('New guest created successfully.')
+
+    def authenticate_admin_user(self, email, password):
+        session = self.get_session()
+        user = session.query(Login).filter_by(username=email, password=password).first()
+        if user:
+            print(f"Login successful for {user.email}")
+            if user.role_id == 1:
+                print("Navigating to hotel management console.")
+                self.hotel_management_menu = HotelManagementConsole()
+                # this assumes hotel_management_menu has a run method
+                self.hotel_management_menu.run()
+        else:
+            print("Invalid email or password.")
+            session.close()

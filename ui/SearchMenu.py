@@ -1,26 +1,31 @@
+import enum
+
 from business.SearchManager import SearchManager
-from console.console_base import Menu, MenuOption
+from console.console_base import *
 import datetime
 
-CITY_SEARCH_OPTION = 1
-STAR_SEARCH_OPTION = 2
-CITY_GUEST_SEARCH_OPTION = 3
-DATE_GUEST_SEARCH_OPTION = 4
-DISPLAY_HOTEL_DETAILS_OPTION = 5
-ROOM_CITY_SEARCH_OPTION = 6
-BACK_OPTION = 7
+
+class Option(enum.Enum):
+    CITY_SEARCH = 1
+    STAR_SEARCH = 2
+    CITY_GUEST_SEARCH = 3
+    DATE_GUEST_SEARCH = 4
+    DISPLAY_HOTEL_DETAILS = 5
+    ROOM_CITY_SEARCH = 6
+    BACK = 7
 
 
 class SearchMenu(Menu):
-    def __init__(self, main_menu: Menu):
-        super().__init__("Search Hotel")
-        self.add_option(MenuOption("Search by city"))  # option 1
-        self.add_option(MenuOption("Search by city and stars"))  # option 2
-        self.add_option(MenuOption("Search by city and guest count"))  # option 3
-        self.add_option(MenuOption("Search by reservation date and guest count"))  # option 4
-        self.add_option(MenuOption('Get all hotel details'))  # option 5
-        self.add_option(MenuOption('Search by room type and city'))  # option 6
-        self.add_option(MenuOption("Back"))  # option 7
+    """Search menu class for searching hotels"""
+    def __init__(self, main_menu: Menu, database_path: Path):
+        super().__init__(Option, database_path)  # We use Option Enum directly
+        self.add_option(MenuOption("1. Search by city", self.navigate_city_search))  # option 1
+        self.add_option(MenuOption("2. Search by city and stars", self.navigate_star_search))  # option 2
+        self.add_option(MenuOption("3. Search by city and guest count", self.navigate_guest_search))  # option 3
+        self.add_option(MenuOption("4. Search by reservation date and guest count", self.navigate_date_guest_search))  # option 4
+        self.add_option(MenuOption('5. Get all hotel details', self.navigate_get_all_hotel_details))  # option 5
+        self.add_option(MenuOption('6. Search by room type and city', self.navigate_room_city_search))  # option 6
+        self.add_option(MenuOption("7. Back", self.navigate_back))  # option 7
 
         self.__main_menu = main_menu  # Navigate to main menu
 
@@ -81,7 +86,7 @@ class SearchMenu(Menu):
         self.wait_for_user_input()
 
     def __search_by_guest_count(self):
-        """Function to search hotels by guest count."""
+        """Function to search hotels by city and guest count."""
         self.clear()
         city = input('City: ').strip()
         guest_count = self.get_guest_count()
@@ -195,17 +200,6 @@ class SearchMenu(Menu):
         return self.__main_menu
 
     def _navigate(self, choice: int):
-        if choice == CITY_SEARCH_OPTION:
-            return self.navigate_city_search()
-        elif choice == STAR_SEARCH_OPTION:
-            return self.navigate_star_search()
-        elif choice == CITY_GUEST_SEARCH_OPTION:
-            return self.navigate_guest_search()
-        elif choice == DATE_GUEST_SEARCH_OPTION:
-            return self.navigate_date_guest_search()
-        elif choice == DISPLAY_HOTEL_DETAILS_OPTION:
-            return self.navigate_get_all_hotel_details()
-        elif choice == ROOM_CITY_SEARCH_OPTION:
-            return self.navigate_room_city_search()
-        elif choice == BACK_OPTION:
-            return self.navigate_back()
+        navigation_option = Option(choice)  # Converted to Enum
+        navigation_function = self.get_options()[navigation_option.value - 1].get_action()  # Get the associated function
+        return navigation_function()
