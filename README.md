@@ -3,7 +3,7 @@ Business_Name:Business Artificial IntelligenceModule_Info:
 Name: Anwendungsentwicklung mit Python  
 Authors:        
   - Supavadee Theerapong    
-  - Manuel Pasamontes    
+  - Manuel Passamontes    
   - Damian Martin    
   - Steven Chevalley
 ---
@@ -97,10 +97,18 @@ die jeweils spezifische Funktionen zur Verwaltung von Hotels, Zimmern, Buchungen
 Benutzern bieten. Die Struktur des Projekts ist in verschiedene Ordner unterteilt, 
 die die verschiedenen Aspekte des Systems abdecken. Die Dateien im Ordner `data_models` wurden 
 von den Dozenten vorgegeben, ebenso wie die Dateien im Ordner `data_access` und `console`. 
-Die Implementierung der Geschäftslogik im Ordner business wurde von den Studierenden selbst codiert.
+Die Implementierung der Geschäftslogik im Ordner `business` und `ui` wurden von den Studierenden selbst codiert.
 
 - Detaillierte Beschreibung der implementierten Funktionen
 - Code-Beispiele und Erklärungen
+
+## 3.1 Geschäftslogik
+
+## 3.2 Benutzeroberfläche (Konsole)
+
+## 3.3 Suche nach Hotels und Zimmern
+
+## 3.4 Verwaltung von Reservierungen
 
 # 4. Datenbankdesign
 Das Datenbankdesign für das Hotelreservierungssystem basiert auf einem **Entity-Relationship-Modell** (ER-Modell), 
@@ -110,7 +118,9 @@ Obwohl wir anfangs Überlegungen angestellt haben, das Modell zur Unterstützung
 haben wir letztendlich beschlossen, das vorgegebene Modell unverändert zu lassen, um die Einfachheit und Konsistenz zu gewährleisten.
 - Beschreibung der Datenbanktabellen und -beziehungen
 
-# 5. Lessons Learned
+# 5. Anwendung
+
+# 6. Lessons Learned
 - Zusammenfassung der in den Interviews besprochenen Punkte
 - Reflexionen der Teammitglieder über das Projekt und die gelernten Konzepte
 
