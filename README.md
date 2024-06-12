@@ -3,7 +3,7 @@ Business_Name:Business Artificial IntelligenceModule_Info:
 Name: Anwendungsentwicklung mit Python  
 Authors:        
   - Supavadee Theerapong    
-  - Manuel Passamontes    
+  - Manuel Pasamontes    
   - Damian Martin    
   - Steven Chevalley
 ---
@@ -97,9 +97,9 @@ die jeweils spezifische Funktionen zur Verwaltung von Hotels, Zimmern, Buchungen
 Benutzern bieten. Die Struktur des Projekts ist in verschiedene Ordner unterteilt, 
 die die verschiedenen Aspekte des Systems abdecken. Die Dateien im Ordner `data_models` wurden 
 von den Dozenten vorgegeben, ebenso wie die Dateien im Ordner `data_access` und `console`. 
-Die Implementierung der Geschäftslogik im Ordner `business` und `ui` wurden von den Studierenden selbst codiert.
+Die Implementierung der Geschäftslogik im Ordner business wurde von den Studierenden selbst codiert.
 
-- Detaillierte Beschreibung der implementierten Funktionen
+- Detaillierte Beschreibung der implementierten Funktionen (brauchen wir das)
 - Code-Beispiele und Erklärungen
 
 ## 3.1 Geschäftslogik
@@ -121,12 +121,36 @@ haben wir letztendlich beschlossen, das vorgegebene Modell unverändert zu lasse
 # 5. Anwendung
 
 # 6. Lessons Learned
+# 5? # Instruktion zur Benutzung unserer Projektarbeit
+Die Applikation hat einen "Einstiegspunkt", via dem Main.py (oder machen wir zwei einstiegspunkte wegen searchamanger?)
+
+# Annahmen und Interpretationen
+# UserManager.py
+Wir hatten angenommen, dass ein Benutzer ein Login erstellen kann, unabhängig davon, ob er sich entscheidet, alle Gast Informationen angeben zu müssen. -> "Als Gastbenutzer möchte ich mich mit meiner E-Mail-Adresse und einer persönlichen Kennung (Passwort) registrieren können..."
+Die Lösung wurde nun so implementiert, dass sich ein Benutzer, der sich unabhängig von einer Buchung registrieren möchte, zunächst nur mit einer E-Mail-Adresse und einem Passwort registrieren kann. Anschliessend kann er in einem zweiten Schritt entscheiden, ob er zusätzliche Gastdetails angeben möchte. 
+Diese Interpretation wurde mit Sandro und Charuta besprochen und wurde als alternative Interpretation akzeptiert.
+
+# User Story 3.4: 
+Hier haben wir angenommen, dass es zur Verwaltung der Zimmerverfügbarkeit erforderlich ist, zusätzliche Spalten im Raummodell zu erstellen.
+Wir haben uns entschieden, die Spalten "unavailability_start" und "unavailability_end" im Modell des Rooms hinzuzufügen, um die User Story zu realisieren und zukünftige Anforderungen besser abdecken zu können.
+Diese Lösung wurde so implementiert, dass ein Hotelmanager einen Datumsbereich definieren kann, ab wann ein Zimmer nicht verfügbar ("unavailable") ist. Gleichzeitig löscht das System alle offenen Buchungen in diesem Zeitraum. Vor der endgültigen Löschung werden die betroffenen Buchungen dem Benutzer zur Bestätigung angezeigt.
+Dies ist nützlich, wenn ein Zimmer ab einem bestimmten Zeitraum für Renovierungen oder aufgrund von Schäden oder anderen Gründen nicht verfügbar ist. Die Spalten "unavailability_start" und "unavailability_end" in der Datenbank legen fest, ab wann keine neuen Buchungen mehr angenommen werden können und ab wann das Zimmer wieder verfügbar ist.
+Wichtig zu beachten ist, dass diese User Story viele Änderungen mit sich brachte und daher im Reservationsmanager nicht bei der Erstellung neuer Buchungen berücksichtigt wurde. Aufgrund begrenzter Ressourcen konnten wir die bereits implementierten Funktionen nicht umfassend anpassen.
+
+
+
+#
+# 5. Lessons Learned (brauchen wir das)
 - Zusammenfassung der in den Interviews besprochenen Punkte
 - Reflexionen der Teammitglieder über das Projekt und die gelernten Konzepte
 
 - Während der Implementierung von UserManager.py fiel auf, dass die User Stories für Gastnutzer und registrierte Benutzer unklar formuliert waren. Um diese Unklarheiten zu beheben, entschieden wir uns, im User-Manager zwei grundlegende Methoden zu verwenden: “create_new_login” für die Erstellung neuer Logins und “register_existing_user” zum Hinzufügen von Benutzerdetails zu einem bestehenden Login.
 Nach Rücksprache mit den Coaches stellte sich heraus, dass die User Stories und das Datenbankmodell zu einer grösseren Interpretationsspielraum hatten als bisher angedacht und wir eine alternative Herangehensweise gewählt hatten. Wir behielten den User-Manager mit der erweiterten Funktionalität bei, setzten jedoch die Arbeit am Reservationsmanager gemäss der Vision der Coaches fort.
 
+# 6. User Stories
+## Ergänzungen
+- Wir haben zusätzlich zu den User Stories noch die Möglichkeit implementiert Hotelzimmer hinzuzufügen und zu löschen für eine spezifizierte Hotel-ID.
+*******- @benz - haben wir noch etwas hinzugefügt das nicht in den user stories steht?
 
 # User Story 3.4: Wir haben uns dafür entschieden eine "availability"-column im model des Rooms hinzuzufügen um die User Story realisieren zu können.
 Nun kann ein Hotel-Manager ein Datum ab wann ein Zimmer "unavailable" ist, gleichzeitig löscht das System alle offenen Buchungen (zuerst werden aktive Buchungen in dem Zeitraum noch dem Benutzer angezeigt, bevor man diese Bestätigt zu löschen)
