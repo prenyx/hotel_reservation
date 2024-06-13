@@ -43,7 +43,6 @@ class ReservationMenu(Menu):
         self.add_option(MenuOption("Delete Reservation", self.delete_reservation))
         self.add_option(MenuOption("View Reservation Details", self.view_reservation_details))
         self.add_option(MenuOption("View all Reservations", self.list_reservations))
-        self.add_option(MenuOption("Back to Main Menu", self.navigate_back))
 
     def create_reservation_as_guest(self):
         """Create a reservation for the guest user."""
@@ -157,7 +156,7 @@ class ReservationMenu(Menu):
 
     def navigate_back(self):
         """Navigation process for back option"""
-        return self.navigate_back_function()
+        return self.navigate_back_function
 
     def _navigate_common_options(self, choice: int):
         navigation_reservation_option = ResOption(choice)
