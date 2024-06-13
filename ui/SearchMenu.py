@@ -75,7 +75,8 @@ class SearchMenu(Menu):
                     print(hotel)
         else:
             print('Invalid city name.')
-            self.wait_for_user_input()
+
+        self.wait_for_user_input()
 
     def __search_by_city_and_stars(self):
         """Function to search hotels by city and stars."""
