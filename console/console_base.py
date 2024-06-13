@@ -304,7 +304,7 @@ class HotelManagementConsole(Menu):
         return self
 
 
-if __name__ == "__main__":
-    database_path = Path("../data/my_db.db")
-    app = Application(StartConsole(database_path))
-    app.run()
+# if __name__ == "__main__":
+#     database_path = Path("../data/my_db.db")
+#     app = Application(StartConsole(database_path))
+#     app.run()

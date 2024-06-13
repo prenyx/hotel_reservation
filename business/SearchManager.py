@@ -31,6 +31,7 @@ class SearchManager:
             session.close()
 
     def search_hotels_by_stars(self, city_name, stars):
+        """Get all hotels searched by city name and stars"""
         session = self.get_session()
         try:
             results = session.query(Hotel).join(Address).filter(
@@ -43,6 +44,7 @@ class SearchManager:
             session.close()
 
     def search_hotels_by_guest_count(self, city_name, guest_count=int):
+        """Get all hotels searched by city name and guest count"""
         session = self.get_session()
         try:
             results = session.query(Hotel).join(Address).join(Room).filter(
@@ -55,6 +57,7 @@ class SearchManager:
             session.close()
 
     def search_hotels_by_date_and_guest_count(self, city_name, guest_count, start_date, end_date):
+        """Get all hotels searched by city name, date and guest count"""
         session = self.get_session()
         try:
             subquery = session.query(Room.hotel_id).join(Booking).filter(
@@ -77,10 +80,11 @@ class SearchManager:
         finally:
             session.close()
 
-    def get_hotel_details(self, hotel_id, city):
+    def get_hotel_details(self, hotel_name, city):
+        """Get hotel details by hotel_name and city"""
         session = self.get_session()
         try:
-            hotel = session.query(Hotel).filter(Hotel.id == hotel_id).first()
+            hotel = session.query(Hotel).filter(Hotel.name == hotel_name).first()
             city = session.query(Address).filter(Address.city == city).all()
             if hotel:
                 return {
@@ -97,6 +101,7 @@ class SearchManager:
             session.close()
 
     def get_all_hotel_details(self):
+        """Get all hotel details"""
         session = self.get_session()
         try:
             hotels = session.query(Hotel).all()
@@ -108,6 +113,7 @@ class SearchManager:
             session.close()
 
     def get_room_details(self, hotel_id, room_type=None):
+        """Get hotel details by hotel_id and room_type"""
         session = self.get_session()
         try:
             query = session.query(Room).filter(Room.hotel_id == hotel_id)
@@ -136,6 +142,7 @@ class SearchManager:
             session.close()
 
     def get_rooms_by_type_and_city(self, room_type, city):
+        """Get hotel details by room_type and city"""
         session = self.get_session()
         try:
             query = (session.query(Room)
@@ -160,4 +167,3 @@ class SearchManager:
             return None
         finally:
             session.close()
-

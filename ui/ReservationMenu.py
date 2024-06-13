@@ -35,7 +35,7 @@ class ReservationMenu(Menu):
         elif self._user_type == UserType.REGISTERED:
             self.add_option(MenuOption('2. Create Reservation as a Registered User', self.create_reservation_as_registered_user))
 
-        self.add_option(MenuOption(str(ResOption.BACK) + "Back to Main Menu", self.navigate_back))
+        self.add_option(MenuOption(str(ResOption.BACK) + " Back to Main Menu", self.navigate_back))
 
     def add_common_options(self):
         """Adds menu options that are common to all user types."""

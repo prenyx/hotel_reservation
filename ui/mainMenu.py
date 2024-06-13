@@ -68,9 +68,3 @@ class MainMenu(Menu):
                     print('Invalid choice. Please choose a number from the menu options.')
             else:
                 print('Invalid input. Enter a number.')
-
-
-#
-# if __name__ == "__main__":
-#     menu = MainMenu()
-#     menu.run()
