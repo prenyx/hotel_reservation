@@ -1,4 +1,5 @@
 import enum
+import sys
 from pathlib import Path
 
 from console.console_base import *
@@ -33,8 +34,8 @@ class MainMenu(Menu):
         print('\nWelcome to the hotel reservation system!')
 
         for option in self._options:
-            option_index = OptionMainMenu[option.description.upper().replace(' ', '_')].value  # Get menu index from enum
-            print(f'{option_index}. {option.description}')
+            option_index = self._options.index(option) + 1  # Get menu index from enum. 1. Enum not needed here
+            print(f'{option_index}. {option.get_title()}')
 
     def navigate_back(self):
         return self  # Here, 'self' is an instance of MainMenu
@@ -42,12 +43,12 @@ class MainMenu(Menu):
     def quit(self):
         """Close the program"""
         print('Thank you for using this program! See you next time!')
-        return None  # Could use `sys.exit()`
+        sys.exit()
 
     def _navigate(self, choice: int):
-        """Process menu navigation"""
-        navigation_option = OptionMainMenu(choice)  # Converted to Enum
-        navigation_function = self.get_options()[navigation_option.value - 1].get_action()
+        """Process menu navigation."""
+        # Decrease the choice by 1 to align with Python's 0-indexing
+        navigation_function = self.get_options()[choice - 1].get_action()
         return navigation_function()
 
     def run(self):
