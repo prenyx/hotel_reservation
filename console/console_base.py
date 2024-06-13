@@ -140,7 +140,7 @@ class UserRegistrationConsole(Menu):
 
     def navigate_back(self):
         """Navigation process for back option"""
-        return self.navigate_back_function()
+        return self.navigate_back_function
 
     def _navigate(self, choice: int) -> Optional[Console]:
         if choice == 1:
@@ -185,7 +185,7 @@ class HotelManagementConsole(Menu):
 
     def navigate_back(self):
         """Navigation process for back option"""
-        return self.navigate_back_function()
+        return self.navigate_back_function
 
     def _navigate(self, choice: int) -> Optional[Console]:
         session = self._hotel_manager.get_session()
