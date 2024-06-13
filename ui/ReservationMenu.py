@@ -44,6 +44,10 @@ class ReservationMenu(Menu):
         self.add_option(MenuOption("View Reservation Details", self.view_reservation_details))
         self.add_option(MenuOption("View all Reservations", self.list_reservations))
 
+    def wait_for_user_input(self):
+        """A helper method that waits for user input before returning."""
+        input('Press Enter to continue...')
+
     def create_reservation_as_guest(self):
         """Create a reservation for the guest user."""
         firstname = input("Enter your first name: ")
@@ -56,6 +60,8 @@ class ReservationMenu(Menu):
 
         # Now proceed with the reservation creation
         self.reservation_manager.create_reservation(guest.id)
+        print('Reservation created successfully.')
+        self.wait_for_user_input()
 
     def create_reservation_as_registered_user(self):
         """Create a reservation for a registered user."""
@@ -68,6 +74,7 @@ class ReservationMenu(Menu):
         # Ensure user exists
         if user is None:
             print('Invalid credentials. Please try again.')
+            self.wait_for_user_input()
             return
 
     def update_reservation(self):
@@ -121,8 +128,7 @@ class ReservationMenu(Menu):
         reservation_details = self.reservation_manager.get_reservation_details(reservation_id)
 
         if reservation_details is None:
-            print(
-                f'No reservation found with the ID: {reservation_id}. Please check your reservation ID and try again.')
+            print(f'No reservation found with the ID: {reservation_id}. Please check your reservation ID and try again.')
         else:
             print('Reservation details:')
             for key, value in reservation_details.items():
@@ -142,8 +148,7 @@ class ReservationMenu(Menu):
 
         # Check if operation was successful
         if reservation_details is None:
-            print(
-                f"No reservation found with the ID: {reservation_id}. Please check your reservation ID and try again.")
+            print(f"No reservation found with the ID: {reservation_id}. Please check your reservation ID and try again.")
         else:
             print("Reservation Details:")
             for key, value in reservation_details.items():

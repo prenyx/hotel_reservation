@@ -56,8 +56,7 @@ class SearchMenu(Menu):
             except ValueError:
                 print('Invalid input. Please enter an integer.')
 
-    @staticmethod  # Static method because we are not calling or modifying any instance variables within this method
-    def wait_for_user_input():
+    def wait_for_user_input(self):
         """A helper method that waits for user input before returning."""
         input('Press Enter to continue...')
 
