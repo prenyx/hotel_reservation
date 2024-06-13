@@ -16,7 +16,7 @@ class SearchManager:
         self.__session = scoped_session(sessionmaker(bind=self.__engine))
 
     def get_session(self):
-        return self.__session()
+        return self.__session
 
     def search_hotels_by_city(self, city_name):
         """Get all hotels searched by city name"""

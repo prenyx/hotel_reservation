@@ -16,7 +16,7 @@ class ReservationManager:
         self.__session = scoped_session(sessionmaker(bind=self.__engine))
 
     def get_session(self):
-        return self.__session()
+        return self.__session
 
     def create_reservation(self, guest_id, room_hotel_id, room_number, number_of_guests, start_date, end_date,
                            comment=None):
