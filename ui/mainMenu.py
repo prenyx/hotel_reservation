@@ -24,7 +24,7 @@ class MainMenu(Menu):
         self.user_registration_menu = UserRegistrationConsole(database_path, self.navigate_back)
         self.hotel_management_menu = HotelManagementConsole(database_path, self.navigate_back)
         self.add_option(MenuOption('1. Search and view Hotel details', self.search_menu.run))
-        self.add_option(MenuOption("2. Booking Menu", self.reservation_menu.run, self.navigate_back))
+        self.add_option(MenuOption("2. Booking Menu", self.reservation_menu.run))
         self.add_option(MenuOption('3. Login for admin', self.user_registration_menu.run))
         self.add_option(MenuOption("4. Quit", self.quit))
 

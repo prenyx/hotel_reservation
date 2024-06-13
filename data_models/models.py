@@ -9,9 +9,11 @@ from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
 from sqlalchemy import MetaData
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 
 metadata = MetaData()
+Base = declarative_base(metadata=metadata)
 
 
 class Base(DeclarativeBase):
