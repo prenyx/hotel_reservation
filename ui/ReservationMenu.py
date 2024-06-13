@@ -1,5 +1,6 @@
 from console.console_base import *
 from business.ReservationManager import ReservationManager
+from business.UserManager import UserManager
 import enum
 from pathlib import Path
 import datetime
@@ -53,10 +54,12 @@ class ReservationMenu(Menu):
         firstname = input("Enter your first name: ")
         lastname = input("Enter your last name: ")
         email = input("Enter your email: ")
-        street = input("Enter your street name: ")
+        address = input("Enter your address: ")
+        zip_code = input("Enter your zip code: ")
         city = input("Enter your city: ")
+        user_type = 'guest'  # Unregistered user
 
-        guest = self._user_manager.create_guest(firstname, lastname, email, street, city)
+        guest = self._user_manager.create_guest(firstname=firstname, lastname=lastname, address=address, email=email, zip_code=zip_code, city=city, user_type=user_type)
 
         # Now proceed with the reservation creation
         self.reservation_manager.create_reservation(guest.id)
@@ -74,8 +77,8 @@ class ReservationMenu(Menu):
         # Ensure user exists
         if user is None:
             print('Invalid credentials. Please try again.')
-            self.wait_for_user_input()
-            return
+
+        self.wait_for_user_input()
 
     def update_reservation(self):
         """Update an existing reservation."""
@@ -86,7 +89,6 @@ class ReservationMenu(Menu):
             number_of_guests = int(input("Enter new number of guests: "))
         except ValueError:
             print('Invalid input type. Please enter a number')
-            return
 
         # Call the reservation manager to update the reservation
         updated_reservation = self.reservation_manager.update_reservation(reservation_id,
@@ -96,6 +98,7 @@ class ReservationMenu(Menu):
             print(f'Failed to update reservation {reservation_id}. Please check your reservation ID and try again.')
         else:
             print("Reservation successfully updated:")
+        self.wait_for_user_input()
 
     def delete_reservation(self):
         """Delete an existing reservation."""
@@ -113,6 +116,7 @@ class ReservationMenu(Menu):
             print("Reservation successfully deleted.")
         else:
             print("Failed to delete the reservation. Please check your reservation ID and try again.")
+        self.wait_for_user_input()
 
     def view_reservation_details(self):
         """View details of a specific reservation"""
@@ -133,6 +137,7 @@ class ReservationMenu(Menu):
             print('Reservation details:')
             for key, value in reservation_details.items():
                 print(f'{key}: {value}')
+        self.wait_for_user_input()
 
     def list_reservations(self):
         """List all reservations."""
@@ -158,6 +163,7 @@ class ReservationMenu(Menu):
                         print(f"{subkey}: {subvalue}")
                 else:
                     print(f"{key}: {value}")
+        self.wait_for_user_input()
 
     def navigate_back(self):
         """Navigation process for back option"""

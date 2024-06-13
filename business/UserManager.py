@@ -128,7 +128,7 @@ class UserManager(object):
         session.add(address)
         session.commit()
 
-        new_guest = Guest(firstname=firstname, lastname=lastname, address=address, type='Unregistered')
+        new_guest = Guest(firstname=firstname, lastname=lastname, address=address, type='guest')
         session.add(new_guest)
         session.commit()
         session.close()

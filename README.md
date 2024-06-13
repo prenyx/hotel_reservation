@@ -151,6 +151,7 @@ Diese Interpretation wurde mit Sandro und Charuta besprochen und wurde als alter
 - role_id zuteilung fehlt in register user section 
 - nachdem Login sieht man nicht mit welchem user man eingeloggt ist!!!!!!!!!
 - room availability komisch verwendet
+- 
 
 
 # User Story 3.4: 
