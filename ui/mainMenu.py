@@ -4,6 +4,8 @@ from pathlib import Path
 from console.console_base import *
 from .ReservationMenu import ReservationMenu, UserType
 from .SearchMenu import SearchMenu
+from business.SearchManager import SearchManager
+from business.ReservationManager import ReservationManager
 
 
 class OptionMainMenu(enum.Enum):

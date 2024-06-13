@@ -7,7 +7,7 @@ from pathlib import Path
 import ui.mainMenu
 
 
-class Option(enum.Enum):
+class SearchOption(enum.Enum):
     CITY_SEARCH = 1
     STAR_SEARCH = 2
     CITY_GUEST_SEARCH = 3
@@ -19,19 +19,23 @@ class Option(enum.Enum):
 
 class SearchMenu(Menu):
     """Search menu class for searching hotels"""
-    def __init__(self, database_path: Path):
-        super().__init__(Option, database_path)  # We use Option Enum directly
-        self.add_option(MenuOption("1. Search by city", self.navigate_city_search))  # option 1
-        self.add_option(MenuOption("2. Search by city and stars", self.navigate_star_search))  # option 2
-        self.add_option(MenuOption("3. Search by city and guest count", self.navigate_guest_search))  # option 3
-        self.add_option(MenuOption("4. Search by reservation date and guest count", self.navigate_date_guest_search))  # option 4
-        self.add_option(MenuOption('5. Get all hotel details', self.navigate_get_all_hotel_details))  # option 5
-        self.add_option(MenuOption('6. Search by room type and city', self.navigate_room_city_search))  # option 6
-        self.add_option(MenuOption("7. Back", self.navigate_back))  # option 7
 
-        self.navigate_back_function = self.navigate_back()  # Navigate to main menu
+    def __init__(self, database_path: Path):
+        super().__init__("Search Menu")
 
         self.__search_manager = SearchManager()
+        self.add_common_options()
+        self.navigate_back_function = self.navigate_back
+
+    def add_common_options(self):
+        """Adds menu options that are common to all user types."""
+        self.add_option(MenuOption("1. Search by city", self.__search_by_city))
+        self.add_option(MenuOption("2. Search by city and stars", self.__search_by_city_and_stars))
+        self.add_option(MenuOption("3. Search by city and guest count", self.__search_by_guest_count))
+        self.add_option(MenuOption("4. Search by reservation date and guest count", self.__search_by_date_guest_count))
+        self.add_option(MenuOption('5. Get all hotel details', self.__get_all_hotel_details))
+        self.add_option(MenuOption('6. Search by room type and city', self.__search_by_room_type_city))
+        self.add_option(MenuOption(str(SearchOption.BACK) + ". Back", self.navigate_back))
 
     def get_date(self, prompt: str):
         while True:
@@ -167,41 +171,11 @@ class SearchMenu(Menu):
             print(f'Availability: {'Unavailable' if room.unavailability_start and room.unavailability_end else 'Available'}')
             print('--------------------')
 
-    def navigate_city_search(self):
-        """Navigation process for city search"""
-        self.__search_by_city()
-        return self
-
-    def navigate_star_search(self):
-        """Navigation process for star search"""
-        self.__search_by_city_and_stars()
-        return self
-
-    def navigate_guest_search(self):
-        """Navigation process for guest count search"""
-        self.__search_by_guest_count()
-        return self
-
-    def navigate_date_guest_search(self):
-        """Navigation process for reservation date and guest count search"""
-        self.__search_by_date_guest_count()
-        return self
-
-    def navigate_get_all_hotel_details(self):
-        """Navigation process for get all hotel details"""
-        self.__get_all_hotel_details()
-        return self
-
-    def navigate_room_city_search(self):
-        """Navigation process for room_type and city search"""
-        self.__search_by_room_type_city()
-        return self
-
     def navigate_back(self):
         """Navigation process for back option"""
         return self.navigate_back_function()
 
     def _navigate(self, choice: int):
-        navigation_option = Option(choice)  # Converted to Enum
-        navigation_function = self.get_options()[navigation_option.value - 1].get_action()  # Get the associated function
+        navigation_option = SearchOption(choice)
+        navigation_function = self.get_options()[navigation_option.value - 1].get_action()
         return navigation_function()

@@ -4,10 +4,8 @@ import os
 from pathlib import Path
 
 from console.console_base import *
-from business import *
 from ui.mainMenu import MainMenu
-from ui.SearchMenu import SearchMenu
-from ui.ReservationMenu import ReservationMenu
+
 
 DEFAULT_DB = "./data/hotel_reservation.db"
 TEST_DB = "./data/test_hotel_reservation.db"
