@@ -20,10 +20,10 @@ class SearchOption(enum.Enum):
 class SearchMenu(Menu):
     """Search menu class for searching hotels"""
 
-    def __init__(self, database_path: Path):
-        super().__init__("Search Menu")
+    def __init__(self, database_path: Path, navigate_back_function):
+        super().__init__("Search Menu", database_path)
 
-        self.__search_manager = SearchManager()
+        self.__search_manager = SearchManager(database_path)
         self.add_common_options()
         self.navigate_back_function = self.navigate_back
 

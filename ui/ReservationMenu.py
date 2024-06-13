@@ -21,14 +21,14 @@ class UserType(enum.Enum):
 
 
 class ReservationMenu(Menu):
-    def __init__(self, user_type: UserType, database_path: Path):
+    def __init__(self, user_type: UserType, database_path: Path, navigate_back_function):
         """Initialise the ReservationMenu class."""
-        super().__init__('Reservation Menu')
-        self.reservation_manager = ReservationManager()  # create a ReservationManager instance
-        self._user_manager = UserManager()
+        super().__init__('Reservation Menu', database_path)
+        self.reservation_manager = ReservationManager(database_path)  # create a ReservationManager instance
+        self._user_manager = UserManager(database_path)
         self._user_type = user_type
         self.add_common_options()
-        self.navigate_back_function = self.navigate_back()  # Navigate to main menu
+        self.navigate_back_function = self.navigate_back  # Navigate to main menu
 
         if self._user_type == UserType.GUEST:
             self.add_option(MenuOption('1. Create Reservation as Guest', self.create_reservation_as_guest))
