@@ -127,13 +127,20 @@ class StartConsole(Menu):
 
 class UserRegistrationConsole(Menu):
     """Initialize the UserRegistrationConsole class"""
+
     def __init__(self, database_path: Path):
         super().__init__("User Registration", database_path)
         self._user_manager = UserManager(database_path)
         self._user_manager.ensure_superuser_created()
-        self.add_option(MenuOption("Create New Login"))
-        self.add_option(MenuOption("Register Existing User"))
-        self.add_option(MenuOption("Back to Main Menu"))
+        self.navigate_back_function = self.navigate_back()  # Navigate to main menu
+
+        self.add_option(MenuOption("1. Create New Login"))
+        self.add_option(MenuOption("2. Register Existing User"))
+        self.add_option(MenuOption("3. Back to Main Menu", self.navigate_back()))
+
+    def navigate_back(self):
+        """Navigation process for back option"""
+        return self.navigate_back_function()
 
     def _navigate(self, choice: int) -> Optional[Console]:
         if choice == 1:
@@ -164,16 +171,21 @@ class HotelManagementConsole(Menu):
     def __init__(self, database_path: Path):
         super().__init__("Hotel Management", database_path)
         self._hotel_manager = HotelManager(database_path)
-        self.add_option(MenuOption("Add Hotel"))
-        self.add_option(MenuOption("Add Room"))
-        self.add_option(MenuOption("Remove Hotel"))
-        self.add_option(MenuOption("Remove Room"))
-        self.add_option(MenuOption("Update Hotel Info"))
-        self.add_option(MenuOption("View All Bookings"))
-        self.add_option(MenuOption("Edit Booking"))
-        self.add_option(MenuOption("Manage Room Availability"))
-        self.add_option(MenuOption("Update Room Price"))
-        self.add_option(MenuOption("Back to Main Menu"))
+        self.navigate_back_function = self.navigate_back()  # Navigate to main menu
+        self.add_option(MenuOption("1. Add Hotel"))
+        self.add_option(MenuOption("2. Add Room"))
+        self.add_option(MenuOption("3. Remove Hotel"))
+        self.add_option(MenuOption("4. Remove Room"))
+        self.add_option(MenuOption("5. Update Hotel Info"))
+        self.add_option(MenuOption("6. View All Bookings"))
+        self.add_option(MenuOption("7. Edit Booking"))
+        self.add_option(MenuOption("8. Manage Room Availability"))
+        self.add_option(MenuOption("9. Update Room Price"))
+        self.add_option(MenuOption("10. Back to Main Menu", self.navigate_back()))
+
+    def navigate_back(self):
+        """Navigation process for back option"""
+        return self.navigate_back_function()
 
     def _navigate(self, choice: int) -> Optional[Console]:
         session = self._hotel_manager.get_session()
@@ -283,7 +295,8 @@ class HotelManagementConsole(Menu):
             # else:
             #     print("Invalid input. Please enter either 'True' or 'False'.")
 
-            self._hotel_manager.change_room_availability(hotel_id, room_number, unavailability_start, unavailability_end)
+            self._hotel_manager.change_room_availability(hotel_id, room_number, unavailability_start,
+                                                         unavailability_end)
         elif choice == 9:
             pass
         elif choice == 10:
@@ -292,8 +305,6 @@ class HotelManagementConsole(Menu):
 
 
 if __name__ == "__main__":
-
     database_path = Path("../data/my_db.db")
     app = Application(StartConsole(database_path))
     app.run()
-

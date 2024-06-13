@@ -12,4 +12,5 @@ hotel_management.db
 
 UnitTest/
 data/my_db.db
+data/test_hotel_reservation.db
 business/BaseManager.py

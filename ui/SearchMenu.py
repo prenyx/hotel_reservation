@@ -2,9 +2,9 @@ import enum
 
 from business.SearchManager import SearchManager
 from console.console_base import *
-from mainMenu import MainMenu
 import datetime
 from pathlib import Path
+import ui.mainMenu
 
 
 class Option(enum.Enum):
@@ -19,7 +19,7 @@ class Option(enum.Enum):
 
 class SearchMenu(Menu):
     """Search menu class for searching hotels"""
-    def __init__(self, database_path: Path, navigate_to: MainMenu):
+    def __init__(self, database_path: Path):
         super().__init__(Option, database_path)  # We use Option Enum directly
         self.add_option(MenuOption("1. Search by city", self.navigate_city_search))  # option 1
         self.add_option(MenuOption("2. Search by city and stars", self.navigate_star_search))  # option 2
@@ -29,7 +29,7 @@ class SearchMenu(Menu):
         self.add_option(MenuOption('6. Search by room type and city', self.navigate_room_city_search))  # option 6
         self.add_option(MenuOption("7. Back", self.navigate_back))  # option 7
 
-        self.navigate_back_function = navigate_to  # Navigate to main menu
+        self.navigate_back_function = self.navigate_back()  # Navigate to main menu
 
         self.__search_manager = SearchManager()
 
@@ -199,7 +199,7 @@ class SearchMenu(Menu):
 
     def navigate_back(self):
         """Navigation process for back option"""
-        return self.navigate_back_function
+        return self.navigate_back_function()
 
     def _navigate(self, choice: int):
         navigation_option = Option(choice)  # Converted to Enum
