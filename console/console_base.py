@@ -134,9 +134,9 @@ class UserRegistrationConsole(Menu):
         self._user_manager.ensure_superuser_created()
         self.navigate_back_function = self.navigate_back  # Navigate to main menu
 
-        self.add_option(MenuOption("1. Create New Login"))
-        self.add_option(MenuOption("2. Register Existing User"))
-        self.add_option(MenuOption("3. Back to Main Menu", self.navigate_back))
+        self.add_option(MenuOption("Create New Login"))
+        self.add_option(MenuOption("Register Existing User"))
+        self.add_option(MenuOption("Back to Main Menu", self.navigate_back))
 
     def navigate_back(self):
         """Navigation process for back option"""
