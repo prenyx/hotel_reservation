@@ -148,7 +148,9 @@ Nach Rücksprache mit den Coaches stellte sich heraus, dass die User Stories und
 - Wir hatten angenommen, dass ein Benutzer ein Login erstellen kann, unabhängig davon, ob er sich entscheidet, alle Gast Informationen angeben zu müssen. -> "Als Gastbenutzer möchte ich mich mit meiner E-Mail-Adresse und einer persönlichen Kennung (Passwort) registrieren können..."
 Die Lösung wurde nun so implementiert, dass sich ein Benutzer, der sich unabhängig von einer Buchung registrieren möchte, zunächst nur mit einer E-Mail-Adresse und einem Passwort registrieren kann. Anschliessend kann er in einem zweiten Schritt entscheiden, ob er zusätzliche Gastdetails angeben möchte. 
 Diese Interpretation wurde mit Sandro und Charuta besprochen und wurde als alternative Interpretation akzeptiert.
-
+- role_id zuteilung fehlt in register user section 
+- nachdem Login sieht man nicht mit welchem user man eingeloggt ist!!!!!!!!!
+- room availability komisch verwendet
 
 
 # User Story 3.4: 
