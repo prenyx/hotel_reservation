@@ -1,7 +1,8 @@
-import enum
-
-from business.ReservationManager import ReservationManager
 from console.console_base import *
+from business.ReservationManager import ReservationManager
+import enum
+from pathlib import Path
+from mainMenu import MainMenu
 import datetime
 
 
@@ -14,19 +15,20 @@ class ResOption(enum.Enum):
 
 
 class UserType(enum.Enum):
+    """A class representing the type of guest user."""
     GUEST = 1
     REGISTERED = 2
 
 
 class ReservationMenu(Menu):
-    def __init__(self, user_type: str, main_menu: Menu):
+    def __init__(self, user_type: UserType, database_path: Path, navigate_to: MainMenu):
         """Initialise the ReservationMenu class."""
         super().__init__('Reservation Menu')
         self.reservation_manager = ReservationManager()  # create a ReservationManager instance
         self._user_manager = UserManager()
         self._user_type = user_type
         self.add_common_options()
-        self.__main_menu = main_menu  # Navigate to main menu
+        self.navigate_back_function = navigate_to  # Navigate to main menu
 
         if self._user_type == UserType.GUEST:
             self.add_option(MenuOption('1. Create Reservation as Guest', self.create_reservation_as_guest))
@@ -155,7 +157,7 @@ class ReservationMenu(Menu):
 
     def navigate_back(self):
         """Navigation process for back option"""
-        return self.__main_menu
+        return self.navigate_back_function
 
     def _navigate_common_options(self, choice: int):
         navigation_reservation_option = ResOption(choice)

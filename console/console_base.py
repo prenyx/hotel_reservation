@@ -126,9 +126,11 @@ class StartConsole(Menu):
 
 
 class UserRegistrationConsole(Menu):
+    """Initialize the UserRegistrationConsole class"""
     def __init__(self, database_path: Path):
         super().__init__("User Registration", database_path)
         self._user_manager = UserManager(database_path)
+        self._user_manager.ensure_superuser_created()
         self.add_option(MenuOption("Create New Login"))
         self.add_option(MenuOption("Register Existing User"))
         self.add_option(MenuOption("Back to Main Menu"))

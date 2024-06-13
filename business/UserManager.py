@@ -21,6 +21,23 @@ class UserManager(object):
     def get_session(self):
         return self.__session
 
+    def ensure_superuser_created(self):
+        """Create a superuser if it does not exist"""
+        session = self.get_session()
+
+        # If there's no user with role_id as 1, assume that superuser does not exist
+        superuser = session.query(Login).filter_by(role_id=1).first()
+
+        if not superuser:
+            # Create a superuser with role_id as 1 and username as 'admin'
+            superuser = Login(username="admin", password="admin", role_id=1)
+            session.add(superuser)
+            session.commit()
+            print('Superuser created!'.format(superuser))
+        else:
+            print('Superuser already exists!')
+        session.close()
+
     def create_new_login(self, email, password):
         """Creates a new login with provided email and password and sets role_id=2 auto"""
         session = self.get_session()
@@ -119,19 +136,17 @@ class UserManager(object):
 
     def authenticate_admin_user(self, email, password):
         """Authenticate a user based on username and password."""
-        from console.console_base import HotelManagementConsole  # import at the time of use
+        from console.console_base import HotelManagementConsole  # import only when needed
 
         session = self.get_session()
-        user = session.query(Login).filter_by(and_(Login.username == email, Login.password == password, Login.role_id == 1)).first()
+        user = session.query(Login).filter_by(and_(Login.username == email,
+                                                   Login.password == password,
+                                                   Login.role_id == 1)).first()
         session.close()
 
         if user:
-            print(f"Login successful for {user.email}")
-            if user.role_id == 1:
-                print("Admin privileges granted. Navigating to hotel management console.")
-                return HotelManagementConsole(self.database_path)
-                # this assumes hotel_management_menu has a run method
-                self.hotel_management_menu.run()
+            print(f"Login successful for {user.email}\nAdmin privileges granted. Navigating to hotel management console.")
+            return HotelManagementConsole()
         else:
             print("Invalid email or password.")
             session.close()
