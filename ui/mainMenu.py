@@ -24,10 +24,10 @@ class MainMenu(Menu):
         self.reservation_menu = ReservationMenu(UserType.GUEST, database_path, self.navigate_back)  # Default user
         self.user_registration_menu = UserRegistrationConsole(database_path, self.navigate_back)
         self.hotel_management_menu = HotelManagementConsole(database_path, self.navigate_back)
-        self.add_option(MenuOption('1. Search and view Hotel details', self.search_menu.run))
-        self.add_option(MenuOption("2. Booking Menu", self.reservation_menu.run))
-        self.add_option(MenuOption('3. Login for admin', self.user_registration_menu.run))
-        self.add_option(MenuOption("4. Quit", self.quit))
+        self.add_option(MenuOption('Search and view Hotel details', self.search_menu.run))
+        self.add_option(MenuOption("Booking Menu", self.reservation_menu.run))
+        self.add_option(MenuOption('Login for admin', self.user_registration_menu.run))
+        self.add_option(MenuOption("Quit", self.quit))
 
     def display(self):
         """Prints out the main menu options along with their description."""

@@ -29,12 +29,12 @@ class SearchMenu(Menu):
 
     def add_common_options(self):
         """Adds menu options that are common to all user types."""
-        self.add_option(MenuOption("1. Search by city", self.__search_by_city))
-        self.add_option(MenuOption("2. Search by city and stars", self.__search_by_city_and_stars))
-        self.add_option(MenuOption("3. Search by city and guest count", self.__search_by_guest_count))
-        self.add_option(MenuOption("4. Search by reservation date and guest count", self.__search_by_date_guest_count))
-        self.add_option(MenuOption('5. Get all hotel details', self.__get_all_hotel_details))
-        self.add_option(MenuOption('6. Search by room type and city', self.__search_by_room_type_city))
+        self.add_option(MenuOption("Search by city", self.__search_by_city))
+        self.add_option(MenuOption("Search by city and stars", self.__search_by_city_and_stars))
+        self.add_option(MenuOption("Search by city and guest count", self.__search_by_guest_count))
+        self.add_option(MenuOption("Search by reservation date and guest count", self.__search_by_date_guest_count))
+        self.add_option(MenuOption('Get all hotel details', self.__get_all_hotel_details))
+        self.add_option(MenuOption('Search by room type and city', self.__search_by_room_type_city))
         self.add_option(MenuOption(str(SearchOption.BACK) + ". Back", self.navigate_back))
 
     def get_date(self, prompt: str):

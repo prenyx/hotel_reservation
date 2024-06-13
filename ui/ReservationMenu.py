@@ -39,11 +39,11 @@ class ReservationMenu(Menu):
 
     def add_common_options(self):
         """Adds menu options that are common to all user types."""
-        self.add_option(MenuOption("1. Update Reservation", self.update_reservation))
-        self.add_option(MenuOption("2. Delete Reservation", self.delete_reservation))
-        self.add_option(MenuOption("3. View Reservation Details", self.view_reservation_details))
-        self.add_option(MenuOption("4. View all Reservations", self.list_reservations))
-        self.add_option(MenuOption("5. Back to Main Menu", self.navigate_back))
+        self.add_option(MenuOption("Update Reservation", self.update_reservation))
+        self.add_option(MenuOption("Delete Reservation", self.delete_reservation))
+        self.add_option(MenuOption("View Reservation Details", self.view_reservation_details))
+        self.add_option(MenuOption("View all Reservations", self.list_reservations))
+        self.add_option(MenuOption("Back to Main Menu", self.navigate_back))
 
     def create_reservation_as_guest(self):
         """Create a reservation for the guest user."""
