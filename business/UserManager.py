@@ -7,6 +7,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from data_models.models import *
 from console.console_base import *
 
+
 from data_access.data_base import init_db
 
 
@@ -117,13 +118,18 @@ class UserManager(object):
         print('New guest created successfully.')
 
     def authenticate_admin_user(self, email, password):
+        """Authenticate a user based on username and password."""
+        from console.console_base import HotelManagementConsole  # import at the time of use
+
         session = self.get_session()
-        user = session.query(Login).filter_by(username=email, password=password).first()
+        user = session.query(Login).filter_by(and_(Login.username == email, Login.password == password, Login.role_id == 1)).first()
+        session.close()
+
         if user:
             print(f"Login successful for {user.email}")
             if user.role_id == 1:
-                print("Navigating to hotel management console.")
-                self.hotel_management_menu = HotelManagementConsole()
+                print("Admin privileges granted. Navigating to hotel management console.")
+                return HotelManagementConsole(self.database_path)
                 # this assumes hotel_management_menu has a run method
                 self.hotel_management_menu.run()
         else:
