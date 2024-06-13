@@ -128,15 +128,15 @@ class StartConsole(Menu):
 class UserRegistrationConsole(Menu):
     """Initialize the UserRegistrationConsole class"""
 
-    def __init__(self, database_path: Path):
+    def __init__(self, database_path: Path, navigate_back_function):
         super().__init__("User Registration", database_path)
         self._user_manager = UserManager(database_path)
         self._user_manager.ensure_superuser_created()
-        self.navigate_back_function = self.navigate_back()  # Navigate to main menu
+        self.navigate_back_function = self.navigate_back  # Navigate to main menu
 
         self.add_option(MenuOption("1. Create New Login"))
         self.add_option(MenuOption("2. Register Existing User"))
-        self.add_option(MenuOption("3. Back to Main Menu", self.navigate_back()))
+        self.add_option(MenuOption("3. Back to Main Menu", self.navigate_back))
 
     def navigate_back(self):
         """Navigation process for back option"""
@@ -168,10 +168,10 @@ class UserRegistrationConsole(Menu):
 
 
 class HotelManagementConsole(Menu):
-    def __init__(self, database_path: Path):
+    def __init__(self, database_path: Path, navigate_back_function):
         super().__init__("Hotel Management", database_path)
         self._hotel_manager = HotelManager(database_path)
-        self.navigate_back_function = self.navigate_back()  # Navigate to main menu
+        self.navigate_back_function = self.navigate_back  # Navigate to main menu
         self.add_option(MenuOption("1. Add Hotel"))
         self.add_option(MenuOption("2. Add Room"))
         self.add_option(MenuOption("3. Remove Hotel"))
@@ -181,7 +181,7 @@ class HotelManagementConsole(Menu):
         self.add_option(MenuOption("7. Edit Booking"))
         self.add_option(MenuOption("8. Manage Room Availability"))
         self.add_option(MenuOption("9. Update Room Price"))
-        self.add_option(MenuOption("10. Back to Main Menu", self.navigate_back()))
+        self.add_option(MenuOption("10. Back to Main Menu", self.navigate_back))
 
     def navigate_back(self):
         """Navigation process for back option"""
