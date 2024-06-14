@@ -85,7 +85,7 @@ Produktivität steigern. Das Kanban-Board unterstützt somit eine transparente u
 Projektplanung, die es dem Team erlaubt, kontinuierlich Verbesserungen vorzunehmen und auf 
 Änderungen agil zu reagieren.
 
-### 2.2.3 Testing und Debugging (Manuel Ergänze?)
+### 2.2.3 Testing und Debugging
 Das System wird lokal auf den Entwicklerrechnern ausgeführt und getestet. 
 Aufgrund von Zeitbeschränkungen wurden keine umfassenden Unit-Tests geschrieben. 
 Stattdessen wurde die Funktionalität direkt in den jeweiligen Dateien durch ein `if __name__ == "__main__":`-Block getestet. 
@@ -110,6 +110,7 @@ Die Implementierung der Geschäftslogik im Ordner business wurde von den Studier
 
 ## 3.4 Verwaltung von Reservierungen
 
+
 # 4. Datenbankdesign
 Das Datenbankdesign für das Hotelreservierungssystem basiert auf einem **Entity-Relationship-Modell** (ER-Modell), 
 das die verschiedenen Entitäten und ihre Beziehungen beschreibt. 
@@ -119,19 +120,13 @@ haben wir letztendlich beschlossen, das vorgegebene Modell unverändert zu lasse
 - Beschreibung der Datenbanktabellen und -beziehungen
 
 ## 4.1 User Stories
-# User Story 3.4: Wir haben uns dafür entschieden eine "availability"-column im model des Rooms hinzuzufügen um die User Story realisieren zu können.
-Nun kann ein Hotel-Manager ein Datum ab wann ein Zimmer "unavailable" ist, gleichzeitig löscht das System alle offenen Buchungen (zuerst werden aktive Buchungen in dem Zeitraum noch dem Benutzer angezeigt, bevor man diese Bestätigt zu löschen)
-Zudem wird in der Datenbank die Spalte "unavailability_start" und "unavailability_end" gesetzt, denkbar ist dies wenn ein Zimmer ab einem bestimmten Zeitraum für Renovationen nicht mehr verfügbar stehen kann, oder wenn Aufgrund von Schaden od. anderen Gründen das Zimmer nicht zur Verfügung steht.
-Diese Datumdefinitionen legen dann fest ab wann neue Buchungen entgegengenommen werden können.
-
-Wichtig anzumerken ist, da diese User Story viele veränderungen mit sich brachte und daher z.B. in dem Reservationsmanager neuen spalten ...start und ...end nicht für die erstellung neuer Buchungen berücksichtigt wurde.
-Dies da jeder der Manager von jemand anderem realisiert wurde. Diese implementation zeigt nur wie diese UserStory realisiert werden kann.
-- Wir haben zusätzlich zu den User Stories noch die Möglichkeit implementiert Hotelzimmer hinzuzufügen und zu löschen für eine spezifizierte Hotel-ID.
+## 4.1.1 Ergänzungen
+- Wir haben zusätzlich zu den vorgegebenen User Stories noch die Möglichkeit implementiert Hotelzimmer hinzuzufügen und zu löschen für eine spezifizierte Hotel-ID.
+- (Ist noch offen; Rollenänderung machen eines users (promote to admin und demote to user))
 *******- @benz - haben wir noch etwas hinzugefügt das nicht in den user stories steht?
 
 # 5. Anwendung
-
-
+Die Applikation hat einen Einstiegspunkt mit dem main.py file, darüber kann auf alle Manager Konsolen zugegriffen werden.
 
 
 # 6. Lessons Learned 
@@ -141,19 +136,11 @@ Dies da jeder der Manager von jemand anderem realisiert wurde. Diese implementat
 - Während der Implementierung von UserManager.py fiel auf, dass die User Stories für Gastnutzer und registrierte Benutzer unklar formuliert waren. Um diese Unklarheiten zu beheben, entschieden wir uns, im User-Manager zwei grundlegende Methoden zu verwenden: “create_new_login” für die Erstellung neuer Logins und “register_existing_user” zum Hinzufügen von Benutzerdetails zu einem bestehenden Login.
 Nach Rücksprache mit den Coaches stellte sich heraus, dass die User Stories und das Datenbankmodell zu einer grösseren Interpretationsspielraum hatten als bisher angedacht und wir eine alternative Herangehensweise gewählt hatten. Wir behielten den User-Manager mit der erweiterten Funktionalität bei, setzten jedoch die Arbeit am Reservationsmanager gemäss der Vision der Coaches fort.
 
-## 6.1 
-
-## 6.2 Verbesserungsmöglichkeiten
-- UserManager.py Subclasses erstellen zur separierung von Gast oder Admin Nutzer (Authentication nicht genau möglich), 
-- Wir hatten angenommen, dass ein Benutzer ein Login erstellen kann, unabhängig davon, ob er sich entscheidet, alle Gast Informationen angeben zu müssen. -> "Als Gastbenutzer möchte ich mich mit meiner E-Mail-Adresse und einer persönlichen Kennung (Passwort) registrieren können..."
+## 6.1 Annahmen und Interpretation
+# UserManager.py
+Wir hatten angenommen, dass ein Benutzer ein Login erstellen kann, unabhängig davon, ob er sich entscheidet, alle Gast Informationen angeben zu müssen. -> "Als Gastbenutzer möchte ich mich mit meiner E-Mail-Adresse und einer persönlichen Kennung (Passwort) registrieren können..."
 Die Lösung wurde nun so implementiert, dass sich ein Benutzer, der sich unabhängig von einer Buchung registrieren möchte, zunächst nur mit einer E-Mail-Adresse und einem Passwort registrieren kann. Anschliessend kann er in einem zweiten Schritt entscheiden, ob er zusätzliche Gastdetails angeben möchte. 
 Diese Interpretation wurde mit Sandro und Charuta besprochen und wurde als alternative Interpretation akzeptiert.
-- role_id zuteilung fehlt in register user section 
-- nachdem Login sieht man nicht mit welchem user man eingeloggt ist!!!!!!!!!
-- room availability komisch verwendet
-- HotelManagement wurde nicht optimal implementiert, deshalb konnte das Reservationsmanager nicht 100% funktionieren (get_hotel_id_by_name function fehlt z.B)
-- 
-
 
 # User Story 3.4: 
 Hier haben wir angenommen, dass es zur Verwaltung der Zimmerverfügbarkeit erforderlich ist, zusätzliche Spalten im Raummodell zu erstellen.
@@ -161,6 +148,24 @@ Wir haben uns entschieden, die Spalten "unavailability_start" und "unavailabilit
 Diese Lösung wurde so implementiert, dass ein Hotelmanager einen Datumsbereich definieren kann, ab wann ein Zimmer nicht verfügbar ("unavailable") ist. Gleichzeitig löscht das System alle offenen Buchungen in diesem Zeitraum. Vor der endgültigen Löschung werden die betroffenen Buchungen dem Benutzer zur Bestätigung angezeigt.
 Dies ist nützlich, wenn ein Zimmer ab einem bestimmten Zeitraum für Renovierungen oder aufgrund von Schäden oder anderen Gründen nicht verfügbar ist. Die Spalten "unavailability_start" und "unavailability_end" in der Datenbank legen fest, ab wann keine neuen Buchungen mehr angenommen werden können und ab wann das Zimmer wieder verfügbar ist.
 Wichtig zu beachten ist, dass diese User Story viele Änderungen mit sich brachte und daher im Reservationsmanager nicht bei der Erstellung neuer Buchungen berücksichtigt wurde. Aufgrund begrenzter Ressourcen konnten wir die bereits implementierten Funktionen nicht umfassend anpassen.
+
+# 6.2 Zusätzliche User Stories
+
+
+
+## 6.3 Verbesserungsmöglichkeiten
+- UserManager.py Subclasses erstellen zur separierung von Gast oder Admin Nutzer (Authentication nicht genau möglich), 
+- Wir hatten angenommen, dass ein Benutzer ein Login erstellen kann, unabhängig davon, ob er sich entscheidet, alle Gast Informationen angeben zu müssen. -> "Als Gastbenutzer möchte ich mich mit meiner E-Mail-Adresse und einer persönlichen Kennung (Passwort) registrieren können..."
+Die Lösung wurde nun so implementiert, dass sich ein Benutzer, der sich unabhängig von einer Buchung registrieren möchte, zunächst nur mit einer E-Mail-Adresse und einem Passwort registrieren kann. Anschliessend kann er in einem zweiten Schritt entscheiden, ob er zusätzliche Gastdetails angeben möchte. 
+Diese Interpretation wurde mit Sandro und Charuta besprochen und wurde als alternative Interpretation akzeptiert.
+- role_id zuteilung fehlt in register user section (wäre separate user story)
+- nachdem Login sieht man nicht mit welchem user man eingeloggt ist!!!!!!!!! -> was bedeutet das, welcher login/wo
+- room availability komisch verwendet -> was bedeutet das
+- HotelManagement wurde nicht optimal implementiert, deshalb konnte das Reservationsmanager nicht 100% funktionieren (get_hotel_id_by_name function fehlt z.B) -> wie hätte man es "optimal" implementiert?
+- Password hashing sowie auch non-cleartext passwort eingabe zumindest.
+- 
+
+
 
 
 

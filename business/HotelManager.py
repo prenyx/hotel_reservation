@@ -195,7 +195,7 @@ class HotelManager(object):
         session.commit()
         print(f"Room {room_number} availability changed to UA start{unavailability_start} and UA end{unavailability_end}.")
 
-    # 3.4. part 2: Manage room availability and update prices in real-time [Optional]
+    # 3.4. part 2: Manage room availability and update prices in real-time [Optional] -> need to finish this part once benz finishes changes to console structure
     def update_room_price(self, room_id: int, new_price: float):
         """updates the room price"""
         try:
