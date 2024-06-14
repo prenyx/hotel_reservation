@@ -12,7 +12,7 @@ Authors:
 
 **Projektdokumentation**: Hotelreservierungssystem
 
-**Autoren**: *Gruppe B* (Supavadee Theerapong, Manuel Passamontes, Damian Martin, Steven Chevalley) 
+**Autoren**: *Gruppe B* (Supavadee Theerapong, Manuel Pasamontes, Damian Martin, Steven Chevalley) 
 
 ---
 # 1. Einführung
@@ -85,7 +85,7 @@ Produktivität steigern. Das Kanban-Board unterstützt somit eine transparente u
 Projektplanung, die es dem Team erlaubt, kontinuierlich Verbesserungen vorzunehmen und auf 
 Änderungen agil zu reagieren.
 
-### 2.2.3 Testing und Debugging (Manuel Ergänze?)
+### 2.2.3 Testing und Debugging
 Das System wird lokal auf den Entwicklerrechnern ausgeführt und getestet. 
 Aufgrund von Zeitbeschränkungen wurden keine umfassenden Unit-Tests geschrieben. 
 Stattdessen wurde die Funktionalität direkt in den jeweiligen Dateien durch ein `if __name__ == "__main__":`-Block getestet. 
@@ -201,18 +201,26 @@ Die Navigation durch die Menüs wird über das console_base.py-Modul gesteuert.
 - Während der Implementierung von UserManager.py fiel auf, dass die User Stories für Gastnutzer und registrierte Benutzer unklar formuliert waren. Um diese Unklarheiten zu beheben, entschieden wir uns, im User-Manager zwei grundlegende Methoden zu verwenden: “create_new_login” für die Erstellung neuer Logins und “register_existing_user” zum Hinzufügen von Benutzerdetails zu einem bestehenden Login.
 Nach Rücksprache mit den Coaches stellte sich heraus, dass die User Stories und das Datenbankmodell zu einer grösseren Interpretationsspielraum hatten als bisher angedacht und wir eine alternative Herangehensweise gewählt hatten. Wir behielten den User-Manager mit der erweiterten Funktionalität bei, setzten jedoch die Arbeit am Reservationsmanager gemäss der Vision der Coaches fort.
 
-## 6.1 
+## 6.1 Annahmen und Interpretation
+# UserManager.py
+Wir hatten angenommen, dass ein Benutzer ein Login erstellen kann, unabhängig davon, ob er sich entscheidet, alle Gast Informationen angeben zu müssen. -> "Als Gastbenutzer möchte ich mich mit meiner E-Mail-Adresse und einer persönlichen Kennung (Passwort) registrieren können..."
+Die Lösung wurde nun so implementiert, dass sich ein Benutzer, der sich unabhängig von einer Buchung registrieren möchte, zunächst nur mit einer E-Mail-Adresse und einem Passwort registrieren kann. Anschliessend kann er in einem zweiten Schritt entscheiden, ob er zusätzliche Gastdetails angeben möchte. 
+Diese Interpretation wurde mit Sandro und Charuta besprochen und wurde als alternative Interpretation akzeptiert.
+
 
 ## 6.2 Verbesserungsmöglichkeiten
 - UserManager.py Subclasses erstellen zur separierung von Gast oder Admin Nutzer (Authentication nicht genau möglich), 
 - Wir hatten angenommen, dass ein Benutzer ein Login erstellen kann, unabhängig davon, ob er sich entscheidet, alle Gast Informationen angeben zu müssen. -> "Als Gastbenutzer möchte ich mich mit meiner E-Mail-Adresse und einer persönlichen Kennung (Passwort) registrieren können..."
 Die Lösung wurde nun so implementiert, dass sich ein Benutzer, der sich unabhängig von einer Buchung registrieren möchte, zunächst nur mit einer E-Mail-Adresse und einem Passwort registrieren kann. Anschliessend kann er in einem zweiten Schritt entscheiden, ob er zusätzliche Gastdetails angeben möchte. 
 Diese Interpretation wurde mit Sandro und Charuta besprochen und wurde als alternative Interpretation akzeptiert.
-- role_id zuteilung fehlt in register user section 
-- nachdem Login sieht man nicht mit welchem user man eingeloggt ist!!!!!!!!!
-- room availability komisch verwendet
-- HotelManagement wurde nicht optimal implementiert, deshalb konnte das Reservationsmanager nicht 100% funktionieren (get_hotel_id_by_name function fehlt z.B)
+- role_id zuteilung fehlt in register user section (wäre separate user story)
+- nachdem Login sieht man nicht mit welchem user man eingeloggt ist!!!!!!!!! -> was bedeutet das, welcher login/wo
+- room availability komisch verwendet -> was bedeutet das
+- HotelManagement wurde nicht optimal implementiert, deshalb konnte das Reservationsmanager nicht 100% funktionieren (get_hotel_id_by_name function fehlt z.B) -> wie hätte man es "optimal" implementiert?
+- Password hashing sowie auch non-cleartext passwort eingabe zumindest.
 - 
+
+
 
 
 
@@ -228,6 +236,5 @@ models.py, data_generator.py: Manuel
 Testing Console: Damian
 
 User Stories erarbeitet:
-1.-1.5: Supavadee
-2.-2.1.1: Supavadee
+1.-1.5 + 2.-2.1.1: Supavadee
 1.6 + 3.-3.4: Manuel

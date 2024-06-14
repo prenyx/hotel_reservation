@@ -288,12 +288,6 @@ class HotelManagementConsole(Menu):
             #new_availability_input = input("Enter new availability (True/False): ").lower()
             unavailability_start = input("Enter a date, from when the room is unavailable (yyyy-mm-dd): ")
             unavailability_end = input("Enter a date, from when the room is available again (yyyy-mm-dd): ")
-            # if new_availability_input == 'true':
-            #     new_availability = True
-            # elif new_availability_input == 'false':
-            #     new_availability = False
-            # else:
-            #     print("Invalid input. Please enter either 'True' or 'False'.")
 
             self._hotel_manager.change_room_availability(hotel_id, room_number, unavailability_start,
                                                          unavailability_end)
