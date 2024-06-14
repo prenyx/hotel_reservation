@@ -12,7 +12,7 @@ Authors:
 
 **Projektdokumentation**: Hotelreservierungssystem
 
-**Autoren**: *Gruppe B* (Supavadee Theerapong, Manuel Passamontes, Damian Martin, Steven Chevalley) 
+**Autoren**: *Gruppe B* (Supavadee Theerapong, Manuel Pasamontes, Damian Martin, Steven Chevalley) 
 
 ---
 # 1. Einführung
@@ -122,11 +122,13 @@ haben wir letztendlich beschlossen, das vorgegebene Modell unverändert zu lasse
 ## 4.1 User Stories
 ## 4.1.1 Ergänzungen
 - Wir haben zusätzlich zu den vorgegebenen User Stories noch die Möglichkeit implementiert Hotelzimmer hinzuzufügen und zu löschen für eine spezifizierte Hotel-ID.
-- (Ist noch offen; Rollenänderung machen eines users (promote to admin und demote to user))
+- (Ist noch offen; Rollenänderung machen eines users (promote to admin und demote to user))??
+- 3.4 mit automatischen Löschen von aktiven Buchungen ergänzt.
 *******- @benz - haben wir noch etwas hinzugefügt das nicht in den user stories steht?
 
-# 5. Anwendung
+# 5. Anwendung / Einstieg in die Applikation
 Die Applikation hat einen Einstiegspunkt mit dem main.py file, darüber kann auf alle Manager Konsolen zugegriffen werden.
+*** Navigation beschreiben / Aufbau erklären!!! (evtl. in 3.2)
 
 
 # 6. Lessons Learned 
@@ -148,9 +150,6 @@ Wir haben uns entschieden, die Spalten "unavailability_start" und "unavailabilit
 Diese Lösung wurde so implementiert, dass ein Hotelmanager einen Datumsbereich definieren kann, ab wann ein Zimmer nicht verfügbar ("unavailable") ist. Gleichzeitig löscht das System alle offenen Buchungen in diesem Zeitraum. Vor der endgültigen Löschung werden die betroffenen Buchungen dem Benutzer zur Bestätigung angezeigt.
 Dies ist nützlich, wenn ein Zimmer ab einem bestimmten Zeitraum für Renovierungen oder aufgrund von Schäden oder anderen Gründen nicht verfügbar ist. Die Spalten "unavailability_start" und "unavailability_end" in der Datenbank legen fest, ab wann keine neuen Buchungen mehr angenommen werden können und ab wann das Zimmer wieder verfügbar ist.
 Wichtig zu beachten ist, dass diese User Story viele Änderungen mit sich brachte und daher im Reservationsmanager nicht bei der Erstellung neuer Buchungen berücksichtigt wurde. Aufgrund begrenzter Ressourcen konnten wir die bereits implementierten Funktionen nicht umfassend anpassen.
-
-# 6.2 Zusätzliche User Stories
-
 
 
 ## 6.3 Verbesserungsmöglichkeiten
@@ -181,6 +180,5 @@ models.py, data_generator.py: Manuel
 Testing Console: Damian
 
 User Stories erarbeitet:
-1.-1.5: Supavadee
-2.-2.1.1: Supavadee
+1.-1.5 + 2.-2.1.1: Supavadee
 1.6 + 3.-3.4: Manuel
