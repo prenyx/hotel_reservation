@@ -192,14 +192,22 @@ Das Benutzerinterface wurde im ui-Ordner implementiert.
 ## 5.1 Hauptmenü und Navigation
 Das Hauptmenü der Anwendung dient als zentrale Anlaufstelle für den Benutzer. 
 Hier können verschiedene Aktionen ausgewählt werden, wie z.B. das Durchsuchen von Hotels, die Verwaltung von Buchungen oder die Benutzerregistrierung. 
-Die Navigation durch die Menüs wird über das console_base.py-Modul gesteuert.
+Die Navigation durch die Menüs wird über das `console_base.py`-Modul gesteuert.
 
 # 6. Lessons Learned 
 - Zusammenfassung der in den Interviews besprochenen Punkte
 - Reflexionen der Teammitglieder über das Projekt und die gelernten Konzepte
 
+**Supavadee:**
+
+**Manuel:**
 - Während der Implementierung von UserManager.py fiel auf, dass die User Stories für Gastnutzer und registrierte Benutzer unklar formuliert waren. Um diese Unklarheiten zu beheben, entschieden wir uns, im User-Manager zwei grundlegende Methoden zu verwenden: “create_new_login” für die Erstellung neuer Logins und “register_existing_user” zum Hinzufügen von Benutzerdetails zu einem bestehenden Login.
 Nach Rücksprache mit den Coaches stellte sich heraus, dass die User Stories und das Datenbankmodell zu einer grösseren Interpretationsspielraum hatten als bisher angedacht und wir eine alternative Herangehensweise gewählt hatten. Wir behielten den User-Manager mit der erweiterten Funktionalität bei, setzten jedoch die Arbeit am Reservationsmanager gemäss der Vision der Coaches fort.
+
+**Damian:**
+
+
+**Steven:**
 
 ## 6.1 Annahmen und Interpretation
 # UserManager.py
@@ -219,10 +227,6 @@ Diese Interpretation wurde mit Sandro und Charuta besprochen und wurde als alter
 - HotelManagement wurde nicht optimal implementiert, deshalb konnte das Reservationsmanager nicht 100% funktionieren (get_hotel_id_by_name function fehlt z.B) -> wie hätte man es "optimal" implementiert?
 - Password hashing sowie auch non-cleartext passwort eingabe zumindest.
 - 
-
-
-
-
 
 
 
