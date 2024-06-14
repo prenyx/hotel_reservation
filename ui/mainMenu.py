@@ -6,13 +6,6 @@ from .ReservationMenu import ReservationMenu, UserType
 from .SearchMenu import SearchMenu
 
 
-class OptionMainMenu(enum.Enum):
-    SEARCH_VIEW_HOTELS = 1
-    RESERVATION_MENU = 2
-    LOGIN_MENU = 3
-    QUIT = 4
-
-
 class MainMenu(Menu):
     def __init__(self, database_path: Path):
         """Initialise the MainMenu class."""
@@ -24,6 +17,7 @@ class MainMenu(Menu):
         self.add_option(MenuOption('Search and view Hotel details', self.search_menu.run))
         self.add_option(MenuOption("Booking Menu", self.reservation_menu.run))
         self.add_option(MenuOption('Login for admin', self.user_registration_menu.run))
+        self.add_option(MenuOption('Hotel Management', self.hotel_management_menu.run))
         self.add_option(MenuOption("Quit", self.quit))
 
     def display(self):

@@ -178,4 +178,4 @@ class SearchMenu(Menu):
     def _navigate(self, choice: int):
         navigation_option = SearchOption(choice)
         navigation_function = self.get_options()[navigation_option.value - 1].get_action()
-        return navigation_function()
+        return navigation_function

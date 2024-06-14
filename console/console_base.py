@@ -172,16 +172,16 @@ class HotelManagementConsole(Menu):
         super().__init__("Hotel Management", database_path)
         self._hotel_manager = HotelManager(database_path)
         self.navigate_back_function = self.navigate_back  # Navigate to main menu
-        self.add_option(MenuOption("1. Add Hotel"))
-        self.add_option(MenuOption("2. Add Room"))
-        self.add_option(MenuOption("3. Remove Hotel"))
-        self.add_option(MenuOption("4. Remove Room"))
-        self.add_option(MenuOption("5. Update Hotel Info"))
-        self.add_option(MenuOption("6. View All Bookings"))
-        self.add_option(MenuOption("7. Edit Booking"))
-        self.add_option(MenuOption("8. Manage Room Availability"))
-        self.add_option(MenuOption("9. Update Room Price"))
-        self.add_option(MenuOption("10. Back to Main Menu", self.navigate_back))
+        self.add_option(MenuOption("Add Hotel"))
+        self.add_option(MenuOption("Add Room"))
+        self.add_option(MenuOption("Remove Hotel"))
+        self.add_option(MenuOption("Remove Room"))
+        self.add_option(MenuOption("Update Hotel Info"))
+        self.add_option(MenuOption("View All Bookings"))
+        self.add_option(MenuOption("Edit Booking"))
+        self.add_option(MenuOption("Manage Room Availability"))
+        self.add_option(MenuOption("Update Room Price"))
+        self.add_option(MenuOption("Back to Main Menu", self.navigate_back))
 
     def navigate_back(self):
         """Navigation process for back option"""

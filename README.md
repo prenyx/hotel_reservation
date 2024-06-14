@@ -99,40 +99,100 @@ die die verschiedenen Aspekte des Systems abdecken. Die Dateien im Ordner `data_
 von den Dozenten vorgegeben, ebenso wie die Dateien im Ordner `data_access` und `console`. 
 Die Implementierung der Geschäftslogik im Ordner business wurde von den Studierenden selbst codiert.
 
-- Detaillierte Beschreibung der implementierten Funktionen (brauchen wir das)
-- Code-Beispiele und Erklärungen
-
 ## 3.1 Geschäftslogik
+Die Geschäftslogik des Hotelreservierungssystems ist im Ordner `business` implementiert. 
+Dieser Ordner enthält mehrere **Manager-Klassen**, die verschiedene Aspekte des Systems verwalten, darunter *Hotels*, *Zimmer*, *Buchungen* und *Benutzer*.
+
+- `HotelManager.py`: Verwalten von Hotel-bezogenen Operationen z.B. Hotels und Räume hinzufügen.
+- `ReservationManager.py`: Handhabung von Buchungsprozessen z.B. Reservationen kreieren.  
+- `SearchManager.py`: Bereitstellung von Suchfunktionen für Hotels und Zimmer.
+- `UserManager.py`: Verwaltung der Benutzerregistrierung und -authentifizierung.
 
 ## 3.2 Benutzeroberfläche (Konsole)
+Die Benutzeroberfläche des Systems ist als Konsolenanwendung implementiert, die dem Benutzer ermöglicht, verschiedene Funktionen des Systems über Menüs zu bedienen. 
+Die Hauptkomponenten der Benutzeroberfläche sind im Ordner console implementiert.
+
+- `console_base.py`: Enthält die Basis-Klassen für die Menüstruktur.
+- `mainMenu.py`: Implementiert das Hauptmenü der Anwendung.
+- `SearchMenu.py`: Bietet Menüoptionen für die Hotelsuche.
+- `ReservationMenu.py`: Bietet Menüoptionen für die Verwaltung von Reservierungen.
 
 ## 3.3 Suche nach Hotels und Zimmern
+Die Suchfunktionen des Systems sind im SearchManager implementiert, der es ermöglicht, Hotels und Zimmer basierend auf verschiedenen Kriterien zu durchsuchen.
+
+- `search_hotels_by_city`: Sucht Hotels nach Stadt.
+- `search_hotels_by_stars`: Sucht Hotels nach Anzahl der Sterne.
+- `search_hotels_by_guest_count`: Sucht Hotels nach der maximalen Gästeanzahl.
+- `search_hotels_by_date_and_guest_count`: Sucht Hotels nach Verfügbarkeit basierend auf Datum und Gästeanzahl.
 
 ## 3.4 Verwaltung von Reservierungen
+Die Verwaltung der Reservierungen ist im ReservationManager implementiert. Dieser Manager bietet Funktionen zum Erstellen, Aktualisieren, 
+Löschen und Anzeigen von Reservierungen sowie zum Überprüfen der Verfügbarkeit von Zimmern.
+
+- `create_reservation`: Erstellt eine neue Reservierung.
+- `update_reservation`: Aktualisiert eine bestehende Reservierung.
+- `delete_reservation`: Löscht eine bestehende Reservierung.
+- `get_reservation_details`: Ruft die Details einer bestimmten Reservierung ab.
+- `list_reservations`: Listet alle Reservierungen auf.
+- `check_available_rooms`: Überprüft die Verfügbarkeit von Zimmern in einem bestimmten Zeitraum.
 
 # 4. Datenbankdesign
 Das Datenbankdesign für das Hotelreservierungssystem basiert auf einem **Entity-Relationship-Modell** (ER-Modell), 
 das die verschiedenen Entitäten und ihre Beziehungen beschreibt. 
 Das ER-Modell wurde von den Dozenten bereitgestellt und bildet die Grundlage für die Implementierung des Systems. 
 Obwohl wir anfangs Überlegungen angestellt haben, das Modell zur Unterstützung einer dynamischeren Suchfunktion zu verbessern, 
-haben wir letztendlich beschlossen, das vorgegebene Modell unverändert zu lassen, um die Einfachheit und Konsistenz zu gewährleisten.
-- Beschreibung der Datenbanktabellen und -beziehungen
+haben wir letztendlich beschlossen, das vorgegebene Modell weitgehend unverändert zu lassen, um die Einfachheit und Konsistenz zu gewährleisten.
 
-## 4.1 User Stories
-# User Story 3.4: Wir haben uns dafür entschieden eine "availability"-column im model des Rooms hinzuzufügen um die User Story realisieren zu können.
-Nun kann ein Hotel-Manager ein Datum ab wann ein Zimmer "unavailable" ist, gleichzeitig löscht das System alle offenen Buchungen (zuerst werden aktive Buchungen in dem Zeitraum noch dem Benutzer angezeigt, bevor man diese Bestätigt zu löschen)
-Zudem wird in der Datenbank die Spalte "unavailability_start" und "unavailability_end" gesetzt, denkbar ist dies wenn ein Zimmer ab einem bestimmten Zeitraum für Renovationen nicht mehr verfügbar stehen kann, oder wenn Aufgrund von Schaden od. anderen Gründen das Zimmer nicht zur Verfügung steht.
-Diese Datumdefinitionen legen dann fest ab wann neue Buchungen entgegengenommen werden können.
+## 4.1 Datenbankinitialisierung
+Die Initialisierung der Datenbank ist ein entscheidender Schritt zur Bereitstellung der grundlegenden Datenstrukturen und zum Laden von Beispiel- oder Testdaten. 
+In diesem Projekt wird die Datenbankinitialisierung durch die Methode `init_db` im Modul `data_base.py` durchgeführt. Diese Methode sorgt dafür, dass alle notwendigen Tabellen erstellt und optional mit Beispiel- oder Testdaten befüllt werden.
 
-Wichtig anzumerken ist, da diese User Story viele veränderungen mit sich brachte und daher z.B. in dem Reservationsmanager neuen spalten ...start und ...end nicht für die erstellung neuer Buchungen berücksichtigt wurde.
-Dies da jeder der Manager von jemand anderem realisiert wurde. Diese implementation zeigt nur wie diese UserStory realisiert werden kann.
-- Wir haben zusätzlich zu den User Stories noch die Möglichkeit implementiert Hotelzimmer hinzuzufügen und zu löschen für eine spezifizierte Hotel-ID.
-*******- @benz - haben wir noch etwas hinzugefügt das nicht in den user stories steht?
+**Implementierungsdetails:**
+
+Die Datei `data_base.py` enthält die `init_db`-Funktion, die die Datenbank initialisiert. Diese Funktion übernimmt die folgenden Aufgaben:
+
+- *Datenbankverbindung herstellen*: Stellt eine Verbindung zur SQLite-Datenbank her, die durch den angegebenen Pfad definiert ist.
+- *Tabellen erstellen*: Erstellt alle Tabellen, die im Datenmodell definiert sind.
+- *Beispieldaten generieren*: Optional können Beispiel- oder Testdaten in die Tabellen eingefügt werden.
+
+**Verwendung der Initialisierungsfunktion:**
+
+Die Datenbankinitialisierung wird in der Datei `main.py` aufgerufen, um sicherzustellen, dass die Datenbank korrekt eingerichtet ist, bevor die Anwendung startet.
+## 4.2 User Stories und Datenbankoperationen
+Die vorgegebenen User Stories wurden vollständig bearbeitet und weitgehend implementiert. Der größte Teil der User Stories handelt von Gastnutzern, die ein Hotel suchen und reservieren möchten. Dabei wird zwischen registrierten Gästen und Gastnutzern unterschieden. 
+Darüber hinaus gibt es noch einen kleinen Abschnitt, der sich mit den Anforderungen der Administratoren befasst.
+
+**User Story: 1.1.1. Ich möchte alle Hotels in einer Stadt durchsuchen.**
+
+*Datenbankoperation*: Implementierung der Suchfunktion in SearchManager, die Hotels nach Stadt durchsucht.
+- `search_hotels_by_city`
+
+**User Story: 3.4. Ich möchte in der Lage sein, die Zimmerverfügbarkeit zu verwalten und
+die Preise in Echtzeit im Backend-System der Anwendung zu aktualisieren
+(Optional).**
+
+Um diese User Story zu realisieren, wurde eine availability-Spalte im Room-Modell hinzugefügt, leider ohne Absprache mit den Dozenten. 
+
+Nun kann ein Hotel-Manager ein Datum angeben, ab wann ein Zimmer "unavailable" ist. 
+Gleichzeitig löscht das System alle offenen Buchungen (zuerst werden aktive Buchungen in dem Zeitraum dem Benutzer angezeigt, 
+bevor man diese bestätigt zu löschen). Zudem werden in der Datenbank die Spalten unavailability_start und unavailability_end gesetzt. 
+Dies ist beispielsweise nützlich, wenn ein Zimmer in einem bestimmten Zeitraum für Renovationen nicht mehr verfügbar ist oder aus anderen Gründen nicht zur Verfügung steht. 
+Diese Datum definitionen legen dann fest, ab wann neue Buchungen entgegengenommen werden können.
+
+*Datenbankoperation*: Implementierung der Verfügbarkeitscheck-Funktion im ReservationManager, die nach verfügbaren Räumen sucht.
 
 # 5. Anwendung
+Die Anwendung des Hotelreservierungssystems wurde in mehrere Module unterteilt, die jeweils spezifische Funktionen zur Verwaltung von Hotels, Zimmern, Buchungen und Benutzern bieten. 
+Die Anwendung ist in Python implementiert und nutzt die SQLAlchemy-Bibliothek zur Datenbankverwaltung.
 
+Um die Applikation zu starten, muss lediglich die `main.py`-Datei ausgeführt werden. 
+Bei der erstmaligen Nutzung wird automatisch ein Superuser erstellt.
+Das Benutzerinterface wurde im ui-Ordner implementiert.
 
-
+## 5.1 Hauptmenü und Navigation
+Das Hauptmenü der Anwendung dient als zentrale Anlaufstelle für den Benutzer. 
+Hier können verschiedene Aktionen ausgewählt werden, wie z.B. das Durchsuchen von Hotels, die Verwaltung von Buchungen oder die Benutzerregistrierung. 
+Die Navigation durch die Menüs wird über das console_base.py-Modul gesteuert.
 
 # 6. Lessons Learned 
 - Zusammenfassung der in den Interviews besprochenen Punkte
@@ -153,14 +213,6 @@ Diese Interpretation wurde mit Sandro und Charuta besprochen und wurde als alter
 - room availability komisch verwendet
 - HotelManagement wurde nicht optimal implementiert, deshalb konnte das Reservationsmanager nicht 100% funktionieren (get_hotel_id_by_name function fehlt z.B)
 - 
-
-
-# User Story 3.4: 
-Hier haben wir angenommen, dass es zur Verwaltung der Zimmerverfügbarkeit erforderlich ist, zusätzliche Spalten im Raummodell zu erstellen.
-Wir haben uns entschieden, die Spalten "unavailability_start" und "unavailability_end" im Modell des Rooms hinzuzufügen, um die User Story zu realisieren und zukünftige Anforderungen besser abdecken zu können.
-Diese Lösung wurde so implementiert, dass ein Hotelmanager einen Datumsbereich definieren kann, ab wann ein Zimmer nicht verfügbar ("unavailable") ist. Gleichzeitig löscht das System alle offenen Buchungen in diesem Zeitraum. Vor der endgültigen Löschung werden die betroffenen Buchungen dem Benutzer zur Bestätigung angezeigt.
-Dies ist nützlich, wenn ein Zimmer ab einem bestimmten Zeitraum für Renovierungen oder aufgrund von Schäden oder anderen Gründen nicht verfügbar ist. Die Spalten "unavailability_start" und "unavailability_end" in der Datenbank legen fest, ab wann keine neuen Buchungen mehr angenommen werden können und ab wann das Zimmer wieder verfügbar ist.
-Wichtig zu beachten ist, dass diese User Story viele Änderungen mit sich brachte und daher im Reservationsmanager nicht bei der Erstellung neuer Buchungen berücksichtigt wurde. Aufgrund begrenzter Ressourcen konnten wir die bereits implementierten Funktionen nicht umfassend anpassen.
 
 
 
