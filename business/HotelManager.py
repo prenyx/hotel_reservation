@@ -233,10 +233,26 @@ class HotelManager(object):
     # Example usage:
     database_url = 'sqlite:///your_database_path_here.db'
 
+    def get_hotel_id_by_name(self, hotel_name):
+        """Fetch a hotel's id using its name."""
+        session = self.get_session()
+        try:
+            # Query to search the hotel by its name
+            hotel = session.query(Hotel).filter(Hotel.name == hotel_name).first()
+            if hotel:
+                return hotel.id
+            else:
+                print('No hotel found by this name.')
+                return None
+        except Exception as e:
+            print(f'Error getting hotel id: {e}')
+            return None
+        finally:
+            session.close()
 
-if __name__ == "__main__":
-    database_path = Path("../data/my_db.db")
-    manager = HotelManager(database_path)
-    # manager.create_booking(room_hotel_id=1, room_number=15, guest_id=1, number_of_guests=2, comment='Vacation')
-    # print("New booking has been created.")
-    # manager.view_all_bookings()
+# if __name__ == "__main__":
+#     database_path = Path("../data/my_db.db")
+#     manager = HotelManager(database_path)
+#     # manager.create_booking(room_hotel_id=1, room_number=15, guest_id=1, number_of_guests=2, comment='Vacation')
+#     # print("New booking has been created.")
+#     # manager.view_all_bookings()

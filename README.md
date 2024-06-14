@@ -151,6 +151,7 @@ Diese Interpretation wurde mit Sandro und Charuta besprochen und wurde als alter
 - role_id zuteilung fehlt in register user section 
 - nachdem Login sieht man nicht mit welchem user man eingeloggt ist!!!!!!!!!
 - room availability komisch verwendet
+- HotelManagement wurde nicht optimal implementiert, deshalb konnte das Reservationsmanager nicht 100% funktionieren (get_hotel_id_by_name function fehlt z.B)
 - 
 
 

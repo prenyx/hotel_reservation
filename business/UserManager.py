@@ -4,6 +4,7 @@ from pathlib import Path
 
 from sqlalchemy import create_engine, select, and_
 from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm import joinedload
 from data_models.models import *
 from console.console_base import *
 
@@ -117,22 +118,35 @@ class UserManager(object):
         """Create a new guest without login."""
         session = self.get_session()
 
-        # Check if guest already exists
-        existing_guest = session.query(Guest).filter_by(firstname=firstname, lastname=lastname, email=email).first()
-        if existing_guest:
-            print('Guest user already exists. Please try with a different name or email')
+        try:
+            # Check if guest already exists
+            existing_guest = (session.query(Guest)
+                              .options(joinedload(Guest.address))
+                              .filter_by(firstname=firstname, lastname=lastname, email=email)
+                              .first())
+            if existing_guest:
+                print('Guest user already exists. Please try with a different name or email')
+
+                # Access the attribute to make SQLAlchemy load it
+                _ = existing_guest.address
+
+                return existing_guest
+
+            guest_address = Address(street=street, zip=zip_code, city=city)
+            session.add(guest_address)
+            new_guest = Guest(firstname=firstname, lastname=lastname, email=email, address=guest_address, type='guest')
+            session.add(new_guest)
+
+            # commit all changes within a single transaction
+            session.commit()
+
+            print('New guest created successfully.')
+            return new_guest
+        except Exception as e:
+            session.rollback()
+            print(f"Error: {e}")
+        finally:
             session.close()
-            return False
-
-        address = Address(street=street, zip=zip_code, city=city)
-        session.add(address)
-        session.commit()
-
-        new_guest = Guest(firstname=firstname, lastname=lastname, address=address, type='guest')
-        session.add(new_guest)
-        session.commit()
-        session.close()
-        print('New guest created successfully.')
 
     def authenticate_admin_user(self, email, password):
         """Authenticate a user based on username and password."""

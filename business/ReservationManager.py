@@ -38,7 +38,6 @@ class ReservationManager:
         except Exception as e:
             session.rollback()
             print(f'Error creating reservation: {e}')
-            return None
         finally:
             session.close()
 

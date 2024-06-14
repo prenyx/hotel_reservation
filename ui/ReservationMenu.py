@@ -1,6 +1,7 @@
 from console.console_base import *
 from business.ReservationManager import ReservationManager
 from business.UserManager import UserManager
+from business.HotelManager import HotelManager
 import enum
 from pathlib import Path
 import datetime
@@ -25,6 +26,7 @@ class ReservationMenu(Menu):
     def __init__(self, user_type: UserType, database_path: Path, navigate_back_function):
         """Initialise the ReservationMenu class."""
         super().__init__('Reservation Menu', database_path)
+        self._hotel_manager = HotelManager(database_path)
         self.reservation_manager = ReservationManager(database_path)  # create a ReservationManager instance
         self._user_manager = UserManager(database_path)
         self._user_type = user_type
@@ -54,16 +56,45 @@ class ReservationMenu(Menu):
         firstname = input("Enter your first name: ")
         lastname = input("Enter your last name: ")
         email = input("Enter your email: ")
-        address = input("Enter your address: ")
+        street = input("Enter your address: ")
         zip_code = input("Enter your zip code: ")
         city = input("Enter your city: ")
-        user_type = 'guest'  # Unregistered user
 
-        guest = self._user_manager.create_guest(firstname=firstname, lastname=lastname, address=address, email=email, zip_code=zip_code, city=city, user_type=user_type)
+        start_date = input("Please enter start date of reservation in dd-mm-YYYY format: ")
+        end_date = input("Please enter end date of reservation in dd-mm-YYYY format: ")
 
-        # Now proceed with the reservation creation
-        self.reservation_manager.create_reservation(guest.id)
-        print('Reservation created successfully.')
+        guest = self._user_manager.create_guest(firstname=firstname, lastname=lastname, street=street, email=email,
+                                                zip_code=zip_code, city=city)
+
+        # If guest is not None, proceed with reservation
+        if guest:
+            # Fetch the hotel id using hotel's name
+            hotel_name = input("Enter your hotel name: ")  # get the hotel's name as user input
+            hotel_id = self._hotel_manager.get_hotel_id_by_name(hotel_name)  # get hotel's id
+
+            if not hotel_id:
+                print('No such hotel found. Please try again.')
+                self.wait_for_user_input()
+                return
+
+            available_rooms = self.reservation_manager.check_available_rooms(hotel_id, start_date, end_date)
+
+            if not available_rooms:
+                print('No rooms are available for the given date range.')
+                self.wait_for_user_input()
+                return
+
+            room_to_book = available_rooms[0]  # Booking the first available room
+
+            number_of_guests = input(f"Enter number of guests (Max {room_to_book.max_guests}): ")
+            comment = input("Enter any specific comments (Press Enter for None): ")
+
+            # Proceed with the reservation creation
+            self.reservation_manager.create_reservation(guest.id, room_to_book.hotel_id, room_to_book.number,
+                                                        number_of_guests, start_date, end_date, comment)
+            print('Reservation created successfully.')
+        else:
+            print('Failed to create reservation. No reservation has been created!')
         self.wait_for_user_input()
 
     def create_reservation_as_registered_user(self):
