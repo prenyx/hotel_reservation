@@ -1,18 +1,3 @@
-# Simple structure for Hotel Manager
-# e.g. Admin fuctionalities (manipulate hotels, users, show all bookings etc.)
-
-# 3. Als Admin-Nutzer:
-# 3.1. Als Admin-Nutzer des Buchungssystems möchte ich die Möglichkeit
-# haben, Hotelinformationen zu pflegen, um aktuelle Informationen im System
-# zu haben.
-# 3.1.1. Ich möchte neue Hotels zum System hinzufügen
-# 3.1.2. Ich möchte Hotels aus dem System entfernen
-# 3.1.3. Ich möchte die Informationen bestimmter Hotels aktualisieren, z. B. den Namen, die Sterne usw.
-# 3.2. Als Admin-Nutzer des Buchungssystems möchte ich alle Buchungen aller Hotels sehen können, um eine Übersicht zu erhalten.
-# 3.3. Ich möchte alle Buchungen bearbeiten können, um fehlende Informationen zu ergänzen (z.B. Telefonnummer) [Optional].
-# (3.4. Ich möchte in der Lage sein, die Zimmerverfügbarkeit zu verwalten und
-# die Preise in Echtzeit im Backend-System der Anwendung zu aktualisieren [Optional].)
-
 from pathlib import Path
 
 from sqlalchemy import create_engine, select
@@ -206,30 +191,6 @@ class HotelManager(object):
         except NoResultFound:
             return None
 
-    # following is only for testing
-    # def create_booking(self, room_hotel_id, room_number, guest_id, number_of_guests, comment=None):
-    #     session = self.get_session()
-    #
-    #     # Define the new booking
-    #     new_booking = Booking(
-    #         room_hotel_id=room_hotel_id,
-    #         room_number=room_number,
-    #         guest_id=guest_id,
-    #         number_of_guests=number_of_guests,
-    #         start_date=date(2024, 6, 10),
-    #         end_date=date(2024, 6, 13),
-    #         comment=comment
-    #     )
-    #
-    #     # Add the new booking to the session and commit
-    #     session.add(new_booking)
-    #     session.commit()
-    #
-    #     print(f"New booking created with ID: {new_booking.id}")
-    #
-    #     # Close the session
-    #     session.close()
-
     # Example usage:
     database_url = 'sqlite:///your_database_path_here.db'
 
@@ -253,6 +214,4 @@ class HotelManager(object):
 # if __name__ == "__main__":
 #     database_path = Path("../data/my_db.db")
 #     manager = HotelManager(database_path)
-#     # manager.create_booking(room_hotel_id=1, room_number=15, guest_id=1, number_of_guests=2, comment='Vacation')
-#     # print("New booking has been created.")
-#     # manager.view_all_bookings()
+
