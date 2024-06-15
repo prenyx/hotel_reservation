@@ -191,10 +191,27 @@ Um die Applikation zu starten, muss lediglich die `main.py`-Datei ausgeführt we
 Bei der erstmaligen Nutzung wird automatisch ein Superuser erstellt.
 Das Benutzerinterface wurde im ui-Ordner implementiert.
 
+Beim Start der Applikation überprüft das System, ob bereits Daten in der Datenbank vorhanden sind. Falls keine Daten gefunden werden, werden automatisch Beispiel-Daten generiert, 
+um eine initiale Datenbasis bereitzustellen. Dies umfasst die Erstellung von Hotels, Gästen, Buchungen und weiteren notwendigen Datensätzen.
+
 ## 5.1 Hauptmenü und Navigation
 Das Hauptmenü der Anwendung dient als zentrale Anlaufstelle für den Benutzer. 
 Hier können verschiedene Aktionen ausgewählt werden, wie z.B. das Durchsuchen von Hotels, die Verwaltung von Buchungen oder die Benutzerregistrierung. 
 Die Navigation durch die Menüs wird über das `console_base.py`-Modul gesteuert.
+
+Die Implementierung für das Hauptmenü wurde im `mainMenu.py` codiert. Die Auswahlmöglichkeiten für die Hauptnavigation bestehen aus:
+1. Hotels suchen und Anschauen
+2. Buchungsmenü
+3. Login für Admin
+4. Hotelmanagement
+5. Beenden
+
+
+Ursprünglich war geplant, das Hotelmanagement-Menü erst nach einem erfolgreichen Admin-Login anzuzeigen. Aufgrund von Zeitmangel 
+und zur Vereinfachung wird dieses Menü jedoch bereits im Hauptmenü angezeigt. 
+
+Zusätzlich sollte nach der Auswahl des Buchungsmenüs eigentlich eine weitere Auswahlseite erscheinen, auf der der Nutzer wählen kann, 
+ob er Buchungen als Gastnutzer oder als registrierter Nutzer tätigen möchte. Falls es sich um einen registrierten Nutzer handelt, sollten anschließend Optionen wie "Update Reservation", "View All Reservations" usw. angezeigt werden.
 
 # 6. Lessons Learned 
 
@@ -288,6 +305,9 @@ Beide Manager könnten diese Basisklasse erben und somit Zugriff auf diese Metho
 - **Passwortsicherheit:** Sicherheit hat oberste Priorität, insbesondere wenn es um Benutzerdaten geht. 
 Die aktuelle Implementierung der Passwortspeicherung ist unzureichend, da Passwörter momentan im Klartext gespeichert werden und kein Passwort-Hashing umgesetzt wurde. 
 Es wäre vorteilhaft gewesen, wenn in der Vorlesung zusätzlich das Konzept des Passwort-Hashings behandelt worden wäre.
+
+- **SerchManager - Session:** Derzeit funktioniert die Session-Verbindung im SearchManager nicht richtig. Im Buchungsmenü kann zwar navigiert werden, aber sobald eine Option ausgewählt wird, 
+kehrt die Verbindung direkt zum Hauptmenü zurück. Aufgrund von Zeitmangel konnte dieser Fehler leider nicht behoben werden.
 
 # 7. Fazit
 
