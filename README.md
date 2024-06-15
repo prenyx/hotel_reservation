@@ -6,10 +6,11 @@ Authors:
   - Manuel Pasamontes    
   - Damian Martin    
   - Steven Chevalley
+Roles:
+  - Developers: Supavadee Theerapong, Manuel Pasamontes
+  - Tester: Damian Martin, Steven Chevalley 
 ---
 ---
-**Bsc Business Artificial Intelligence** Modul: Anwendungsentwicklung mit Python
-
 **Projektdokumentation**: Hotelreservierungssystem
 
 **Autoren**: *Gruppe B* (Supavadee Theerapong, Manuel Pasamontes, Damian Martin, Steven Chevalley) 
