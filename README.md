@@ -45,16 +45,16 @@ Diese Struktur fördert die Wartbarkeit und Erweiterbarkeit des Systems.
      - Address: Speichert Adressen der Gäste.
 
 3. **Hotel- und Zimmerverwaltung**
-   - *Beschreibung*: Verwaltung von Hotelinformationen und Zimmerdetails, einschließlich Verfügbarkeit und spezifischen Zimmermerkmalen.
+   - *Beschreibung*: Verwaltung von Hotelinformationen und Zimmerdetails, einschliesslich Verfügbarkeit und spezifischen Zimmermerkmalen.
    - *Entitäten*:
-     - Hotel: Informationen zu Hotels, einschließlich Name, Sternebewertung und Adresse.
-     - Room: Details zu den Zimmern, einschließlich Zimmernummer, Typ, Preis und Verfügbarkeit.
+     - Hotel: Informationen zu Hotels, einschliesslich Name, Sternebewertung und Adresse.
+     - Room: Details zu den Zimmern, einschliesslich Zimmernummer, Typ, Preis und Verfügbarkeit.
 
 4. **Buchungsverwaltung**:
-   - *Beschreibung*: Dieses Modul kümmert sich um die Verwaltung von Zimmerbuchungen, einschließlich der Verknüpfung von 
+   - *Beschreibung*: Dieses Modul kümmert sich um die Verwaltung von Zimmerbuchungen, einschliesslich der Verknüpfung von 
    Gästen und Zimmern sowie der Buchungsdetails.
    - *Entitäten*: 
-     - Booking: Speichert Informationen zu Buchungen, einschließlich Datum, 
+     - Booking: Speichert Informationen zu Buchungen, einschliesslich Datum, 
      Anzahl der Gäste und Zimmerdetails.
 
 ## 2.2 Verwendete Technologien und Tools
@@ -159,7 +159,7 @@ Die Datei `data_base.py` enthält die `init_db`-Funktion, die die Datenbank init
 
 Die Datenbankinitialisierung wird in der Datei `main.py` aufgerufen, um sicherzustellen, dass die Datenbank korrekt eingerichtet ist, bevor die Anwendung startet.
 ## 4.2 User Stories und Datenbankoperationen
-Die vorgegebenen User Stories wurden vollständig bearbeitet und weitgehend implementiert. Der größte Teil der User Stories handelt von Gastnutzern, die ein Hotel suchen und reservieren möchten. Dabei wird zwischen registrierten Gästen und Gastnutzern unterschieden. 
+Die vorgegebenen User Stories wurden vollständig bearbeitet und weitgehend implementiert. Der grösste Teil der User Stories handelt von Gastnutzern, die ein Hotel suchen und reservieren möchten. Dabei wird zwischen registrierten Gästen und Gastnutzern unterschieden. 
 Darüber hinaus gibt es noch einen kleinen Abschnitt, der sich mit den Anforderungen der Administratoren befasst.
 
 **User Story: 1.1.1. Ich möchte alle Hotels in einer Stadt durchsuchen.**
@@ -173,11 +173,12 @@ die Preise in Echtzeit im Backend-System der Anwendung zu aktualisieren
 
 Um diese User Story zu realisieren, wurde eine availability-Spalte im Room-Modell hinzugefügt, leider ohne Absprache mit den Dozenten. 
 
-Nun kann ein Hotel-Manager ein Datum angeben, ab wann ein Zimmer "unavailable" ist. 
-Gleichzeitig löscht das System alle offenen Buchungen (zuerst werden aktive Buchungen in dem Zeitraum dem Benutzer angezeigt, 
-bevor man diese bestätigt zu löschen). Zudem werden in der Datenbank die Spalten unavailability_start und unavailability_end gesetzt. 
-Dies ist beispielsweise nützlich, wenn ein Zimmer in einem bestimmten Zeitraum für Renovationen nicht mehr verfügbar ist oder aus anderen Gründen nicht zur Verfügung steht. 
-Diese Datum definitionen legen dann fest, ab wann neue Buchungen entgegengenommen werden können.
+Ein Hotelmanager kann nun ein Datum festlegen, ab dem ein Zimmer als "nicht verfügbar" markiert wird. Das System überprüft gleichzeitig, ob es bestehende Buchungen in diesem Zeitraum gibt. 
+Diese offenen Buchungen werden dem Hotelmanager angezeigt, der dann entscheiden kann, ob er diese Buchungen automatisch durch das System stornieren lassen möchte.
+
+In der Datenbank werden die Spalten "unavailability_start" und "unavailability_end" entsprechend aktualisiert. 
+Dies ist besonders nützlich, wenn ein Zimmer beispielsweise für Renovierungsarbeiten oder aus anderen Gründen in einem bestimmten Zeitraum nicht verfügbar ist. 
+Diese Zeitspanne bestimmt dann, ab wann wieder neue Buchungen für das Zimmer entgegengenommen werden können.
 
 *Datenbankoperation*: Implementierung der Verfügbarkeitscheck-Funktion im ReservationManager, die nach verfügbaren Räumen sucht.
 
@@ -223,14 +224,14 @@ wie man eine Datenbank initialisiert.
 Während der Implementierung von User Stories für den UserManager fiel mir auf, dass die User Stories für Gastnutzer und registrierte Benutzer unklar formuliert waren. Um Unklarheiten zu beheben, 
 entschied ich mich, in der UserManager-Datei zwei grundlegende Methoden zu verwenden: `create_new_login` zur Erstellung neuer Logins und `register_existing_user` zum Hinzufügen von Benutzerdetails zu einem bestehenden Login.
 
-Nach Rücksprache mit den Coaches stellte sich heraus, dass die User Stories und das Datenbankmodell einen größeren Interpretationsspielraum hatten als ursprünglich gedacht 
-und ich eine alternative Herangehensweise gewählt hatte. Ich behielt den UserManager mit der erweiterten Funktionalität bei, setzte jedoch die Arbeit am ReservationManager gemäß der Vision der Coaches fort.
+Nach Rücksprache mit den Coaches stellte sich heraus, dass die User Stories und das Datenbankmodell einen grösseren Interpretationsspielraum hatten als ursprünglich gedacht 
+und ich eine alternative Herangehensweise gewählt hatte. Ich behielt den UserManager mit der erweiterten Funktionalität bei, setzte jedoch die Arbeit am ReservationManager gemäss der Vision der Coaches fort.
 
 Ich hatte angenommen, dass ein Benutzer ein Login erstellen kann, unabhängig davon, ob er sich entscheidet, alle Gastinformationen anzugeben. 
 Dies entsprach der User Story: "Als Gastbenutzer möchte ich mich mit meiner E-Mail-Adresse und einer persönlichen Kennung (Passwort) registrieren können..."
 
 Die Lösung wurde nun so implementiert, dass sich ein Benutzer, der sich unabhängig von einer Buchung registrieren möchte, 
-zunächst nur mit einer E-Mail-Adresse und einem Passwort registrieren kann. Anschließend kann er in einem zweiten Schritt entscheiden, 
+zunächst nur mit einer E-Mail-Adresse und einem Passwort registrieren kann. Anschliessend kann er in einem zweiten Schritt entscheiden, 
 ob er zusätzliche Gastdetails angeben möchte. Diese Interpretation wurde mit Sandro und Charuta besprochen und als alternative Interpretation akzeptiert.
 
 **Damian:**
@@ -254,7 +255,7 @@ Jeden Montag wurde ein kurzes Gruppenmeeting durchgeführt, um zu besprechen, wa
 Durch bessere Koordination hätten jedoch Missverständnisse und Verzögerungen vermieden werden können. Dies hätte beispielsweise durch detailliertere Aufgabenverteilung, 
 klarere Zielsetzungen und häufigeren Austausch über den Fortschritt der einzelnen Teammitglieder erreicht werden können.
 
-Das Kommunikationsprotokoll im Kanban-Board wurde nur gelegentlich aktualisiert, und leider führten einige Mitglieder keine regelmäßigen Statusupdates durch.
+Das Kommunikationsprotokoll im Kanban-Board wurde nur gelegentlich aktualisiert, und leider führten einige Mitglieder keine regelmässigen Statusupdates durch.
 
 *User Stories erarbeitet:*
 - Supavadee: 1.-1.5 + 2.-2.1.1
