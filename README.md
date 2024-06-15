@@ -195,28 +195,67 @@ Hier können verschiedene Aktionen ausgewählt werden, wie z.B. das Durchsuchen 
 Die Navigation durch die Menüs wird über das `console_base.py`-Modul gesteuert.
 
 # 6. Lessons Learned 
-- Zusammenfassung der in den Interviews besprochenen Punkte
-- Reflexionen der Teammitglieder über das Projekt und die gelernten Konzepte
+
+Zu Beginn des Projekts hatte die Gruppe keine klare Vorstellung davon, wie die endgültige Applikation aussehen sollte. 
+Deshalb wurden zunächst die User Stories implementiert. Auch die Implementierung der Benutzeroberfläche (UI) war unklar, da die Gruppe anfangs davon ausging, eine Web-Applikation zu entwickeln. 
+Daher konnte die Strukturierung der einzelnen Dateien und die Erstellung von Sub-Klassen nicht genau abgestimmt werden.
+
+Wegen dieser Unklarheiten in der Anfangsphase konnte die Gruppe leider nicht genau entscheiden, wie die Klassen im business-Ordner definiert werden sollten. 
+Erst in der Schlussphase des Projekts wurde deutlicher, wie die gesamte Applikation aussehen sollte. 
+Letztendlich wurde für die Benutzeroberfläche ein Terminal-Interface implementiert.
+
+Daraus konnte die Gruppe lernen, dass es essenziell ist, eine klare Vorstellung und detaillierte Planung zu Beginn des Projekts zu haben, 
+um Missverständnisse und Unklarheiten zu vermeiden. Somit kann die erfolgreiche Implementierung der Applikation sichergestellt werden.
+
+Das Team lernte auch, flexibel zu sein und sich an unerwartete Änderungen anzupassen. 
+Es zeigte sich, wie wichtig es ist, offen für neue Ansätze zu sein, wenn die ursprünglichen Annahmen nicht realisierbar sind.
 
 **Supavadee:**
 
+Durch die Bearbeitung des Projekts konnte ich meine theoretischen Kenntnisse von Datenbanken in die Praxis umsetzen. 
+Zudem habe ich gelernt, wie man eine Datenbank von Grund auf implementiert. 
+Mein Wissen zur Implementierung von Benutzeroberflächen (UI) wurde ebenfalls vertieft und erweitert.
+Beispielsweise habe ich jetzt ein besseres Verständnis für die Implementierung der Navigationsfunktion "Zurück" sowie dafür, 
+wie man eine Datenbank initialisiert.
+
 **Manuel:**
-- Während der Implementierung von UserManager.py fiel auf, dass die User Stories für Gastnutzer und registrierte Benutzer unklar formuliert waren. Um diese Unklarheiten zu beheben, entschieden wir uns, im User-Manager zwei grundlegende Methoden zu verwenden: “create_new_login” für die Erstellung neuer Logins und “register_existing_user” zum Hinzufügen von Benutzerdetails zu einem bestehenden Login.
-Nach Rücksprache mit den Coaches stellte sich heraus, dass die User Stories und das Datenbankmodell zu einer grösseren Interpretationsspielraum hatten als bisher angedacht und wir eine alternative Herangehensweise gewählt hatten. Wir behielten den User-Manager mit der erweiterten Funktionalität bei, setzten jedoch die Arbeit am Reservationsmanager gemäss der Vision der Coaches fort.
+
+Während der Implementierung von User Stories für den UserManager fiel mir auf, dass die User Stories für Gastnutzer und registrierte Benutzer unklar formuliert waren. Um Unklarheiten zu beheben, 
+entschied ich mich, in der UserManager-Datei zwei grundlegende Methoden zu verwenden: `create_new_login` zur Erstellung neuer Logins und `register_existing_user` zum Hinzufügen von Benutzerdetails zu einem bestehenden Login.
+
+Nach Rücksprache mit den Coaches stellte sich heraus, dass die User Stories und das Datenbankmodell einen größeren Interpretationsspielraum hatten als ursprünglich gedacht 
+und ich eine alternative Herangehensweise gewählt hatte. Ich behielt den UserManager mit der erweiterten Funktionalität bei, setzte jedoch die Arbeit am ReservationManager gemäß der Vision der Coaches fort.
+
+Ich hatte angenommen, dass ein Benutzer ein Login erstellen kann, unabhängig davon, ob er sich entscheidet, alle Gastinformationen anzugeben. 
+Dies entsprach der User Story: "Als Gastbenutzer möchte ich mich mit meiner E-Mail-Adresse und einer persönlichen Kennung (Passwort) registrieren können..."
+
+Die Lösung wurde nun so implementiert, dass sich ein Benutzer, der sich unabhängig von einer Buchung registrieren möchte, 
+zunächst nur mit einer E-Mail-Adresse und einem Passwort registrieren kann. Anschließend kann er in einem zweiten Schritt entscheiden, 
+ob er zusätzliche Gastdetails angeben möchte. Diese Interpretation wurde mit Sandro und Charuta besprochen und als alternative Interpretation akzeptiert.
 
 **Damian:**
-
+Während der Entwicklung habe ich erlebt, wie wichtig es ist, klare Absprachen zu treffen und sich frühzeitig über die Anforderungen im Klaren zu sein. Unser Team musste die ursprüngliche Planung überarbeiten, 
+da es Missverständnisse gab, die aus unklaren Anforderungen resultierten. Wir stießen auf unerwartete technische Herausforderungen, 
+die eine Anpassung unserer Strategie erforderten. Durch die Anwendung agiler Methoden konnten wir schnell reagieren und Lösungen finden, 
+die besser zu den neuen Anforderungen passten. Insgesamt hat dieses Projekt mein Verständnis für die Bedeutung einer strukturierten Herangehensweise gestärkt.
 
 **Steven:**
+Während des Projekts konnte ich anfangs nicht aktiv mitarbeiten, da mein Wissen nicht auf dem gleichen Stand wie das meiner Teammitglieder war. Um die notwendigen Kenntnisse zu erwerben, musste ich mich zuerst intensiv mit Python auseinandersetzen.
+Glücklicherweise standen mir die anderen Mitglieder der Gruppe immer zur Seite. Bei Fragen oder Problemen boten sie mir stets wertvolle Unterstützung an. Geduldig erklärten sie mir, wie das Projekt zustande kam und welche Schritte notwendig waren, um die Aufgaben zu bewältigen.
+Durch ihre Hilfe konnte ich mein Wissen über Python erheblich erweitern. Mit der Zeit entwickelte sich mein Verständnis für die Programmiersprache, und ich begann, zunehmend Freude an der Arbeit zu finden. Diese Erfahrung half mir nicht nur, mein technisches Know-how zu verbessern, sondern stärkte auch mein Selbstvertrauen im Umgang mit neuen Herausforderungen.
+Ich erkannte auch, dass ein Team sich gegenseitig unterstützen kann, selbst wenn die Wissensniveaus unterschiedlich sind. Diese Zusammenarbeit und Unterstützung im Team waren entscheidend dafür, dass ich mich weiterentwickeln konnte und das Projekt erfolgreich vorangetrieben wurde.
 
-## 6.1 Annahmen und Interpretation
-# UserManager.py
-Wir hatten angenommen, dass ein Benutzer ein Login erstellen kann, unabhängig davon, ob er sich entscheidet, alle Gast Informationen angeben zu müssen. -> "Als Gastbenutzer möchte ich mich mit meiner E-Mail-Adresse und einer persönlichen Kennung (Passwort) registrieren können..."
-Die Lösung wurde nun so implementiert, dass sich ein Benutzer, der sich unabhängig von einer Buchung registrieren möchte, zunächst nur mit einer E-Mail-Adresse und einem Passwort registrieren kann. Anschliessend kann er in einem zweiten Schritt entscheiden, ob er zusätzliche Gastdetails angeben möchte. 
-Diese Interpretation wurde mit Sandro und Charuta besprochen und wurde als alternative Interpretation akzeptiert.
+## 6.2 Teamkoordination und Kommunikation
+Die Gruppe hat sich für eine Rollenzuteilung entschieden, die zwei Rollen umfasste: Entwickler und Tester. 
+Das Entwicklerteam bestand aus Manuel Pasamontes und Supavadee Theerapong. Die Tester, Damian Martin und Steven Chevalley, haben am Schluss die Applikation getestet.
+
+Jeden Montag wurde ein kurzes Gruppenmeeting durchgeführt, um zu besprechen, was bis zur nächsten Woche erledigt werden soll. 
+Durch bessere Koordination hätten jedoch Missverständnisse und Verzögerungen vermieden werden können. Dies hätte beispielsweise durch detailliertere Aufgabenverteilung, 
+klarere Zielsetzungen und häufigerem Austausch über den Fortschritt der einzelnen Teammitglieder erreicht werden können.
 
 
-## 6.2 Verbesserungsmöglichkeiten
+
+## 6.3 Verbesserungsmöglichkeiten
 - UserManager.py Subclasses erstellen zur separierung von Gast oder Admin Nutzer (Authentication nicht genau möglich), 
 - Wir hatten angenommen, dass ein Benutzer ein Login erstellen kann, unabhängig davon, ob er sich entscheidet, alle Gast Informationen angeben zu müssen. -> "Als Gastbenutzer möchte ich mich mit meiner E-Mail-Adresse und einer persönlichen Kennung (Passwort) registrieren können..."
 Die Lösung wurde nun so implementiert, dass sich ein Benutzer, der sich unabhängig von einer Buchung registrieren möchte, zunächst nur mit einer E-Mail-Adresse und einem Passwort registrieren kann. Anschliessend kann er in einem zweiten Schritt entscheiden, ob er zusätzliche Gastdetails angeben möchte. 
@@ -228,6 +267,7 @@ Diese Interpretation wurde mit Sandro und Charuta besprochen und wurde als alter
 - Password hashing sowie auch non-cleartext passwort eingabe zumindest.
 - 
 
+# 7. Fazit
 
 
 main.py: Supavadee
