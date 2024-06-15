@@ -288,7 +288,6 @@ Die aktuelle Implementierung der Passwortspeicherung ist unzureichend, da Passw�
 Es wäre vorteilhaft gewesen, wenn in der Vorlesung zusätzlich das Konzept des Passwort-Hashings behandelt worden wäre.
 
 # 7. Fazit
-**Fazit:**
 
 Das Projekt war eine spannende Gelegenheit, zu erleben, wie ein Programmierungsprojekt im Team funktioniert. 
 Neben den technischen Fähigkeiten haben die Studierenden auch wertvolle Erfahrungen in der Teamarbeit und Kommunikation gesammelt. 
