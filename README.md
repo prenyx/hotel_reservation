@@ -252,6 +252,9 @@ Die Lösung wurde nun so implementiert, dass sich ein Benutzer, der sich unabhä
 zunächst nur mit einer E-Mail-Adresse und einem Passwort registrieren kann. Anschliessend kann er in einem zweiten Schritt entscheiden, 
 ob er zusätzliche Gastdetails angeben möchte. Diese Interpretation wurde mit Sandro und Charuta besprochen und als alternative Interpretation akzeptiert.
 
+Zusätzlich könnte das Error-Handling sowie die Eingabevalidierung in meinem Code für die Konsolenanwendung stark verbessert werden. Aufgrund von Zeitmangel lag der Schwerpunkt hauptsächlich auf der Funktionalität. 
+Sollte ich in Zukunft erneut die Gelegenheit für ein Projekt in Python erhalten, werde ich von Anfang an grossen Wert auf diese Aspekte legen und diese während der gesamten Entwicklungsphase sorgfältig implementieren.
+
 **Damian:**
 Während der Entwicklung habe ich erlebt, wie wichtig es ist, klare Absprachen zu treffen und sich frühzeitig über die Anforderungen im Klaren zu sein. Unser Team musste die ursprüngliche Planung überarbeiten, 
 da es Missverständnisse gab, die aus unklaren Anforderungen resultierten. Wir stießen auf unerwartete technische Herausforderungen, 
@@ -305,6 +308,8 @@ Beide Manager könnten diese Basisklasse erben und somit Zugriff auf diese Metho
 - **Passwortsicherheit:** Sicherheit hat oberste Priorität, insbesondere wenn es um Benutzerdaten geht. 
 Die aktuelle Implementierung der Passwortspeicherung ist unzureichend, da Passwörter momentan im Klartext gespeichert werden und kein Passwort-Hashing umgesetzt wurde. 
 Es wäre vorteilhaft gewesen, wenn in der Vorlesung zusätzlich das Konzept des Passwort-Hashings behandelt worden wäre.
+
+- **Error Handling und Input Validation:** Im HotelManager sowie UserManager - den Parts von Manuel Pasamontes - wurde der Fokus auf Funktionalität gesetzt. Ein robustes Error handling sowie Input validierung fehlen leider noch in diesen Teilen.
 
 - **SerchManager - Session:** Derzeit funktioniert die Session-Verbindung im SearchManager nicht richtig. Im Buchungsmenü kann zwar navigiert werden, aber sobald eine Option ausgewählt wird, 
 kehrt die Verbindung direkt zum Hauptmenü zurück. Aufgrund von Zeitmangel konnte dieser Fehler leider nicht behoben werden.
