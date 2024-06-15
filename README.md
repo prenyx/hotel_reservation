@@ -1,5 +1,5 @@
 ---
-Business_Name:Business Artificial IntelligenceModule_Info:   
+Business_Name:Business Artificial IntelligenceModule_Info: Group B  
 Name: Anwendungsentwicklung mit Python  
 Authors:        
   - Supavadee Theerapong    
@@ -9,12 +9,6 @@ Authors:
 Roles:
   - Developers: Supavadee Theerapong, Manuel Pasamontes
   - Tester: Damian Martin, Steven Chevalley 
----
----
-**Projektdokumentation**: Hotelreservierungssystem
-
-**Autoren**: *Gruppe B* (Supavadee Theerapong, Manuel Pasamontes, Damian Martin, Steven Chevalley) 
-
 ---
 # 1. Einführung
 Das vorliegende Projekt ist Teil des Moduls, das darauf abzielt, die Konzepte der Programmierung mithilfe 
@@ -324,7 +318,7 @@ Die Dozenten gaben den Studierenden viel Freiraum in der Implementierung,
 was den Lernprozess förderte und es den Studierenden ermöglichte, ihre Kreativität und Problemlösungsfähigkeiten zu entfalten. 
 Dieser Ansatz half den Studierenden, das Programmieren auf eine praxisnahe Weise zu erlernen.
 
-Unser Projekt war komplexer als ursprünglich geplant, da einige Gruppenmitglieder bereits über einige Programmiererfahrungen verfügten. 
+Unser Projekt war komplexer als ursprünglich geplant, da einige Gruppenmitglieder bereits über umfangreiche Programmiererfahrungen verfügten. 
 Dies führte zu einer anspruchsvolleren Implementierung, von der alle Teammitglieder profitieren konnten, indem sie ihre Fähigkeiten erweiterten und voneinander lernten.
 
 Insgesamt war das Projekt eine bereichernde Erfahrung, die nicht nur technische Fertigkeiten, sondern auch die Bedeutung von Teamarbeit und effektiver Kommunikation in der Softwareentwicklung verdeutlichte.
