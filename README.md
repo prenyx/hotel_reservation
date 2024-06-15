@@ -261,7 +261,7 @@ Glücklicherweise standen mir die anderen Mitglieder der Gruppe immer zur Seite.
 Durch ihre Hilfe konnte ich mein Wissen über Python erheblich erweitern. Mit der Zeit entwickelte sich mein Verständnis für die Programmiersprache, und ich begann, zunehmend Freude an der Arbeit zu finden. Diese Erfahrung half mir nicht nur, mein technisches Know-how zu verbessern, sondern stärkte auch mein Selbstvertrauen im Umgang mit neuen Herausforderungen.
 Ich erkannte auch, dass ein Team sich gegenseitig unterstützen kann, selbst wenn die Wissensniveaus unterschiedlich sind. Diese Zusammenarbeit und Unterstützung im Team waren entscheidend dafür, dass ich mich weiterentwickeln konnte und das Projekt erfolgreich vorangetrieben wurde.
 
-## 6.2 Teamkoordination und Kommunikation
+## 6.1 Teamkoordination und Kommunikation
 
 Die Gruppe hat sich für eine Rollenzuteilung entschieden, die zwei Rollen umfasste: Entwickler und Tester. 
 Das Entwicklerteam bestand aus Manuel Pasamontes und Supavadee Theerapong, während die Tester, Damian Martin und Steven Chevalley, am Ende die Applikation getestet haben.
@@ -276,7 +276,7 @@ Das Kommunikationsprotokoll im Kanban-Board wurde nur gelegentlich aktualisiert,
 - Supavadee: 1.-1.5 + 2.-2.1.1
 - Manuel: 1.6 + 3.-3.4
 
-## 6.3 Verbesserungsmöglichkeiten
+## 6.2 Verbesserungsmöglichkeiten
 - **Subclasses im UserManager.py:** Es wäre sinnvoll, Subklassen für Gast- und Admin-Nutzer zu erstellen, 
 um die Authentifizierung und Verwaltung der verschiedenen Nutzerrollen zu erleichtern.
 
