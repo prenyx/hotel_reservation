@@ -1,6 +1,6 @@
 ---
-Business_Name:Business Artificial IntelligenceModule_Info: Group B  
-Name: Anwendungsentwicklung mit Python  
+Business_Name:Business Artificial IntelligenceModule_Info: Anwendungsentwicklung mit Python 
+Group: B
 Authors:        
   - Supavadee Theerapong    
   - Manuel Pasamontes    
