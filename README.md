@@ -256,34 +256,49 @@ klarere Zielsetzungen und häufigeren Austausch über den Fortschritt der einzel
 
 Das Kommunikationsprotokoll im Kanban-Board wurde nur gelegentlich aktualisiert, und leider führten einige Mitglieder keine regelmäßigen Statusupdates durch.
 
+*User Stories erarbeitet:*
+- Supavadee: 1.-1.5 + 2.-2.1.1
+- Manuel: 1.6 + 3.-3.4
+
 ## 6.3 Verbesserungsmöglichkeiten
 - **Subclasses im UserManager.py:** Es wäre sinnvoll, Subklassen für Gast- und Admin-Nutzer zu erstellen, 
 um die Authentifizierung und Verwaltung der verschiedenen Nutzerrollen zu erleichtern.
 
+- **Login-Anzeige:** Nach dem Login sieht man nicht, mit welchem Benutzer man eingeloggt ist. Dies führt zu Verwirrung darüber, 
+welcher Benutzer aktuell angemeldet ist und sollte daher klar angezeigt werden.
 
+- **Zimmerverfügbarkeit:** Die aktuelle Implementierung der Zimmerverfügbarkeit weist mehrere Mängel auf. 
+Die Verfügbarkeit der Zimmer wurde direkt durch Änderungen der `unavailability_start` und `unavailability_end` Daten manipuliert, 
+ohne sicherzustellen, dass diese Änderungen in anderen Buchungen oder Teilen der Applikation korrekt reflektiert werden. Es gibt keine Überprüfung, 
+ob die angegebenen Daten sich mit bestehenden Buchungen oder anderen Unverfügbarkeiten überschneiden, was zu Inkonsistenzen führen kann. 
+Zudem fehlt eine klare Rückmeldung an den Benutzer, ob die Änderungen erfolgreich waren oder ob Fehler aufgetreten sind. 
+Eine optimale Implementierung sollte die Verfügbarkeit der Zimmer bei jeder Buchung und jedem Zugriff auf die Verfügbarkeit synchronisieren, Überschneidungen vermeiden, Transaktionen und Sperrmechanismen verwenden und dem Benutzer klare Bestätigungen und Fehlermeldungen zurückgeben.
 
-- Wir hatten angenommen, dass ein Benutzer ein Login erstellen kann, unabhängig davon, ob er sich entscheidet, alle Gast Informationen angeben zu müssen. -> "Als Gastbenutzer möchte ich mich mit meiner E-Mail-Adresse und einer persönlichen Kennung (Passwort) registrieren können..."
-Die Lösung wurde nun so implementiert, dass sich ein Benutzer, der sich unabhängig von einer Buchung registrieren möchte, zunächst nur mit einer E-Mail-Adresse und einem Passwort registrieren kann. Anschliessend kann er in einem zweiten Schritt entscheiden, ob er zusätzliche Gastdetails angeben möchte. 
-Diese Interpretation wurde mit Sandro und Charuta besprochen und wurde als alternative Interpretation akzeptiert.
-- role_id zuteilung fehlt in register user section 
-- nachdem Login sieht man nicht mit welchem user man eingeloggt ist!!!!!!!!! -> was bedeutet das, welcher login/wo
-- room availability komisch verwendet -> was bedeutet das
-- HotelManagement wurde nicht optimal implementiert, deshalb konnte das Reservationsmanager nicht 100% funktionieren (get_hotel_id_by_name function fehlt z.B) -> wie hätte man es "optimal" implementiert?
-- Password hashing sowie auch non-cleartext passwort eingabe zumindest.
-- 
+- **Optimierung des HotelManagements:** Die derzeitige Implementierung des *HotelManagements* weist mehrere Schwächen auf, 
+die die vollständige Funktionsfähigkeit des *ReservationsManagers* beeinträchtigen. Um die Effizienz und Benutzerfreundlichkeit zu steigern, 
+wurde die Methode `get_hotel_id_by_name` zusätzlich in den *ReservationsManager* integriert. Diese Methode ermöglicht eine gezielte Abfrage der Hotel-ID anhand des Hotelnamens, 
+was die Implementierung deutlich effizienter gestaltet.
+Am besten wäre es gewesen, einen "Service-Layer" einzurichten, der allgemeine Funktionen wie `get_hotel_id_by_name` bereitstellt und sowohl vom *HotelManagement* als auch vom *ReservationsManager* genutzt wird. 
+Auf diese Weise könnten alle häufig genutzten Methoden zur Verwaltung von Hotelinformationen zentral platziert werden.
+Zusätzlich wäre die Erstellung einer gemeinsamen abstrakten Basisklasse für alle Manager (z.B. *HotelManagement*, *ReservationsManager*) sinnvoll. 
+Beide Manager könnten diese Basisklasse erben und somit Zugriff auf diese Methode haben.
+
+- **Passwortsicherheit:** Sicherheit hat oberste Priorität, insbesondere wenn es um Benutzerdaten geht. 
+Die aktuelle Implementierung der Passwortspeicherung ist unzureichend, da Passwörter momentan im Klartext gespeichert werden und kein Passwort-Hashing umgesetzt wurde. 
+Es wäre vorteilhaft gewesen, wenn in der Vorlesung zusätzlich das Konzept des Passwort-Hashings behandelt worden wäre.
 
 # 7. Fazit
+**Fazit:**
 
+Das Projekt war eine spannende Gelegenheit, zu erleben, wie ein Programmierungsprojekt im Team funktioniert. 
+Neben den technischen Fähigkeiten haben die Studierenden auch wertvolle Erfahrungen in der Teamarbeit und Kommunikation gesammelt. 
+Ein wichtiger Aspekt des Projekts war die Nutzung von Git/GitHub, wodurch die Studierenden lernten, wie man effektiv Versionskontrollsysteme verwendet.
 
-main.py: Supavadee
-UI - MainMenu.py, SearchMenu.py separierung: Supavadee
-SearchManager.py: Supavadee
-ReservationManager.py: Supavadee, Manuel
-console_base.py, HotelManager.py, UserManager.py: Manuel
-README.md: Supavadee, Manuel
-models.py, data_generator.py: Manuel
-Testing Console: Damian
+Die Dozenten gaben den Studierenden viel Freiraum in der Implementierung, 
+was den Lernprozess förderte und es den Studierenden ermöglichte, ihre Kreativität und Problemlösungsfähigkeiten zu entfalten. 
+Dieser Ansatz half den Studierenden, das Programmieren auf eine praxisnahe Weise zu erlernen.
 
-User Stories erarbeitet:
-1.-1.5 + 2.-2.1.1: Supavadee
-1.6 + 3.-3.4: Manuel
+Unser Projekt war komplexer als ursprünglich geplant, da einige Gruppenmitglieder bereits über einige Programmiererfahrungen verfügten. 
+Dies führte zu einer anspruchsvolleren Implementierung, von der alle Teammitglieder profitieren konnten, indem sie ihre Fähigkeiten erweiterten und voneinander lernten.
+
+Insgesamt war das Projekt eine bereichernde Erfahrung, die nicht nur technische Fertigkeiten, sondern auch die Bedeutung von Teamarbeit und effektiver Kommunikation in der Softwareentwicklung verdeutlichte.
