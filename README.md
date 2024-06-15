@@ -246,21 +246,26 @@ Durch ihre Hilfe konnte ich mein Wissen über Python erheblich erweitern. Mit de
 Ich erkannte auch, dass ein Team sich gegenseitig unterstützen kann, selbst wenn die Wissensniveaus unterschiedlich sind. Diese Zusammenarbeit und Unterstützung im Team waren entscheidend dafür, dass ich mich weiterentwickeln konnte und das Projekt erfolgreich vorangetrieben wurde.
 
 ## 6.2 Teamkoordination und Kommunikation
+
 Die Gruppe hat sich für eine Rollenzuteilung entschieden, die zwei Rollen umfasste: Entwickler und Tester. 
-Das Entwicklerteam bestand aus Manuel Pasamontes und Supavadee Theerapong. Die Tester, Damian Martin und Steven Chevalley, haben am Schluss die Applikation getestet.
+Das Entwicklerteam bestand aus Manuel Pasamontes und Supavadee Theerapong, während die Tester, Damian Martin und Steven Chevalley, am Ende die Applikation getestet haben.
 
 Jeden Montag wurde ein kurzes Gruppenmeeting durchgeführt, um zu besprechen, was bis zur nächsten Woche erledigt werden soll. 
 Durch bessere Koordination hätten jedoch Missverständnisse und Verzögerungen vermieden werden können. Dies hätte beispielsweise durch detailliertere Aufgabenverteilung, 
-klarere Zielsetzungen und häufigerem Austausch über den Fortschritt der einzelnen Teammitglieder erreicht werden können.
+klarere Zielsetzungen und häufigeren Austausch über den Fortschritt der einzelnen Teammitglieder erreicht werden können.
 
-
+Das Kommunikationsprotokoll im Kanban-Board wurde nur gelegentlich aktualisiert, und leider führten einige Mitglieder keine regelmäßigen Statusupdates durch.
 
 ## 6.3 Verbesserungsmöglichkeiten
-- UserManager.py Subclasses erstellen zur separierung von Gast oder Admin Nutzer (Authentication nicht genau möglich), 
+- **Subclasses im UserManager.py:** Es wäre sinnvoll, Subklassen für Gast- und Admin-Nutzer zu erstellen, 
+um die Authentifizierung und Verwaltung der verschiedenen Nutzerrollen zu erleichtern.
+
+
+
 - Wir hatten angenommen, dass ein Benutzer ein Login erstellen kann, unabhängig davon, ob er sich entscheidet, alle Gast Informationen angeben zu müssen. -> "Als Gastbenutzer möchte ich mich mit meiner E-Mail-Adresse und einer persönlichen Kennung (Passwort) registrieren können..."
 Die Lösung wurde nun so implementiert, dass sich ein Benutzer, der sich unabhängig von einer Buchung registrieren möchte, zunächst nur mit einer E-Mail-Adresse und einem Passwort registrieren kann. Anschliessend kann er in einem zweiten Schritt entscheiden, ob er zusätzliche Gastdetails angeben möchte. 
 Diese Interpretation wurde mit Sandro und Charuta besprochen und wurde als alternative Interpretation akzeptiert.
-- role_id zuteilung fehlt in register user section (wäre separate user story)
+- role_id zuteilung fehlt in register user section 
 - nachdem Login sieht man nicht mit welchem user man eingeloggt ist!!!!!!!!! -> was bedeutet das, welcher login/wo
 - room availability komisch verwendet -> was bedeutet das
 - HotelManagement wurde nicht optimal implementiert, deshalb konnte das Reservationsmanager nicht 100% funktionieren (get_hotel_id_by_name function fehlt z.B) -> wie hätte man es "optimal" implementiert?
